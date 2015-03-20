@@ -90,26 +90,25 @@ public class ICUBasedLocalizationServiceUnitTest {
     @Test
     public void formatDate_formats_a_date() {
         Calendar cal = new GregorianCalendar(2013, 4, 28, 17, 52, 5);
-        Date date = new Date(cal.getTimeInMillis());
-        String result1 = localizationService.formatDate("fr-FR", date, "dMyHmsE");
+
+        String result1 = localizationService.formatDate("fr-FR", cal.getTime(), "dMyHmsE");
         assertEquals("mar. 28/5/2013 17:52:05", result1);
-        String result2 = localizationService.formatDate("en-US", date, "dMyHmsE");
+        String result2 = localizationService.formatDate("en-US", cal.getTime(), "dMyHmsE");
         assertEquals("Tue, 5/28/2013, 17:52:05", result2);
-        String result3 = localizationService.formatDate("fr-FR", date, "dMyHmsE", "America/Argentina/Buenos_Aires");
-        assertEquals("mar. 28/5/2013 12:52:05", result3);
+        String result3 = localizationService.formatDate("fr-FR", new Date(cal.getTimeInMillis() + TimeZone.getDefault().getOffset(cal.getTimeInMillis())), "dMyHmsE", "America/Argentina/Buenos_Aires");
+        assertEquals("mar. 28/5/2013 14:52:05", result3);
     }
 
     @Test
     public void parseDate_parses_a_date() throws ParseException {
         Calendar cal = new GregorianCalendar(2013, 4, 28, 17, 52, 5);
-        Date date = new Date(cal.getTimeInMillis());
 
         Date result1 = localizationService.parseDate("fr-FR", "mar. 28/5/2013 17:52:05", "dMyHmsE");
-        assertEquals(date, result1);
+        assertEquals(cal.getTime(), result1);
         Date result2 = localizationService.parseDate("en-US", "Tue, 5/28/2013, 17:52:05", "dMyHmsE");
-        assertEquals(date, result2);
-        Date result3 = localizationService.parseDate("fr-FR", "mar. 28/5/2013 12:52:05", "dMyHmsE", "America/Argentina/Buenos_Aires");
-        assertEquals(date, result3);
+        assertEquals(cal.getTime(), result2);
+        Date result3 = localizationService.parseDate("fr-FR", "mar. 28/5/2013 14:52:05", "dMyHmsE", "America/Argentina/Buenos_Aires");
+        assertEquals(new Date(cal.getTimeInMillis() + TimeZone.getDefault().getOffset(cal.getTimeInMillis())), result3);
     }
 
     @Test
