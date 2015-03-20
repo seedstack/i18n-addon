@@ -1,0 +1,124 @@
+<!--
+
+    Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+
+    This file is part of SeedStack, An enterprise-oriented full development stack.
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<div>
+    <div data-ng-show="hide"> {{'application.view.seed-i18n.dashboard.error' | localize }} </div>
+    <div data-ng-show="authorization.hasPermission('seed-w20', ['seed', 'i18n', 'locale', 'read']) && authentication.isAuthentifiable()">
+        <div class="container-full container-main-title">
+            <div class="row">
+                <div class="menu-wrapper">
+                    <div class="menu-item big">
+                        {{ "application.view.seed-i18n.dashboard" | localize }}
+                    </div>
+                    <button data-ng-click="goTo('seed-i18n/keys')"
+                            class="btn btn-link menu-item"
+                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}"
+                            data-tooltip="{{ 'application.view.seed-i18n.minimumlocales' | localize }}"
+                            data-tooltip-trigger="mouseenter && {{ allowTranslate() }}"
+                            data-tooltip-placement="bottom">
+                        {{ "application.view.seed-i18n.keys" | localize }}
+                    </button>
+                    <button data-ng-click="goTo('seed-i18n/translate')"
+                            class="btn btn-link menu-item"
+                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}"
+                            data-tooltip="{{ 'application.view.seed-i18n.minimumlocales' | localize }}"
+                            data-tooltip-trigger="mouseenter && {{ allowTranslate() }}"
+                            data-tooltip-placement="bottom">
+                        {{ "application.view.seed-i18n.translate" | localize }}
+                    </button>
+                    <button data-ng-click="goTo('seed-i18n/statistic')"
+                            class="btn btn-link menu-item"
+                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}"
+                            data-tooltip="{{ 'application.view.seed-i18n.minimumlocales' | localize }}"
+                            data-tooltip-trigger="mouseenter && {{ allowTranslate() }}"
+                            data-tooltip-placement="bottom">
+                        {{ "application.view.seed-i18n.statistic" | localize }}
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="alert alert-warning"
+             data-ng-show="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'locale', 'write']) && authentication.isAuthentifiable()">
+            {{ "application.view.seed-i18n.noeditpermission" | localize }}
+        </div>
+        <div id="container-main-content" class="container-full">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">{{ "application.view.seed-i18n.applicationlanguages" | localize }}</div>
+                        <div class="panel-body">
+                            <div class="label label-app-languages"
+                                 data-ng-hide="applicationLocales.length != 0"> {{ "application.view.seed-i18n.nolanguages" | localize }}
+                            </div>
+                            <div class="label label-app-languages"
+                                 data-ng-show="applicationLocales.length > 2"> {{ "application.view.seed-i18n.twolocalesminimum" | localize }}
+                            </div>
+                            <input class="col-md-12 search-languages form-control" type="search" data-ng-model="searchAppLocales"
+                                   placeholder="{{ 'application.view.seed-i18n.search' | localize }}" data-results="0">
+                            <select class="col-md-12 list-languages" multiple="multiple"
+                                    data-ng-options="lang.englishLanguage for lang in applicationLocales | filter:searchAppLocales | orderBy:'lang.englishLanguage'"
+                                    data-ng-model="availLangSelected">
+                            </select>
+
+
+                            <div class="pull-right">
+                                <button type="button" class="btn-flat btn-default" value="remove" data-ng-hide="addNewLang"
+                                        data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'locale', 'delete']) && authentication.isAuthentifiable()"
+                                        data-ng-click="remove()"><i class="glyphicon glyphicon-remove"></i> {{ "application.view.seed-i18n.remove" | localize }}
+                                </button>
+                                <button type="button" class="btn-flat btn-primary" value="add" data-ng-click="addNewLang = true"
+                                        data-ng-hide="addNewLang"><i class="glyphicon glyphicon-plus"></i> {{  "application.view.seed-i18n.add" | localize }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-ng-hide="!addNewLang">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"> {{ "application.view.seed-i18n.languagestoadd" | localize }}</div>
+                        <div class="panel-body">
+                            <input class="col-md-12 search-languages form-control" type="search" data-ng-model="searchLocales" placeholder="{{ 'application.view.seed-i18n.search' | localize }}"
+                                   data-results="0">
+                            <select class="col-md-12 list-languages" multiple="multiple"
+                                        data-ng-options="lang.englishLanguage for lang in allLocales | filter:searchLocales | orderBy:'lang.englishLanguage'"
+                                        data-ng-model="allLangSelected">
+                            </select>
+                            <button type="button" class="btn-flat btn-default" value="close" ng-click="addNewLang = false">
+                                {{ "application.view.seed-i18n.closethis" | localize }}
+                            </button>
+                            <button type="button" class="btn-flat btn-primary" value="add" ng-click="add()" data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'locale', 'write']) && authentication.isAuthentifiable()"><i
+                                    class="glyphicon glyphicon-ok"></i> {{ "application.view.seed-i18n.addlanguages" | localize }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"> {{ "application.view.seed-i18n.defaultlanguage" | localize }} </div>
+                        <div class="panel-body">
+                            <label class="label label-app-languages" for="selectDefaultLanguage"> {{ "application.view.seed-i18n.defaultlanguageis" | localize }}
+                                <span data-ng-show="!defaultLocale"> {{ "application.view.seed-i18n.notset" | localize }} </span>
+                            </label>
+                            <select id="selectDefaultLanguage" class="select-style" data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'locale', 'write']) && authentication.isAuthentifiable()"
+                                    data-ng-options="lang.englishLanguage for lang in applicationLocales | orderBy:'toString()'"
+                                    data-ng-model="defaultLocale" data-ng-change="updateDefault()">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+    </div>
+</div>

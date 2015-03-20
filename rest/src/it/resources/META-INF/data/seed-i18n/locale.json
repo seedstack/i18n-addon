@@ -1,0 +1,21 @@
+[
+    {
+        "group": "seed-i18n",
+        "name": "locale",
+        "items": [
+            {
+                "code": "en",
+                "language": "english",
+                "englishLanguage": "english",
+                "defaultLocale": true
+            },
+            {
+                "code": "fr",
+                "language": "français",
+                "englishLanguage": "french",
+                "defaultLocale": false
+            }
+
+        ]
+    }
+]

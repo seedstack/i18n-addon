@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+#
+# This file is part of SeedStack, An enterprise-oriented full development stack.
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+
+[org.seedstack.seed]
+core.data-initialization = none
+persistence.jpa.units = seed-i18n-domain
+
+transaction.manager = org.seedstack.seed.transaction.internal.LocalTransactionManager
+transaction.default-handler = org.seedstack.seed.persistence.jpa.internal.JpaTransactionHandler
+
+[org.seedstack.seed.persistence.jpa.unit.seed-i18n-domain.property]
+javax.persistence.jdbc.driver=org.hsqldb.jdbcDriver
+javax.persistence.jdbc.url=jdbc:hsqldb:mem:testdb
+javax.persistence.jdbc.user=sa
+javax.persistence.jdbc.password=
+hibernate.dialect=org.hibernate.dialect.HSQLDialect
+hibernate.hbm2ddl.auto=create
+sql.enforce_strict_size=true
+
+#clean props section
+[]

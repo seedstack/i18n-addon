@@ -1,0 +1,111 @@
+<!--
+
+    Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+
+    This file is part of SeedStack, An enterprise-oriented full development stack.
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.seedstack</groupId>
+        <artifactId>java-parent</artifactId>
+        <version>2.0.0-M1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.seedstack.functions.i18n</groupId>
+    <artifactId>i18n-function</artifactId>
+    <version>2.0.0-M1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <seed.version>2.0.0-M1-SNAPSHOT</seed.version>
+        <business.version>2.0.0-M1-SNAPSHOT</business.version>
+        <io-function.version>2.0.0-M1-SNAPSHOT</io-function.version>
+        <w20-function.version>2.0.0-M1-SNAPSHOT</w20-function.version>
+    </properties>
+
+    <modules>
+        <module>specs</module>
+        <module>core</module>
+        <module>rest</module>
+        <module>web</module>
+        <module>bom</module>
+        <module>doc</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.seedstack.seed</groupId>
+                <artifactId>seed-bom</artifactId>
+                <version>${seed.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack.business</groupId>
+                <artifactId>business-bom</artifactId>
+                <version>${business.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack.functions.io</groupId>
+                <artifactId>io-function-bom</artifactId>
+                <version>${io-function.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack.functions.w20</groupId>
+                <artifactId>w20-function-bom</artifactId>
+                <version>${w20-function.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack</groupId>
+                <artifactId>java-bom</artifactId>
+                <version>${seedstack-poms.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack</groupId>
+                <artifactId>logging-bom</artifactId>
+                <version>${seedstack-poms.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack</groupId>
+                <artifactId>hibernate-bom</artifactId>
+                <version>${seedstack-poms.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${seedstack-poms.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-unittest-support</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

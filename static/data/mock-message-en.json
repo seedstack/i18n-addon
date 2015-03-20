@@ -1,0 +1,146 @@
+[
+    {
+        "key": "Key0",
+        "value": "",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": true,
+        "comment": "quis id adipisicing aliqua exercitation aliqua reprehenderit duis consectetur proident"
+    },
+    {
+        "key": "Key1",
+        "value": "ex sunt dolore commodo ullamco",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": true,
+        "comment": "aute adipisicing sit nisi elit eiusmod ea mollit do commodo"
+    },
+    {
+        "key": "Key2",
+        "value": "eiusmod tempor tempor non cillum",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": true,
+        "comment": "commodo fugiat aliqua culpa excepteur qui velit fugiat commodo Lorem"
+    },
+    {
+        "key": "Key3",
+        "value": "irure magna et incididunt commodo",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "sint commodo culpa cupidatat cupidatat ipsum ea sit commodo fugiat"
+    },
+    {
+        "key": "Key4",
+        "value": "",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "consectetur non tempor tempor laboris do ullamco adipisicing fugiat laboris"
+    },
+    {
+        "key": "Key5",
+        "value": "fugiat exercitation labore excepteur eiusmod",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "elit id tempor et elit id in consequat do elit"
+    },
+    {
+        "key": "Key6",
+        "value": "",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "eiusmod incididunt nisi nisi id incididunt mollit non consectetur sunt"
+    },
+    {
+        "key": "Key7",
+        "value": "dolore aute enim fugiat eiusmod",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": false,
+        "comment": "eu commodo voluptate consectetur ut laboris ut pariatur elit ad"
+    },
+    {
+        "key": "Key8",
+        "value": "velit duis esse in ex",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "aute id consequat enim aliquip sint occaecat dolor quis ea"
+    },
+    {
+        "key": "Key9",
+        "value": "ex ea ad ipsum Lorem",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": false,
+        "comment": "reprehenderit adipisicing exercitation voluptate deserunt ut et sint reprehenderit labore"
+    },
+    {
+        "key": "Key10",
+        "value": "",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": false,
+        "comment": "culpa do aute nisi ea do pariatur magna cupidatat consectetur"
+    },
+    {
+        "key": "Key11",
+        "value": "eu consectetur do pariatur enim",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "eu duis do commodo id qui veniam veniam consequat aute"
+    },
+    {
+        "key": "Key12",
+        "value": "culpa voluptate ea nulla labore",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": false,
+        "comment": "cillum esse proident ea est id voluptate est aliqua velit"
+    },
+    {
+        "key": "Key13",
+        "value": "do excepteur labore cillum reprehenderit",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": false,
+        "comment": "non labore excepteur pariatur nulla do minim esse labore sint"
+    },
+    {
+        "key": "Key14",
+        "value": "non magna nulla adipisicing do",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "enim consequat magna esse nulla sint et culpa occaecat amet"
+    },
+    {
+        "key": "Key15",
+        "value": "nisi laborum in officia occaecat",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "enim mollit labore et Lorem ut in non qui eu"
+    },
+    {
+        "key": "Key16",
+        "value": "labore cupidatat ad commodo aliquip",
+        "locale": "en-US",
+        "outdated": true,
+        "approximate": false,
+        "comment": "esse laboris nisi mollit amet ut dolore labore exercitation aliquip"
+    },
+    {
+        "key": "Key17",
+        "value": "consequat dolor eiusmod aliqua irure",
+        "locale": "en-US",
+        "outdated": false,
+        "approximate": false,
+        "comment": "sunt id id amet non sit labore pariatur minim voluptate"
+    }
+]

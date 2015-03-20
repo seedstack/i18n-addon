@@ -1,0 +1,87 @@
+<!--
+
+    Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+
+    This file is part of SeedStack, An enterprise-oriented full development stack.
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.seedstack.functions.i18n</groupId>
+        <artifactId>i18n-function</artifactId>
+        <version>2.0.0-M1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>i18n-function-doc</artifactId>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-distribution-javadoc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <configuration>
+                            <doctitle>SeedStack i18n function</doctitle>
+                            <detectOfflineLinks>false</detectOfflineLinks>
+                            <includeDependencySources>true</includeDependencySources>
+                            <includeTransitiveDependencySources>false</includeTransitiveDependencySources>
+                            <excludePackageNames>*.internal.*</excludePackageNames>
+                            <additionalDependencies>
+                                <additionalDependency>
+                                    <groupId>org.hibernate.javax.persistence</groupId>
+                                    <artifactId>hibernate-jpa-2.0-api</artifactId>
+                                    <version>1.0.1.Final</version>
+                                </additionalDependency>
+                            </additionalDependencies>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>fix-javadoc-stylesheet</id>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seedstack.functions.i18n</groupId>
+            <artifactId>i18n-function-specs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.functions.i18n</groupId>
+            <artifactId>i18n-function-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.functions.i18n</groupId>
+            <artifactId>i18n-function-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.functions.i18n</groupId>
+            <artifactId>i18n-function-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

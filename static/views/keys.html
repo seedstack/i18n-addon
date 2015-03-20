@@ -1,0 +1,277 @@
+<!--
+
+    Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+
+    This file is part of SeedStack, An enterprise-oriented full development stack.
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<div>
+<div data-ng-show="authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'read']) && authentication.isAuthentifiable()">
+<div class="container-full container-main-title">
+    <div>
+        <div class="menu-wrapper">
+            <button data-ng-click="goTo('seed-i18n/i18n')"
+                    class="btn btn-link menu-item"
+                    data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}">
+                {{ "application.view.seed-i18n.dashboard" | localize }}
+            </button>
+            <div class="menu-item big">
+                {{ "application.view.seed-i18n.keys" | localize }}
+            </div>
+            <button data-ng-click="goTo('seed-i18n/translate')"
+                    class="btn btn-link menu-item"
+                    data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}">
+                {{ "application.view.seed-i18n.translate" | localize }}
+            </button>
+            <button data-ng-click="goTo('seed-i18n/statistic')"
+                    class="btn btn-link menu-item"
+                    data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}">
+                {{ "application.view.seed-i18n.statistic" | localize }}
+            </button>
+
+            <div class="pull-right add-keys">
+                <a  class="btn btn-link"
+                    data-ng-href="{{exportPath}}"><i class="fa fa-download"></i> {{ "application.view.seed-i18n.exportkeys" | localize }}
+                </a>
+                <div class="btn btn-link"
+                     data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()"
+                     data-ng-click="importKey = !importKey"><i class="fa fa-upload"></i> {{ "application.view.seed-i18n.importkeys" | localize }}
+                </div>
+                <div class="btn btn-link"
+                     data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()"
+                     data-ng-click="addKey = !addKey"><i class="fa fa-plus"></i> {{ "application.view.seed-i18n.addnewkey" |localize }}
+                </div>
+                <div class="btn btn-link"
+                     data-ng-click="deleteFiltered()"
+                     data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'delete']) && authentication.isAuthentifiable()">
+                    <i class="fa fa-trash-o"></i> {{ "application.view.seed-i18n.deletefiltered" | localize }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="clearfix"></div>
+</div>
+
+<!-- Show when importing keys -->
+<div id="import-key" class="container-full"
+     data-ng-show="importKey && authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()">
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="form-i18n"> {{ "application.view.seed-i18n.importkeys" | localize }} </h4>
+            <div class="col-md-6">
+                <p>
+                    {{ "application.view.seed-i18n.dropzone" | localize }}
+                </p>
+            </div>
+            <div class="col-md-6">
+                <button class="btn-flat btn-default pull-right" data-ng-click="importKey = !importKey"><i
+                        class="glyphicon glyphicon-remove"></i> {{ "application.view.seed-i18n.close" | localize }}
+                </button>
+                <button class="btn-flat btn-primary pull-right" id="submit-all" data-drop-zone><i
+                        class="glyphicon glyphicon-arrow-up"></i> {{ "application.view.seed-i18n.importkeys" | localize }}
+                </button>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                <form class="dropzone" id="file-dropzone"></form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Show when adding new key -->
+<div id="add-key"
+     class="container-full"
+     data-ng-show="addKey && authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well">
+                <div class="col-md-12">
+                    <button class="btn-flat btn-default pull-right" data-ng-click="addKey = !addKey"><i
+                            class="glyphicon glyphicon-remove"></i> {{ "application.view.seed-i18n.close" | localize }}
+                    </button>
+                </div>
+                <h4 class="form-i18n">{{  "application.view.seed-i18n.addkeytitle" | localize }} {{ defaultLocale.englishLanguage }} </h4>
+                <div class="form-group form-i18n new-key">
+                    <label class="control-label" for="new-key-name">{{ "application.view.seed-i18n.keyname" | localize }}</label>
+
+                    <div class="controls">
+                        <input type="text" id="new-key-name" data-ng-model="newKey.name" data-ng-trim="false"
+                               required="" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group form-i18n new-key">
+                    <label class="control-label" for="new-key-comment">{{ "application.view.seed-i18n.comment" | localize }}</label>
+
+                    <div class="controls">
+                        <textarea id="new-key-comment" rows="3" data-ng-model="newKey.comment"
+                                  class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group form-i18n form-body">
+                    <label class="control-label"
+                           for="new-key-default-translation">{{ "application.view.seed-i18n.defaulttranslation" | localize }}
+                        ({{defaultLocale.englishLanguage}}) : </label>
+
+                    <div class="controls">
+                        <textarea id="new-key-default-translation" rows="10" class="form-control"
+                                  data-ng-model="newKey.translation"></textarea>
+                    </div>
+                </div>
+                <div class="form-group form-i18n new-key">
+                    <div class="controls">
+                        <button type="button" class="btn-flat btn-default" value="Clear" data-ng-click="resetNewKey()">
+                            {{ "application.view.seed-i18n.clear" | localize }}
+                        </button>
+                        <div class="pull-right">
+                            <button type="button" class="btn-flat btn-default" value="Cancel"
+                                    data-ng-click="addKey = !addKey" data-toggle="collapse" data-target="#add-key">
+                                {{ "application.view.seed-i18n.cancel" | localize }}
+                            </button>
+                            <button type="submit" data-ng-click="submitKey(newKey, true)"
+                                    class="btn-flat btn-primary"
+                                    value="SaveAndNew"
+                                    data-ng-disabled="formNewKey.$invalid || !authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()">
+                                {{  "application.view.seed-i18n.saveandnew" | localize }}
+                            </button>
+                            <button type="submit" data-ng-click="submitKey(newKey, false)" class="btn-flat btn-primary"
+                                    value="SaveNewKey"
+                                    data-ng-disabled="formNewKey.$invalid || !authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()">
+                                {{ "application.view.seed-i18n.save" | localize }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hide when adding new key -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-warning"
+             data-ng-show="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()">
+            {{ "application.view.seed-i18n.noeditpermission" | localize }}
+        </div>
+    </div>
+</div>
+<div id="container-main-content" class="container-full">
+    <div class="row" data-ng-show="showKeysList" data-ng-hide="addKey || importKey">
+        <div class="col-md-12">
+            <form class="form-inline keys-form-inline">
+                <div class="form-group">
+                    <input id="search-keys" type="search" data-ng-model="keyFilterSearch.name"
+                           placeholder="{{ 'application.view.seed-i18n.searchkeys' | localize }}" data-results="0" class="form-control search-query">
+                </div>
+                <div class="checkbox">
+                    <label for="checkbox-no-translation">
+                        <input id="checkbox-no-translation" type="checkbox" data-ng-model="missing" style="width:20px">
+                        {{ "application.view.seed-i18n.missing" | localize }}
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label for="checkbox-outdated" class="checkbox">
+                        <input id="checkbox-outdated" type="checkbox" data-ng-model="outdated" style="width:20px">
+                        {{ "application.view.seed-i18n.outdated" | localize }}
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div data-ng-hide="!keys.length || addKey || importKey" class="row" data-ng-show="showKeysList">
+        <div class="col-md-12">
+            <div data-pagination
+                 data-max-size="maxSize"
+                 data-total-items="pageSize*numPages()"
+                 data-ng-model="pageIndex"
+                 data-rotate="false"
+                 data-boundary-links="true">
+            </div>
+        </div>
+    </div>
+
+    <div class="label label-app-languages" data-ng-show="!keys.length && !addKey && !importKey"> {{ "application.view.seed-i18n.nokeysretrieved" | localize }}</div>
+
+    <div class="row">
+        <div class="col-md-6" data-ng-hide="addKey || importKey">
+            <!--Sidebar content-->
+            <div class="key-list" data-ng-show="keys.length">
+                <div class="key-list-repeat" data-ng-repeat="key in keys | orderBy: 'key.name'"
+                     data-ng-class="{selected: key == currentKey[0]}">
+                    <div class="col-md-12" style="height:100%" data-ng-click="setCurrentKey(key)">
+                        <div ng-hide="true"></div>
+                        <div class="square-key done" data-ng-show="!key.missing  &amp;&amp; !key.outdated"
+                             data-toggle="tooltip" title="Key is done">D
+                        </div>
+                        <div class="square-key missing" data-ng-show="key.missing" data-toggle="tooltip"
+                             title="Key is missing some info">M
+                        </div>
+                        <div class="square-key outdated" data-ng-show="key.outdated" data-toggle="tooltip"
+                             title="Key is outdated (default translation has changed)">O
+                        </div>
+                        <div class="col-md-9 key-title"><span> &gt;&gt; </span>{{key.name}}</div>
+                        <button class="btn btn-link pull-right"
+                                title="Delete this key"
+                                data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'delete']) && authentication.isAuthentifiable()"
+                                data-ng-click="deleteKey(key)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 box-translation" ng-hide="addKey || !currentKey.length || !keys.length || importKey">
+            <!--Body content-->
+            <form name="formkey" class="form-vertical" data-ng-submit="updateKeys(currentKey[0])" novalidate="">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> {{ "application.view.seed-i18n.comments" | localize }} </div>
+                    <div class="panel-body">
+                        <div class="controls">
+                            <textarea id="comments" rows="3" class="form-control"
+                                      data-ng-model="currentKey[0].comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">{{ "application.view.seed-i18n.defaulttranslation" | localize }} ( {{defaultLocale.englishLanguage}} )</div>
+                    <div class="panel-body">
+                        <div class="controls">
+                            <textarea id="defaultTranslation" class="form-control" rows="7"
+                                      data-ng-model="currentKey[0].translation"
+                                      data-ng-disabled="defaultLocale == 'undefined'"
+                                      autofocus
+                                      required=""></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-i18n form-button-end">
+                    <div class="controls">
+                        <button type="button" class="btn-flat btn-default" value="Clear" data-ng-click="clear()">
+                            {{ "application.view.seed-i18n.clear" | localize }}
+                        </button>
+                        <div class="pull-right">
+                            <button type="submit" class="btn-flat btn-primary" value="Save"
+                                    data-ng-disabled="formkey.$pristine || !authorization.hasPermission('seed-w20', ['seed', 'i18n', 'key', 'write']) && authentication.isAuthentifiable()"> {{ "application.view.seed-i18n.save" | localize }}
+                            </button>
+                            <button type="button" class="btn-flat btn-default" value="Previous"
+                                    data-ng-click="navigate('backward')"> {{ "application.view.seed-i18n.previous" | localize }}
+                            </button>
+                            <button type="button" class="btn-flat btn-default" value="Next"
+                                    data-ng-click="navigate('forward')"> {{ "application.view.seed-i18n.next" | localize }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>

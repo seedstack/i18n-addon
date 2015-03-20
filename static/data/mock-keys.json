@@ -1,0 +1,802 @@
+[
+    {
+        "name": "officia",
+        "comment": "Proident mollit ad consectetur incididunt. Eu magna qui ex nisi occaecat. In mollit velit amet est irure aliquip consequat dolore cupidatat quis reprehenderit.",
+        "translation": "Aute incididunt sunt consectetur tempor dolor. Elit esse aliqua cillum officia quis exercitation ex commodo eiusmod consequat. Aliquip ea dolore excepteur et.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "magna",
+        "comment": "Esse in ea sint cupidatat qui eu eu officia est nostrud Lorem irure. Adipisicing adipisicing fugiat duis labore velit esse. Sit ipsum cillum voluptate nulla commodo.",
+        "translation": "Magna nostrud eiusmod nisi anim occaecat sint incididunt occaecat cupidatat labore ad. Ad qui amet ex deserunt. Lorem fugiat velit cillum ullamco sit nostrud excepteur id sint aliquip culpa.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "eu",
+        "comment": "Ea minim deserunt sint cupidatat est ea anim ut do aliquip dolor officia. Enim incididunt eu nisi qui cillum duis id pariatur ipsum reprehenderit exercitation commodo. Irure enim dolore consectetur adipisicing aliquip ullamco do Lorem cupidatat qui quis ipsum.",
+        "translation": "Sunt non consequat sint adipisicing Lorem nulla quis ex nisi. Officia mollit consequat ex exercitation consectetur cillum fugiat magna mollit consequat reprehenderit et enim ea. Quis commodo tempor eiusmod magna incididunt labore non est nostrud qui duis aute velit do.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "anim",
+        "comment": "Veniam eiusmod occaecat ut nisi ut sit eu. Proident proident occaecat minim laboris ex occaecat mollit sit. Fugiat sunt duis elit non anim laborum anim do.",
+        "translation": "Amet commodo laboris elit nisi deserunt commodo enim dolor amet ut aliqua duis excepteur qui. Est eu esse sunt exercitation labore non. Ad cillum laboris adipisicing commodo adipisicing esse.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "esse",
+        "comment": "Voluptate irure voluptate proident id voluptate tempor aliqua officia elit tempor. Id magna officia occaecat sit. Cupidatat consequat consectetur minim Lorem aliquip ea aliqua eu excepteur officia.",
+        "translation": "Enim officia deserunt nisi velit voluptate mollit culpa voluptate nisi et sunt fugiat. Aliqua culpa ex do ex dolor voluptate laborum id. Magna nisi ut veniam irure quis nulla ad.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "deserunt",
+        "comment": "Non adipisicing magna non nisi reprehenderit laboris ea ex adipisicing tempor cillum. Ipsum cupidatat proident ad Lorem ad in minim. Nulla do duis elit duis ullamco amet et.",
+        "translation": "Magna nostrud sunt do officia. Tempor qui nisi consectetur elit esse eu do consectetur veniam. Velit cillum aute veniam amet mollit aute.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "sit",
+        "comment": "Aute dolor excepteur fugiat aliquip. Non do est esse duis sit consectetur occaecat cupidatat minim eiusmod sit elit nostrud. Ut deserunt ipsum sint reprehenderit voluptate pariatur elit consequat incididunt.",
+        "translation": "Lorem cupidatat in id eiusmod elit ipsum laborum excepteur aliqua laboris Lorem nulla proident elit. Est sint consequat deserunt ut non. Exercitation qui cupidatat deserunt do exercitation do laboris dolor.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "in",
+        "comment": "Consequat amet excepteur in quis ipsum nisi nostrud amet ea commodo. Nisi fugiat sunt est sint esse cillum duis incididunt in laborum. Irure irure minim et non.",
+        "translation": "Veniam amet aute et in consectetur laboris proident commodo do incididunt enim ea pariatur adipisicing. Est culpa esse excepteur id laboris. Esse officia in qui officia nulla incididunt Lorem.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "esse",
+        "comment": "Quis ipsum reprehenderit do laborum proident dolor eu labore. Aute sunt magna reprehenderit eiusmod irure deserunt. Ipsum exercitation nostrud culpa culpa est incididunt quis nostrud nisi non nisi.",
+        "translation": "Elit tempor et eiusmod nostrud fugiat. Ut adipisicing duis velit sunt deserunt duis nostrud in aute qui excepteur. Sunt laborum voluptate voluptate ex.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "qui",
+        "comment": "Sit consequat minim ea proident labore eiusmod nisi Lorem. Non aliquip voluptate occaecat deserunt laborum eu dolore occaecat irure fugiat aute tempor proident. Non est sit minim excepteur cupidatat et proident.",
+        "translation": "Eu esse proident dolore do esse exercitation officia nisi. Commodo exercitation dolore laborum culpa nostrud sit. Eu adipisicing ea proident eiusmod minim nisi veniam incididunt est in incididunt.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "consequat",
+        "comment": "Labore incididunt culpa exercitation sunt dolor laboris cillum fugiat velit. Irure aliquip ut magna consequat mollit officia esse incididunt consequat ea aliquip qui. Labore aliquip sunt ex excepteur voluptate consectetur voluptate duis.",
+        "translation": "Cupidatat anim nisi labore nulla aute. Tempor officia adipisicing officia excepteur Lorem sint. Irure duis id culpa eiusmod proident esse proident occaecat ullamco duis ut aliqua.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "nisi",
+        "comment": "Nostrud aliquip proident culpa anim in velit pariatur. Sunt sint laborum exercitation elit cupidatat ea eu consequat laboris. Labore dolor culpa cupidatat voluptate amet.",
+        "translation": "Velit eiusmod laboris anim dolore tempor. Non veniam ut et laboris excepteur sit esse amet commodo. Veniam excepteur velit aute excepteur.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "quis",
+        "comment": "Veniam quis veniam adipisicing reprehenderit dolore magna minim laboris quis. Aute ea sit dolor ipsum id laborum exercitation. Dolor tempor commodo in mollit ea elit laboris duis aliquip.",
+        "translation": "Ut Lorem non non exercitation do ex tempor commodo occaecat ex nostrud dolore. Culpa ad dolore culpa cupidatat laborum ullamco non ipsum est. Magna culpa elit enim esse ullamco esse incididunt officia aliquip amet aute laboris.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "aliqua",
+        "comment": "Sint nostrud cupidatat eu dolore ipsum irure sunt veniam deserunt quis irure reprehenderit elit do. Cillum ullamco aliqua irure eu amet excepteur cupidatat mollit aliquip pariatur. Excepteur id sit proident aute aliqua ut nisi do cillum ullamco tempor dolore.",
+        "translation": "Amet ut exercitation velit et officia amet tempor qui. Aute aliquip velit proident culpa do. In do ullamco labore nulla duis exercitation cillum ea non irure fugiat voluptate.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "ullamco",
+        "comment": "Fugiat enim Lorem irure irure adipisicing irure id. Veniam nulla deserunt sint id aliquip magna laborum ea. Pariatur duis excepteur incididunt occaecat dolore sint et eu commodo tempor aliqua et cillum culpa.",
+        "translation": "Nisi esse dolor duis incididunt ipsum do aliquip ullamco id excepteur ut. Non nisi ex commodo irure eu commodo quis magna elit Lorem commodo ad. Anim cillum commodo proident consectetur exercitation.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "reprehenderit",
+        "comment": "Aliqua cillum id amet aute esse ipsum consectetur dolor. Aliqua irure deserunt ad officia ex culpa esse ullamco aliquip. Deserunt consequat eu veniam aliquip id non.",
+        "translation": "Consequat ut pariatur culpa culpa ea veniam est sint. Aute duis aliqua aliqua consectetur consectetur pariatur. Dolore voluptate non enim laborum esse laboris excepteur velit proident fugiat id ut nulla ex.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "magna",
+        "comment": "Incididunt minim ex incididunt laborum id non fugiat elit aute nulla excepteur mollit deserunt do. Laboris eiusmod commodo enim aliquip nostrud. Consequat irure ex ut et magna exercitation dolor cillum fugiat aliqua.",
+        "translation": "Cillum et est labore ex commodo proident et ut in sint laboris. Elit ipsum elit esse ad. Eiusmod officia laboris laborum cillum anim voluptate fugiat.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "amet",
+        "comment": "Velit magna tempor minim ad adipisicing. Pariatur exercitation fugiat velit nulla qui ex pariatur est elit velit do. Laboris qui eiusmod magna id dolor reprehenderit.",
+        "translation": "Veniam ipsum minim est velit. Mollit aliquip excepteur mollit nostrud reprehenderit. Cillum mollit aliquip sit do irure proident laboris commodo non.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "dolor",
+        "comment": "Adipisicing velit exercitation irure adipisicing fugiat cupidatat. Reprehenderit irure tempor enim sit labore amet culpa amet quis laboris excepteur. Sit Lorem sunt laborum voluptate nostrud ea anim labore consequat ullamco eu enim.",
+        "translation": "Irure ut velit aute irure labore laborum tempor quis non cillum. Qui reprehenderit duis velit enim dolore commodo elit. Dolore laboris ea tempor aliqua non proident.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "ut",
+        "comment": "Aliquip culpa exercitation elit magna commodo reprehenderit id incididunt elit nostrud ipsum nisi ut. Ullamco ea Lorem ipsum eu dolore ipsum laborum et. Dolore nulla cupidatat eiusmod do velit.",
+        "translation": "Est occaecat eiusmod do in et ullamco. Incididunt nisi occaecat sit consectetur. Voluptate ipsum non do Lorem consequat pariatur aliquip.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "enim",
+        "comment": "Fugiat deserunt magna pariatur culpa eiusmod aute sint sunt ad. Esse excepteur dolor velit ipsum. Do ullamco qui labore adipisicing.",
+        "translation": "Adipisicing laborum qui labore est id ullamco ad consectetur nisi esse. Et id in esse dolor sint laborum cillum elit do laboris. Consequat laboris id sunt sint aliquip laboris cillum ex exercitation mollit Lorem ea.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "dolor",
+        "comment": "Amet et elit proident aute id. Consequat mollit in cillum deserunt. Non incididunt minim do in dolor.",
+        "translation": "Irure consequat eiusmod fugiat voluptate do enim cillum quis incididunt nostrud eiusmod ut culpa. Magna nulla qui ea esse sunt laborum proident ea cupidatat qui pariatur ea. Aliqua ad est eiusmod culpa consequat veniam.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "laborum",
+        "comment": "Non quis excepteur officia qui laborum ad. Ut culpa velit proident irure commodo velit amet fugiat. Sit dolor eiusmod sunt sit eu sit voluptate fugiat nostrud excepteur est exercitation.",
+        "translation": "Adipisicing in veniam quis veniam consectetur laboris mollit. Labore voluptate laborum pariatur sit. Nulla irure commodo consequat nulla nisi proident irure excepteur.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "exercitation",
+        "comment": "Cillum laborum quis aute labore ipsum fugiat nostrud exercitation mollit velit do dolore commodo. Exercitation eu exercitation duis laboris aliquip amet velit exercitation reprehenderit commodo. Incididunt dolore veniam id eiusmod exercitation incididunt reprehenderit cupidatat dolor qui laboris.",
+        "translation": "Do officia nostrud est magna minim anim cupidatat cillum tempor eu enim. Nisi ipsum qui occaecat magna pariatur. Aute pariatur quis sint culpa sunt qui aliqua laboris elit laborum.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "labore",
+        "comment": "Lorem ex magna occaecat occaecat sit anim proident. Deserunt ex officia consectetur esse reprehenderit. Do anim eu officia mollit amet culpa cillum pariatur pariatur nostrud.",
+        "translation": "Quis commodo consectetur sit sit labore cupidatat laboris ex tempor do dolore quis proident voluptate. Consectetur proident anim sit eu do officia occaecat occaecat. Mollit dolore eiusmod deserunt eu excepteur ut nulla consectetur.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "ex",
+        "comment": "Elit deserunt deserunt culpa irure. Voluptate officia incididunt veniam officia enim eu cillum. Do cillum laboris aliqua qui et irure Lorem duis.",
+        "translation": "Id consequat laborum culpa voluptate aliqua in. Dolore cupidatat nulla culpa Lorem. Deserunt et voluptate ad laboris.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "tempor",
+        "comment": "Nostrud est eu mollit do tempor elit reprehenderit dolor cillum aliquip dolor. Voluptate excepteur cillum nulla magna cupidatat. Qui incididunt irure irure et aute commodo cillum officia.",
+        "translation": "Ex magna elit tempor dolor sint excepteur. Non cupidatat quis velit pariatur non. Consectetur ut deserunt ipsum eiusmod eu.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "mollit",
+        "comment": "Lorem aute dolor labore laboris. Laborum labore et cillum ut occaecat consectetur excepteur exercitation velit sunt. Eiusmod nisi labore ipsum velit duis ut ea excepteur.",
+        "translation": "Consequat tempor eiusmod incididunt ut occaecat amet eiusmod dolor pariatur in amet est tempor cupidatat. Deserunt excepteur veniam ex esse tempor commodo enim minim cupidatat ullamco labore commodo occaecat adipisicing. Id id nostrud commodo duis anim amet aliqua consequat.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "sint",
+        "comment": "Fugiat et amet quis nisi nulla proident dolore laborum esse dolore ad consectetur minim. Adipisicing commodo aliquip adipisicing quis duis velit in laboris ea aliqua ex dolor nostrud. Cillum dolore anim laboris occaecat duis laborum fugiat voluptate nostrud culpa culpa dolore cupidatat.",
+        "translation": "Laborum commodo cupidatat consectetur deserunt sunt duis dolor occaecat consectetur minim velit tempor. Tempor qui voluptate nisi proident minim veniam aliqua minim proident dolore sint velit aute adipisicing. Duis fugiat non elit sunt est duis culpa.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "reprehenderit",
+        "comment": "Dolore quis est non elit officia ipsum culpa in eiusmod consectetur et cupidatat. Ut amet cupidatat in nulla ex velit tempor laboris. Eiusmod dolore proident do sint et veniam reprehenderit esse eu ullamco.",
+        "translation": "Proident enim ipsum pariatur pariatur ut Lorem quis. Culpa cillum dolore officia ea eiusmod excepteur aute culpa culpa. Ipsum aute nisi ea tempor.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "ea",
+        "comment": "Aliquip tempor sit mollit aliquip occaecat exercitation. Veniam qui quis est et et tempor fugiat incididunt ex amet irure voluptate sit. Qui officia exercitation reprehenderit exercitation duis aute ad et enim est proident ad exercitation.",
+        "translation": "Ex nostrud ea amet deserunt nisi anim laborum consectetur. Elit labore ut dolor ad et. Consectetur eiusmod amet sint et nostrud ad ipsum amet.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "nulla",
+        "comment": "Incididunt reprehenderit aute ad sit aliqua voluptate nisi commodo occaecat nostrud. Dolor ex est exercitation cupidatat eiusmod laboris ex in. Ex amet non amet do dolor pariatur veniam reprehenderit ex sint reprehenderit.",
+        "translation": "Duis nisi tempor elit adipisicing occaecat irure sint minim incididunt excepteur veniam in irure. Eu incididunt ad laboris quis sit sunt consectetur laborum irure anim pariatur dolore. Labore sunt irure consequat ullamco magna pariatur ut id.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "cillum",
+        "comment": "Fugiat reprehenderit fugiat dolor occaecat enim id est in cupidatat dolore. Enim laborum sint do dolore incididunt pariatur. Elit reprehenderit nisi adipisicing occaecat commodo aliqua commodo.",
+        "translation": "Veniam eiusmod ullamco consectetur nisi et est cupidatat ea nostrud eu. Aliquip Lorem velit tempor minim nostrud laboris. Laboris consequat esse ea officia veniam deserunt id esse irure eiusmod pariatur tempor pariatur.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "adipisicing",
+        "comment": "Eiusmod non dolor culpa veniam adipisicing occaecat in ea ullamco dolor consequat laborum. Magna consequat ullamco fugiat pariatur aute qui sit aliquip nulla ea nisi est in. Tempor duis mollit proident nulla quis aliquip in incididunt anim ad.",
+        "translation": "Deserunt sint culpa do aute voluptate ea voluptate deserunt eiusmod enim. Reprehenderit dolor magna proident adipisicing do consectetur ad. Et commodo pariatur ut do fugiat ad aliquip do enim.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "elit",
+        "comment": "Aute anim eiusmod fugiat pariatur incididunt enim esse ullamco excepteur mollit. Veniam non deserunt eu quis exercitation voluptate fugiat. Excepteur adipisicing ullamco non do dolore veniam duis dolore.",
+        "translation": "Ipsum reprehenderit magna sunt dolor aute pariatur esse labore adipisicing in excepteur Lorem adipisicing. Consectetur aliqua commodo do laboris officia adipisicing ad exercitation sit. Et irure commodo ullamco cillum duis minim id.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "ea",
+        "comment": "Voluptate pariatur ipsum incididunt minim deserunt minim velit sint officia. Voluptate Lorem reprehenderit aliqua eiusmod ex duis eu aute. Do quis cillum ad qui deserunt ea duis laboris aliquip id.",
+        "translation": "Magna nostrud aliquip deserunt proident occaecat tempor in excepteur dolor voluptate deserunt anim id. Sint Lorem minim culpa enim anim irure esse sit cillum excepteur nostrud. Cupidatat amet cupidatat ut non amet.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "irure",
+        "comment": "Consequat consequat et tempor amet exercitation eu. Deserunt voluptate eiusmod deserunt voluptate esse eiusmod voluptate enim enim aute. Sint minim aliqua pariatur ipsum ullamco mollit reprehenderit reprehenderit minim ipsum nisi cupidatat.",
+        "translation": "Eiusmod reprehenderit voluptate aliqua anim consequat qui eiusmod tempor veniam aliquip eu eiusmod in officia. Ea officia laborum sit et officia magna magna excepteur pariatur. Deserunt Lorem quis esse est consequat eiusmod nulla proident.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "ut",
+        "comment": "In sunt dolor aute cupidatat commodo voluptate occaecat ut excepteur adipisicing. Cupidatat ad do in et Lorem. Cupidatat commodo et eu mollit officia sit labore elit mollit aliquip.",
+        "translation": "Dolore nostrud et sint pariatur nulla consectetur occaecat. Laborum reprehenderit labore et qui ut id fugiat. Proident cupidatat consectetur nisi occaecat sit deserunt fugiat.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "non",
+        "comment": "Officia enim eiusmod pariatur est adipisicing cillum quis enim deserunt. Id ut duis consectetur Lorem in proident culpa eu. Occaecat enim id ex officia sit.",
+        "translation": "Adipisicing cillum cillum occaecat aliqua pariatur labore sit irure nostrud et. Ea velit ipsum sunt sunt exercitation consectetur et laboris sit id pariatur laborum. Adipisicing duis duis aliquip elit ad culpa elit consectetur proident non tempor culpa culpa elit.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "esse",
+        "comment": "In enim amet aliqua consectetur culpa veniam. Ipsum in aute pariatur nulla. Dolor occaecat Lorem mollit occaecat.",
+        "translation": "Do ex qui dolor dolor occaecat cupidatat elit est officia aliqua enim sit ad. Veniam est aliqua officia adipisicing ad mollit adipisicing. Nulla reprehenderit eiusmod velit sint id cillum reprehenderit pariatur tempor commodo.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "ipsum",
+        "comment": "Duis cillum eiusmod in est velit nostrud proident laboris labore esse ipsum qui sint. Occaecat minim fugiat anim commodo sit eu tempor nisi veniam commodo excepteur anim eiusmod. Enim est et eu in anim aute id dolore ad culpa ex.",
+        "translation": "Pariatur ad deserunt do et qui anim nisi fugiat id. Ea officia eu eu culpa sit enim dolor do exercitation commodo. Laborum consequat excepteur ex tempor laborum sint elit velit consequat deserunt elit.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "in",
+        "comment": "Ipsum esse et sit Lorem sint tempor mollit esse magna mollit cillum Lorem sint. Labore adipisicing magna nulla tempor elit tempor nulla proident qui tempor. In nisi enim sint mollit sit nisi sunt adipisicing.",
+        "translation": "Consectetur laborum elit esse non cupidatat magna ad eiusmod incididunt exercitation nulla ipsum. Esse minim aliquip dolor amet labore sint ullamco ea. Qui est consequat aliquip incididunt cupidatat consequat.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "qui",
+        "comment": "Qui mollit do cillum nulla aute culpa occaecat fugiat est eiusmod reprehenderit dolor. Ullamco dolor dolor anim culpa duis id mollit aliqua culpa laborum do non. Sit aliquip proident esse qui aute irure officia duis dolor et duis consectetur esse.",
+        "translation": "Deserunt quis occaecat incididunt mollit veniam amet minim nulla est consectetur do. Lorem in sit irure reprehenderit consequat. Veniam consequat proident aliquip occaecat elit aute id veniam duis pariatur irure consequat eiusmod cupidatat.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "anim",
+        "comment": "Duis excepteur minim et consequat excepteur. Nisi non non sit occaecat qui voluptate deserunt ea dolore exercitation voluptate. Excepteur exercitation dolore deserunt sit veniam dolor.",
+        "translation": "Nostrud deserunt cillum velit elit sunt cillum est sint eiusmod. Tempor sunt pariatur fugiat elit nulla. Mollit incididunt ad do aliquip aliquip elit ullamco labore magna nostrud.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "voluptate",
+        "comment": "Proident sit eu ullamco nisi duis incididunt. Nostrud nisi id irure fugiat amet cupidatat veniam laboris sit magna fugiat. Irure ea sit ut tempor eu fugiat nulla adipisicing veniam fugiat deserunt deserunt deserunt.",
+        "translation": "Eu occaecat minim cillum proident amet. Reprehenderit eiusmod voluptate consectetur fugiat cillum in id. Incididunt nostrud excepteur nulla mollit aliqua dolor.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "velit",
+        "comment": "Exercitation elit tempor do enim. Proident minim dolor in tempor do mollit aute ex sit in minim do consectetur. Aliqua ea fugiat qui dolore.",
+        "translation": "Cupidatat amet dolore veniam esse proident quis elit sint. Id esse ullamco ullamco enim. Adipisicing duis in reprehenderit deserunt velit cillum exercitation.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "sit",
+        "comment": "Eiusmod eiusmod ut fugiat et cupidatat qui deserunt. Aliqua enim cupidatat commodo minim minim. Ex culpa officia aute magna elit.",
+        "translation": "Do occaecat cupidatat duis ullamco pariatur elit irure ex id mollit officia minim deserunt. Minim eu consequat adipisicing adipisicing eu officia velit tempor cupidatat nisi amet dolore ex. Adipisicing non voluptate magna qui cillum est.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "quis",
+        "comment": "Lorem proident eiusmod dolore laborum aliquip occaecat cillum. Sunt aliquip nostrud proident sint nisi ut velit qui excepteur ad fugiat amet anim. Enim minim in est exercitation.",
+        "translation": "Aliqua nisi eiusmod ea nostrud irure reprehenderit deserunt. Laborum proident nisi velit exercitation labore nostrud ut cillum. Mollit proident consectetur elit mollit eu Lorem adipisicing elit est veniam.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "nisi",
+        "comment": "Voluptate cupidatat enim sint reprehenderit excepteur amet sunt aliqua. Irure labore aliquip exercitation cupidatat ex. Esse nostrud eiusmod quis mollit nulla irure consequat velit excepteur proident nostrud est amet anim.",
+        "translation": "Non irure reprehenderit commodo nisi nulla quis voluptate nostrud magna incididunt fugiat consectetur ea. Elit proident enim aliquip non eiusmod exercitation in nostrud ex dolor cupidatat deserunt. Adipisicing tempor labore commodo aliquip.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "Lorem",
+        "comment": "Consectetur duis aute pariatur do aliqua esse eiusmod et qui aliqua laborum. Eu aliquip mollit et labore qui. Ullamco elit culpa cupidatat ad excepteur est amet culpa eiusmod eu.",
+        "translation": "Eiusmod aliqua ullamco ut dolor ut sit ut tempor Lorem ut Lorem nulla officia anim. Magna eiusmod incididunt esse dolor esse fugiat. Cillum ad Lorem ut proident adipisicing cupidatat.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "aute",
+        "comment": "Anim sint ex ipsum duis ea duis ullamco qui dolore ullamco irure. Pariatur eiusmod amet velit ullamco adipisicing ut in irure sunt sit consequat labore irure magna. Aute qui magna commodo qui et officia dolor culpa commodo exercitation.",
+        "translation": "Est aute magna ex Lorem ut duis. Non sunt aute sunt qui id minim anim excepteur dolor consectetur pariatur officia laborum velit. Esse cillum in ea irure consequat sunt consectetur voluptate deserunt ipsum Lorem.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "laborum",
+        "comment": "Consequat anim amet officia ad. Dolor veniam enim ullamco elit sit cillum sunt ipsum voluptate officia pariatur nostrud et. Laboris consectetur Lorem adipisicing esse aliquip ad excepteur.",
+        "translation": "Ut minim fugiat reprehenderit Lorem sunt ipsum anim tempor excepteur commodo laboris eiusmod. Elit occaecat excepteur enim Lorem exercitation voluptate laborum velit occaecat laborum qui Lorem nulla exercitation. Mollit magna officia do qui nostrud reprehenderit mollit quis dolore sit commodo anim nulla.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "elit",
+        "comment": "Eiusmod nostrud aute magna cillum velit proident ex cupidatat veniam. Nostrud magna tempor ut Lorem. Consectetur aliqua sunt ullamco irure reprehenderit eiusmod pariatur.",
+        "translation": "Dolore dolore velit Lorem dolore aute. Lorem enim nisi consectetur eiusmod ullamco. Irure ipsum occaecat proident occaecat eiusmod duis in sunt minim mollit eu.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "cillum",
+        "comment": "Ut aliqua ea proident officia dolore anim velit esse aliquip sint duis culpa enim proident. Minim enim Lorem ullamco reprehenderit ipsum duis dolor ex. Occaecat aliquip id dolor ea.",
+        "translation": "Incididunt laborum incididunt est nostrud sint sit in adipisicing aliquip voluptate deserunt exercitation Lorem pariatur. Tempor ex in nulla aliquip sint nostrud commodo dolor. Anim nostrud sunt magna non minim occaecat labore sint officia elit exercitation amet.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "nulla",
+        "comment": "Voluptate ea occaecat laboris quis ut veniam dolor non sint pariatur quis officia sint. Lorem velit mollit non dolor ea reprehenderit duis incididunt labore cupidatat laboris ullamco. Aute enim amet incididunt aliquip amet tempor ea consectetur elit aute.",
+        "translation": "Cupidatat nisi non anim incididunt irure nisi ea eiusmod deserunt dolor cillum. Consectetur id dolor nostrud excepteur velit pariatur adipisicing ea officia ea id ex nisi nostrud. Lorem aliqua in dolor incididunt et sunt laboris esse.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "Lorem",
+        "comment": "Incididunt aute sit dolor nostrud nisi magna dolor ipsum officia mollit et exercitation sit. Eu ad pariatur velit proident fugiat non cupidatat minim pariatur consectetur duis. Deserunt id tempor ipsum ipsum esse cupidatat.",
+        "translation": "Consectetur commodo laborum nisi minim magna in voluptate ea excepteur. Irure eu nisi proident proident labore ullamco consequat ullamco in ullamco duis Lorem adipisicing. Incididunt deserunt nisi non enim sunt dolor non eu amet incididunt irure.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "duis",
+        "comment": "Enim anim ut velit amet non proident. Nostrud eiusmod consequat labore reprehenderit mollit labore ea. Ex et esse adipisicing dolor.",
+        "translation": "Sunt ipsum nulla aliquip qui mollit ut amet ex dolor fugiat ut deserunt. Pariatur ut aute anim consectetur. Culpa proident elit ipsum non.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "nostrud",
+        "comment": "Ut sint eiusmod exercitation laborum nisi cillum exercitation aliqua dolore ex mollit. Incididunt incididunt esse est proident quis esse non aliqua aliquip non quis incididunt consequat. Veniam et fugiat id id id ullamco velit minim.",
+        "translation": "In ad esse veniam labore velit occaecat dolor dolore ex do do commodo irure. Sunt sint enim eu incididunt mollit esse. Nisi incididunt do sunt pariatur quis consequat nulla quis sit ea consectetur.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "eiusmod",
+        "comment": "Et commodo elit nisi qui est nostrud et eiusmod laboris sint sunt cupidatat. Amet laboris fugiat aute irure laboris sint sunt ut eiusmod aliqua velit Lorem. Officia id incididunt dolor laborum dolor do voluptate minim eu duis dolor dolor.",
+        "translation": "Irure veniam officia ea voluptate. Nostrud veniam in ipsum in labore laboris irure deserunt laboris ullamco est. Duis ea eu proident cillum veniam anim pariatur dolore elit esse consectetur adipisicing ut voluptate.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "reprehenderit",
+        "comment": "Anim commodo deserunt nostrud tempor officia veniam voluptate ea. Reprehenderit sunt cupidatat est magna sint dolor cupidatat. Lorem exercitation duis non quis ea reprehenderit aute qui laborum nulla.",
+        "translation": "Quis cillum in deserunt ipsum. Commodo sunt veniam ullamco culpa nisi consectetur qui laborum mollit et. Labore ullamco quis exercitation exercitation consequat cupidatat officia do laborum adipisicing ex.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "ipsum",
+        "comment": "Amet adipisicing sit eiusmod amet. Aliqua sunt irure nisi consectetur ipsum mollit enim dolor velit pariatur. Reprehenderit nulla irure labore laboris ad ad sint nulla.",
+        "translation": "Nostrud irure elit est non aliqua eu adipisicing cupidatat irure elit enim incididunt amet occaecat. Mollit reprehenderit incididunt pariatur nisi reprehenderit cillum nisi. Laborum sint excepteur sit consectetur nisi aliquip occaecat nostrud sit adipisicing in elit dolor.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "veniam",
+        "comment": "Magna enim labore aute magna. Sint aliqua laborum adipisicing irure dolor et fugiat esse do ipsum. Culpa ex non mollit magna minim nulla veniam magna ipsum sint culpa.",
+        "translation": "Elit duis consequat veniam reprehenderit aliqua nostrud est ipsum adipisicing mollit. Consequat minim in commodo occaecat. Adipisicing deserunt cupidatat fugiat exercitation.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "ea",
+        "comment": "Anim nulla laborum aliqua ea minim ut fugiat veniam pariatur minim. Commodo anim exercitation velit cillum incididunt ad minim culpa consectetur. Lorem quis eiusmod dolor exercitation ipsum.",
+        "translation": "Ex irure eiusmod reprehenderit labore elit aliquip. Commodo eu officia qui reprehenderit. Veniam eiusmod aliquip ipsum eu elit sit voluptate ex sit proident.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "voluptate",
+        "comment": "Consectetur consequat occaecat in do laborum esse. Laboris ea fugiat veniam amet sit enim. Enim et nostrud labore eiusmod occaecat ut labore quis ullamco qui non ad.",
+        "translation": "Ea reprehenderit cillum officia eiusmod ut quis labore. Commodo et esse ad elit culpa amet irure id. Cupidatat reprehenderit anim tempor aute id.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "elit",
+        "comment": "Non elit consequat dolore elit pariatur enim exercitation sint voluptate est exercitation ad. Esse exercitation Lorem culpa ex mollit dolor. Cillum pariatur voluptate adipisicing adipisicing amet nulla fugiat esse consequat veniam anim veniam.",
+        "translation": "Occaecat minim anim duis incididunt. Tempor reprehenderit et consectetur ex nulla pariatur voluptate eu eu. Ipsum anim dolore reprehenderit cupidatat exercitation amet deserunt consequat aliquip.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "reprehenderit",
+        "comment": "Ex voluptate ad consectetur tempor exercitation deserunt. Laboris nulla quis consequat dolore ea do nisi mollit aute cupidatat. Laboris pariatur ex eu ad officia irure ut cupidatat occaecat.",
+        "translation": "Aliquip dolore esse quis anim ad commodo. Magna tempor esse do adipisicing nisi est exercitation est est. Eu ad nulla eu et elit Lorem laborum qui ad quis laborum non incididunt.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "officia",
+        "comment": "Ex sunt proident irure consectetur sint est sint officia laborum. Lorem laborum aute aliquip sunt ipsum enim adipisicing id eiusmod cillum. Laborum proident fugiat cupidatat eu nulla ad ea consectetur id.",
+        "translation": "Esse cillum et proident quis aute quis reprehenderit. Qui cillum reprehenderit aliquip occaecat veniam. In labore non Lorem minim adipisicing proident anim occaecat ea occaecat.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "dolore",
+        "comment": "Mollit non consequat dolor ullamco. Voluptate est labore ullamco occaecat voluptate ea quis nostrud non. Nisi occaecat reprehenderit aute esse anim ex velit exercitation id ex sit labore.",
+        "translation": "Officia Lorem dolore dolore anim id enim laboris dolor esse quis. Commodo ex velit aliqua aute ad. Duis minim incididunt in dolor ea anim sunt ex eiusmod laboris.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "non",
+        "comment": "Dolor et irure amet tempor in magna qui fugiat. Consectetur mollit quis nulla eiusmod exercitation incididunt esse reprehenderit eiusmod amet. Qui mollit et quis id irure reprehenderit cillum anim nostrud labore.",
+        "translation": "Ut in ullamco elit dolor laborum occaecat anim et fugiat. Amet nostrud exercitation pariatur elit aute ut ex. Aliqua fugiat aliqua minim pariatur laborum officia ex magna dolore do.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "dolore",
+        "comment": "Aute laboris id do eu eiusmod tempor in. Lorem ipsum commodo pariatur ad. Magna adipisicing amet duis commodo sunt magna fugiat quis proident qui.",
+        "translation": "Labore aute laboris sit magna occaecat consequat sunt. Ea culpa ex laboris cillum Lorem duis officia. Eu non culpa aliquip irure voluptate est duis Lorem aliquip.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "ea",
+        "comment": "Labore incididunt et aliquip duis mollit veniam sunt commodo quis anim ullamco. Laboris veniam in ut et laborum consectetur anim irure mollit nostrud. In occaecat id id voluptate ut reprehenderit non Lorem reprehenderit proident eiusmod commodo sunt aute.",
+        "translation": "Tempor velit ullamco est commodo Lorem culpa et veniam elit consectetur commodo in. Commodo cupidatat eiusmod irure adipisicing dolor. Incididunt occaecat ad labore deserunt ullamco eu aute.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "laborum",
+        "comment": "Occaecat duis nostrud cillum anim ipsum deserunt labore. Elit aliquip Lorem eu cupidatat non ipsum. Proident reprehenderit do adipisicing culpa tempor enim.",
+        "translation": "Qui id dolor non ullamco velit ea amet sunt eu non fugiat. Do do sit ullamco consectetur pariatur adipisicing aliqua veniam non fugiat velit. Mollit mollit consequat veniam exercitation nulla aliqua sit ipsum proident.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "est",
+        "comment": "Deserunt est dolor excepteur cupidatat pariatur excepteur sunt. Quis anim consectetur cillum veniam velit reprehenderit velit sit consequat non. Aliquip ullamco nulla anim culpa est irure sint ea duis exercitation.",
+        "translation": "Culpa proident exercitation est veniam officia do laboris minim voluptate veniam eu. Velit commodo irure veniam amet consectetur veniam adipisicing. Reprehenderit fugiat sit labore voluptate cillum.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "do",
+        "comment": "Enim amet non reprehenderit incididunt eu eu. In elit Lorem aliqua consequat irure deserunt. Velit enim elit ex irure culpa adipisicing pariatur nulla.",
+        "translation": "Sunt non enim eiusmod laboris. Dolor ullamco consectetur velit excepteur laborum veniam et in sint consequat enim dolor aute voluptate. Quis deserunt excepteur occaecat quis consectetur velit Lorem ad.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "fugiat",
+        "comment": "Deserunt elit sint ea tempor in voluptate aliqua est. Id velit proident commodo excepteur ullamco reprehenderit. Pariatur tempor non exercitation aute nisi cillum laboris mollit id quis tempor in fugiat.",
+        "translation": "Duis aliqua elit fugiat Lorem commodo duis. Ipsum laboris nulla magna sit. Cillum laborum deserunt dolore officia consequat Lorem ut nulla eu.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "dolore",
+        "comment": "Incididunt non et qui sint exercitation ex. Irure laborum sit amet deserunt laborum dolor do culpa. Minim in ipsum Lorem consequat non aute Lorem est anim occaecat laboris.",
+        "translation": "Culpa aliqua velit commodo ad fugiat enim culpa proident occaecat aute sit qui consectetur nulla. Ex Lorem et esse labore officia ipsum veniam proident ex commodo ullamco nulla. Id veniam voluptate eu velit nisi enim culpa voluptate culpa adipisicing labore.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "quis",
+        "comment": "Ipsum culpa aliquip non adipisicing consectetur mollit reprehenderit. Ex adipisicing cupidatat reprehenderit quis. Laborum Lorem reprehenderit do Lorem.",
+        "translation": "Ex fugiat ex aliqua duis amet dolore ipsum consectetur in sunt. Excepteur fugiat cillum esse cillum culpa consequat anim laboris veniam voluptate tempor. Fugiat anim magna ut nisi ipsum quis.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "aute",
+        "comment": "Eiusmod fugiat ipsum tempor reprehenderit ea ipsum duis labore. Dolore fugiat consequat nisi cillum dolor fugiat labore. Incididunt nulla occaecat proident reprehenderit ad excepteur esse fugiat pariatur proident velit.",
+        "translation": "Anim aliqua sit voluptate aliquip qui tempor. Eiusmod consequat do reprehenderit commodo velit ad occaecat qui labore consequat cupidatat minim. Do esse ea pariatur consectetur amet ullamco laboris ut ad ea.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "nulla",
+        "comment": "Duis labore veniam aliqua aute in nulla irure Lorem. Culpa magna adipisicing commodo enim non. Minim deserunt fugiat amet sint aute sit incididunt ex.",
+        "translation": "Dolore aliqua et labore eu minim aute ea adipisicing veniam. Officia amet ea nisi laboris deserunt esse occaecat laboris voluptate nostrud nostrud mollit. Consectetur esse ut sint est dolore sint consectetur incididunt sunt.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "sint",
+        "comment": "Id elit consectetur eiusmod Lorem quis cillum cupidatat adipisicing magna magna occaecat ut. Pariatur ea in sunt anim laboris. Amet est dolor amet occaecat veniam.",
+        "translation": "Nostrud laborum sint tempor mollit irure enim dolor incididunt non deserunt elit id cupidatat officia. Labore sunt dolore nisi aliqua ad amet consequat est. Officia ut occaecat eiusmod id nisi pariatur ipsum occaecat.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "ex",
+        "comment": "Occaecat dolor dolor sint dolore nulla nisi voluptate ex culpa id ea. Nisi cillum Lorem minim sit officia dolor. Fugiat et laborum laborum qui.",
+        "translation": "Est et irure anim tempor amet laborum commodo laborum non officia fugiat est ea consequat. Ea exercitation sint ullamco non laborum. Eiusmod consectetur pariatur aliquip fugiat enim commodo.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "fugiat",
+        "comment": "Laboris voluptate duis deserunt mollit. Exercitation dolor laboris dolor voluptate tempor pariatur cupidatat exercitation nostrud ipsum labore quis velit labore. Labore occaecat cillum esse veniam enim tempor quis enim.",
+        "translation": "Laborum tempor consectetur id duis labore laborum laborum laboris exercitation aute laborum. Nostrud veniam labore aliqua ullamco sint aliqua. Commodo laborum veniam culpa velit.",
+        "missing": false,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "occaecat",
+        "comment": "Officia magna nulla adipisicing deserunt pariatur nostrud reprehenderit culpa. Amet aliquip ex anim pariatur non est do exercitation esse. Commodo commodo deserunt ex commodo proident.",
+        "translation": "Qui fugiat non ut enim eu reprehenderit irure laborum aliquip laborum. Do reprehenderit veniam veniam velit. Nulla cillum qui et mollit culpa adipisicing commodo nisi nostrud reprehenderit ex.",
+        "missing": false,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "minim",
+        "comment": "Ullamco mollit excepteur irure et mollit aliquip voluptate labore aliqua. Consequat dolore commodo sunt non. Magna dolor elit aliquip pariatur veniam eiusmod enim duis fugiat excepteur minim commodo.",
+        "translation": "Cupidatat ut commodo reprehenderit Lorem aliquip voluptate ea nisi fugiat ex non quis ullamco aliquip. Et aliqua labore occaecat quis duis nisi dolore adipisicing minim amet quis. Quis voluptate ullamco laboris labore laborum consequat cupidatat occaecat.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "elit",
+        "comment": "Officia Lorem duis laborum nostrud sunt magna irure ea magna. Minim id proident officia ipsum anim veniam dolore occaecat. Nulla exercitation Lorem nostrud tempor qui aliqua commodo.",
+        "translation": "Minim labore veniam duis amet laborum adipisicing. Laborum cillum est commodo laborum. Aliqua est voluptate consequat nisi nostrud ad nostrud voluptate voluptate irure duis.",
+        "missing": true,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "excepteur",
+        "comment": "Elit eu eiusmod minim ullamco anim anim eu qui ullamco ea est voluptate. Ea nisi minim occaecat proident veniam. Minim elit labore laborum proident fugiat commodo ipsum anim dolore.",
+        "translation": "Nulla qui est deserunt aute ex veniam duis minim consectetur. Adipisicing ea voluptate mollit deserunt magna labore dolore voluptate. Sunt in nulla Lorem est elit ad ut culpa.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "ex",
+        "comment": "Tempor cillum ea dolor deserunt voluptate. Excepteur amet laborum labore excepteur non voluptate. Nostrud excepteur voluptate magna elit reprehenderit magna cillum.",
+        "translation": "Non ad adipisicing eu cupidatat culpa cillum ex irure qui nulla nulla anim dolore consectetur. Aute nostrud ut anim quis sint Lorem velit enim amet exercitation fugiat deserunt. Ad occaecat aliqua elit ut tempor aliqua laboris laborum sunt tempor.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "amet",
+        "comment": "Commodo aute adipisicing officia ea id amet. Eu id consequat ullamco mollit ipsum quis amet reprehenderit reprehenderit. Enim excepteur aute quis enim do est officia consectetur.",
+        "translation": "Non ad occaecat enim esse aute Lorem dolor non ex aliquip occaecat aliquip elit consequat. Id dolor ex cillum nostrud quis velit aliquip excepteur nisi minim nulla sunt adipisicing consequat. Ad do eu magna ut cillum consequat nostrud nulla exercitation enim.",
+        "missing": false,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "mollit",
+        "comment": "Irure minim occaecat sint ex dolore ipsum ut culpa tempor voluptate. Occaecat minim occaecat laborum elit labore non. Elit eiusmod ut eu dolor excepteur elit non exercitation dolor reprehenderit adipisicing consequat.",
+        "translation": "Ea ex commodo magna voluptate ex commodo non cillum labore. Qui cupidatat ut sit consequat deserunt quis magna nulla reprehenderit id nulla esse elit labore. Ipsum occaecat irure laboris ut commodo veniam fugiat consequat aute.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "occaecat",
+        "comment": "Id ex in enim in amet velit ipsum consectetur aute ea. Cillum dolor minim sit eiusmod laboris dolor exercitation officia do sunt minim voluptate aliqua. Sunt fugiat amet ad non minim eiusmod aliquip aute aute non pariatur.",
+        "translation": "Et anim eiusmod ad excepteur dolore dolore aute pariatur. Ullamco mollit sit aute sunt exercitation duis commodo ipsum consectetur magna nulla exercitation voluptate culpa. Non sit Lorem amet ipsum amet sunt voluptate nulla anim duis nisi ex aliqua.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "esse",
+        "comment": "Consequat eu veniam sit Lorem velit adipisicing. Ut dolor in pariatur irure sit aliquip cillum ut magna laborum cillum ad fugiat. Elit minim irure eiusmod eu nisi Lorem nostrud elit in qui.",
+        "translation": "Mollit quis labore irure laborum esse. Do id veniam sunt dolore voluptate sunt ad incididunt veniam do amet elit. Consectetur non enim velit sint mollit elit id proident tempor non ullamco ut nulla.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "excepteur",
+        "comment": "In eu ea eiusmod nostrud in laboris esse ad elit do. Nulla fugiat consequat exercitation nisi. Anim commodo magna et nostrud labore eu.",
+        "translation": "Qui aute reprehenderit dolor ea nisi in commodo nulla nulla ad sint est. Adipisicing eiusmod sit sit Lorem irure fugiat ullamco dolore anim fugiat incididunt amet ut esse. Mollit officia veniam id aute.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "aute",
+        "comment": "Consequat aliquip culpa esse ut. Eiusmod duis pariatur tempor voluptate magna ut mollit velit anim. Exercitation quis dolore duis magna esse eiusmod est enim cupidatat est.",
+        "translation": "Aliquip incididunt sunt veniam est amet excepteur. Qui reprehenderit id quis quis exercitation. Ullamco mollit ad est quis exercitation.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "nostrud",
+        "comment": "Quis elit nulla enim nisi. Id et est anim aliquip nulla dolor eu non Lorem. In commodo quis in amet laborum cillum aliquip proident reprehenderit.",
+        "translation": "Incididunt aliqua in voluptate cupidatat pariatur occaecat nulla. Irure deserunt ullamco id eu qui anim incididunt mollit adipisicing aute enim. Ex proident eiusmod reprehenderit est exercitation Lorem.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "incididunt",
+        "comment": "Id occaecat deserunt ipsum minim laborum. Sunt duis nisi anim commodo non quis excepteur incididunt sit consequat veniam anim exercitation do. Et laboris nisi deserunt sit ullamco veniam ullamco et labore cillum.",
+        "translation": "Nisi proident fugiat proident commodo dolor officia Lorem. Voluptate anim enim ullamco veniam aute reprehenderit ipsum labore incididunt laborum enim ea duis magna. Qui irure sint amet qui cupidatat sint mollit proident Lorem nulla nostrud aute occaecat irure.",
+        "missing": true,
+        "approx": false,
+        "outdated": false
+    },
+    {
+        "name": "deserunt",
+        "comment": "Ea consequat irure dolor cupidatat amet nostrud quis nulla sint officia cillum labore proident. Veniam fugiat deserunt irure pariatur sint magna officia eu amet sit excepteur esse. Dolor id proident sint ullamco veniam elit esse qui irure fugiat est.",
+        "translation": "Ad fugiat veniam elit sit. Ut tempor elit cupidatat fugiat sint. Est exercitation deserunt irure sunt exercitation elit voluptate reprehenderit quis commodo mollit ad ad veniam.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "qui",
+        "comment": "Commodo amet Lorem veniam et elit fugiat ex exercitation eiusmod ipsum officia tempor amet. Voluptate nulla nulla ut ex est. Reprehenderit velit pariatur est dolor velit incididunt commodo nisi reprehenderit commodo et eu irure.",
+        "translation": "Esse sint incididunt consectetur consequat qui incididunt. Id velit pariatur labore fugiat mollit et non ea et pariatur do consequat consectetur culpa. Cillum veniam elit sint in cillum consectetur amet est culpa in aliquip.",
+        "missing": false,
+        "approx": false,
+        "outdated": true
+    },
+    {
+        "name": "Lorem",
+        "comment": "Ipsum proident do incididunt quis irure. Eu proident culpa ullamco enim tempor consectetur proident. Sit laboris sit aute voluptate ipsum sit aliqua eu laborum consectetur.",
+        "translation": "Cupidatat nulla ut excepteur deserunt irure anim dolor eu exercitation incididunt ad sit qui eiusmod. Magna tempor ipsum anim aliquip ut. Ad exercitation deserunt eu pariatur deserunt adipisicing ullamco officia ea sit voluptate ex et ipsum.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    },
+    {
+        "name": "cupidatat",
+        "comment": "Officia voluptate dolor anim anim ut excepteur duis nisi magna nostrud ut. Est deserunt anim reprehenderit mollit do nulla. Minim amet do nisi nostrud occaecat minim duis.",
+        "translation": "Irure qui aliquip ex ad commodo commodo. Ullamco proident dolor deserunt laborum aute sit id ullamco consectetur sit adipisicing labore eiusmod occaecat. Consectetur laboris voluptate ullamco pariatur elit.",
+        "missing": true,
+        "approx": true,
+        "outdated": true
+    },
+    {
+        "name": "sit",
+        "comment": "Mollit non ullamco aute cillum dolor mollit labore in. Magna nostrud proident sint amet veniam cillum velit. Esse in mollit consequat ex magna velit veniam sint Lorem officia cupidatat deserunt.",
+        "translation": "Ea non ad aliqua adipisicing officia commodo proident consectetur qui occaecat irure non deserunt. Incididunt consequat id labore magna nostrud sit irure exercitation Lorem aliquip mollit. Et irure ipsum culpa veniam mollit consectetur minim.",
+        "missing": true,
+        "approx": true,
+        "outdated": false
+    }
+]

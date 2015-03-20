@@ -1,0 +1,18 @@
+{
+    "key1": {
+        "empty": true,
+        "outdated": false
+    },
+    "key2": {
+        "empty": true,
+        "outdated": false
+    },
+    "key3": {
+        "empty": true,
+        "outdated": false
+    },
+    "key4": {
+        "empty": true,
+        "outdated": false
+    }
+}

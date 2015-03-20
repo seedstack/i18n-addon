@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+
+    This file is part of SeedStack, An enterprise-oriented full development stack.
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.seedstack.functions.i18n</groupId>
+        <artifactId>i18n-function</artifactId>
+        <version>2.0.0-M1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>i18n-function-web</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seedstack.functions.i18n</groupId>
+            <artifactId>i18n-function-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pl.allegro</groupId>
+                <artifactId>grunt-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/js</sourceDirectory>
+                    <jsSourceDirectory>.</jsSourceDirectory>
+                    <gruntBuildDirectory>${project.build.directory}/grunt</gruntBuildDirectory>
+                    <ignoreTasksErrors>false</ignoreTasksErrors>
+                    <ignoreAllErrors>false</ignoreAllErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>grunt-default-task</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>create-resources</goal>
+                            <goal>bower</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-w20</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/seedstack-i18n">
+                                    <fileset dir="${project.build.directory}/grunt/bower_components/seedstack-i18n"/>
+                                </copy>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/dropzone">
+                                    <fileset dir="${project.build.directory}/grunt/bower_components/dropzone"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
