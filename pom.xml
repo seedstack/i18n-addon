@@ -14,8 +14,8 @@
 
     <parent>
         <groupId>org.seedstack</groupId>
-        <artifactId>java-parent</artifactId>
-        <version>2.0.0-M1-SNAPSHOT</version>
+        <artifactId>parent</artifactId>
+        <version>2.0.0-M1</version>
     </parent>
 
     <groupId>org.seedstack.functions.i18n</groupId>
@@ -72,28 +72,28 @@
             <dependency>
                 <groupId>org.seedstack</groupId>
                 <artifactId>java-bom</artifactId>
-                <version>${seedstack-poms.version}</version>
+                <version>${seedstack.poms.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.seedstack</groupId>
                 <artifactId>logging-bom</artifactId>
-                <version>${seedstack-poms.version}</version>
+                <version>${seedstack.poms.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.seedstack</groupId>
                 <artifactId>hibernate-bom</artifactId>
-                <version>${seedstack-poms.version}</version>
+                <version>${seedstack.poms.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.seedstack</groupId>
                 <artifactId>jersey-bom</artifactId>
-                <version>${seedstack-poms.version}</version>
+                <version>${seedstack.poms.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -108,4 +108,18 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus Staging</name>
+            <url>https://oss.sonatype.org/content/groups/staging</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus Staging</name>
+            <url>https://oss.sonatype.org/content/groups/staging</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
