@@ -15,7 +15,6 @@
 	version="2.0">
 
 	<persistence-unit name="seed-i18n-domain" transaction-type="RESOURCE_LOCAL">
-        <!--<non-jta-data-source>java:comp/env/jdbc/seed-i18n-domain-ds</non-jta-data-source>-->
         <class>org.seedstack.i18n.internal.domain.model.key.Key</class>
         <class>org.seedstack.i18n.internal.domain.model.key.Translation</class>
         <class>org.seedstack.i18n.internal.domain.model.locale.Locale</class>
