@@ -1,7 +1,6 @@
 {
   "name": "seedstack-i18n-function-web",
-  "version": "2.0.0-M1",
-  "dependencies": {
+  "devDependencies": {
     "seedstack-i18n": "../../.."
   },
   "resolutions": {

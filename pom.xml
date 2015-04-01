@@ -25,9 +25,9 @@
 
     <properties>
         <seed.version>2.0.0-M1</seed.version>
-        <business.version>2.0.0-M1-SNAPSHOT</business.version>
-        <io-function.version>2.0.0-M1-SNAPSHOT</io-function.version>
-        <w20-function.version>2.0.0-M1-SNAPSHOT</w20-function.version>
+        <business.version>2.0.0-M1</business.version>
+        <io-function.version>2.0.0-M1</io-function.version>
+        <w20-function.version>2.0.0-M1</w20-function.version>
     </properties>
 
     <modules>
@@ -107,6 +107,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <scm>
+        <url>https://github.com/seedstack/i18n-function</url>
+        <connection>scm:git:git://github.com/seedstack/i18n-function.git</connection>
+        <developerConnection>scm:git:git@github.com:seedstack/i18n-function.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <repositories>
         <repository>

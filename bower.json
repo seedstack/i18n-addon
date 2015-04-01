@@ -1,6 +1,6 @@
 {
   "name": "seedstack-i18n",
-  "version": "2.0.0",
+  "version": "2.0.0-M1",
   "ignore": [
     ".*",
     "*.iml",
@@ -19,7 +19,7 @@
     "package.json"
   ],
   "dependencies": {
-    "w20": "seedstack/w20",
+    "w20": "2.0.0-M1",
     "dropzone": "4.0.1"
   },
   "resolutions": {
