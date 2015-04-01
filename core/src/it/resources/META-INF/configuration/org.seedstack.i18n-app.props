@@ -12,17 +12,11 @@
 core.data-initialization = none
 persistence.jpa.units = seed-i18n-domain
 
-transaction.manager = org.seedstack.seed.transaction.internal.LocalTransactionManager
-transaction.default-handler = org.seedstack.seed.persistence.jpa.internal.JpaTransactionHandler
-
 [org.seedstack.seed.persistence.jpa.unit.seed-i18n-domain.property]
-javax.persistence.jdbc.driver=org.hsqldb.jdbcDriver
-javax.persistence.jdbc.url=jdbc:hsqldb:mem:testdb
-javax.persistence.jdbc.user=sa
-javax.persistence.jdbc.password=
-hibernate.dialect=org.hibernate.dialect.HSQLDialect
-hibernate.hbm2ddl.auto=create
-sql.enforce_strict_size=true
-
-#clean props section
-[]
+javax.persistence.jdbc.driver = org.hsqldb.jdbcDriver
+javax.persistence.jdbc.url = jdbc:hsqldb:mem:testdb
+javax.persistence.jdbc.user = sa
+javax.persistence.jdbc.password =
+hibernate.dialect = org.hibernate.dialect.HSQLDialect
+hibernate.hbm2ddl.auto = create
+sql.enforce_strict_size = true
