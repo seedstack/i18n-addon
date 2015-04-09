@@ -34,6 +34,11 @@
             </dependency>
             <dependency>
                 <groupId>org.seedstack.functions.i18n</groupId>
+                <artifactId>i18n-function-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack.functions.i18n</groupId>
                 <artifactId>i18n-function-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
