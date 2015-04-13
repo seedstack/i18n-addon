@@ -10,12 +10,9 @@
 package org.seedstack.i18n.internal.domain.model.key;
 
 
-import org.seedstack.business.jpa.domain.embeddedid.EmbedJpaEntity;
+import org.seedstack.business.api.domain.base.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Translation entity of Key aggregate. This translation is associated to a key and a locale.
@@ -25,7 +22,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="SEED_I18N_TRANSLATION")
-public class Translation extends EmbedJpaEntity<TranslationId> {
+public class Translation extends BaseEntity<TranslationId> {
+    @EmbeddedId
+    private TranslationId entityId;
 
     @ManyToOne
     @MapsId("key")
@@ -46,6 +45,11 @@ public class Translation extends EmbedJpaEntity<TranslationId> {
         this.value = value;
         this.outdated = outdated;
         this.approximate = approximate;
+    }
+
+    @Override
+    public TranslationId getEntityId() {
+        return entityId;
     }
 
     /**

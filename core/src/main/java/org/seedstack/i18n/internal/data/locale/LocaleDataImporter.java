@@ -10,9 +10,9 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
+import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.business.api.interfaces.assembler.Assemblers;
 import org.seedstack.seed.core.spi.data.DataImporter;
 import org.seedstack.seed.core.spi.data.DataSet;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
@@ -41,7 +41,7 @@ public class LocaleDataImporter implements DataImporter<LocaleDTO> {
     private static final Logger LOGGER = LoggerFactory.getLogger(LocaleDataImporter.class);
 
     @Inject
-    private Assemblers assemblers;
+    private FluentAssembler fluentAssembler;
 
     @Override
     public boolean isInitialized() {
@@ -69,7 +69,7 @@ public class LocaleDataImporter implements DataImporter<LocaleDTO> {
             }
         }
         for (LocaleDTO localeDTO : staging) {
-            Locale locale = assemblers.createThenMergeAggregateWithDto(localeDTO, Locale.class);
+            Locale locale = fluentAssembler.assemble().dto(localeDTO).to(Locale.class).fromFactory();
             localeRepository.save(locale);
         }
         LOGGER.info("Import of i18n locale completed");

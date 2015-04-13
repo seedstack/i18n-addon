@@ -9,9 +9,9 @@
  */
 package org.seedstack.i18n.internal.data.key;
 
+import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.business.api.interfaces.assembler.Assemblers;
 import org.seedstack.seed.core.spi.data.DataImporter;
 import org.seedstack.seed.core.spi.data.DataSet;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
@@ -40,7 +40,7 @@ public class KeyDataImporter implements DataImporter<KeyDTO> {
     private static final Logger LOGGER = LoggerFactory.getLogger(KeyDataImporter.class);
 
     @Inject
-    private Assemblers assemblers;
+    private FluentAssembler fluentAssembler;
 
     @Override
     public boolean isInitialized() {
@@ -70,7 +70,7 @@ public class KeyDataImporter implements DataImporter<KeyDTO> {
         LOGGER.info("staging size: " + staging.size());
         for (KeyDTO keyDTO : staging) {
             try {
-                Key key = assemblers.createThenMergeAggregateWithDto(keyDTO, Key.class);
+                Key key = fluentAssembler.assemble().dto(keyDTO).to(Key.class).fromFactory();
                 keyRepository.persist(key);
             } catch (RuntimeException e) {
                 LOGGER.error(e.getMessage(), e);

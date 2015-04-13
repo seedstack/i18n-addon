@@ -11,7 +11,7 @@ package org.seedstack.i18n.internal.domain.model.key;
 
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.jpa.domain.id.SimpleJpaAggregateRoot;
+import org.seedstack.business.api.domain.base.BaseAggregateRoot;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,9 +25,13 @@ import java.util.Map;
  */
 @Entity
 @Table(name="SEED_I18N_KEY")
-public class Key extends SimpleJpaAggregateRoot<String> implements Serializable {
+public class Key extends BaseAggregateRoot<String> implements Serializable {
 
     private static final long serialVersionUID = -2498537747032788365L;
+
+    @Id
+    private String entityId;
+
     /**
      * Describes the key.
      */
@@ -58,6 +62,11 @@ public class Key extends SimpleJpaAggregateRoot<String> implements Serializable 
         this.description = comment;
         this.translations = translations;
         this.outdated = outdated;
+    }
+
+    @Override
+    public String getEntityId() {
+        return entityId;
     }
 
     /**

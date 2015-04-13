@@ -10,7 +10,7 @@
 package org.seedstack.i18n.internal.domain.model.locale;
 
 
-import org.seedstack.business.jpa.domain.BaseJpaAggregateRoot;
+import org.seedstack.business.api.domain.base.BaseAggregateRoot;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,7 +24,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="SEED_I18N_LOCALE")
-public class Locale extends BaseJpaAggregateRoot<String> implements Serializable {
+public class Locale extends BaseAggregateRoot<String> implements Serializable {
 
     private static final long serialVersionUID = 5353966062091859950L;
     /**

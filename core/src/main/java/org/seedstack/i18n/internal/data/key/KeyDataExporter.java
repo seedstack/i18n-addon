@@ -9,8 +9,8 @@
  */
 package org.seedstack.i18n.internal.data.key;
 
+import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.business.api.interfaces.assembler.Assemblers;
 import org.seedstack.seed.core.spi.data.DataExporter;
 import org.seedstack.seed.core.spi.data.DataSet;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
@@ -32,10 +32,10 @@ public class KeyDataExporter implements DataExporter<KeyDTO> {
     private KeyRepository keyRepository;
 
     @Inject
-    private Assemblers assemblers;
+    private FluentAssembler fluentAssembler;
 
     @Override
     public Iterator<KeyDTO> exportData() {
-        return assemblers.assembleDtoFromAggregate(KeyDTO.class, keyRepository.loadAll()).iterator();
+        return fluentAssembler.assemble().aggregates(keyRepository.loadAll()).to(KeyDTO.class).iterator();
     }
 }

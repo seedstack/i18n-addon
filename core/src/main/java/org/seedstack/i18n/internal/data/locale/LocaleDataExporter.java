@@ -10,8 +10,8 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
+import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.business.api.interfaces.assembler.Assemblers;
 import org.seedstack.seed.core.spi.data.DataExporter;
 import org.seedstack.seed.core.spi.data.DataSet;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
@@ -33,10 +33,10 @@ public class LocaleDataExporter implements DataExporter<LocaleDTO> {
     private LocaleRepository localeRepository;
 
     @Inject
-    private Assemblers assemblers;
+    private FluentAssembler fluentAssembler;
 
     @Override
     public Iterator<LocaleDTO> exportData() {
-        return assemblers.assembleDtoFromAggregate(LocaleDTO.class, localeRepository.loadAll()).iterator();
+        return fluentAssembler.assemble().aggregates(localeRepository.loadAll()).to(LocaleDTO.class).iterator();
     }
 }
