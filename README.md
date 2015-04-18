@@ -1,4 +1,4 @@
-# SeedStack i18n function [![Build status](https://travis-ci.org/seedstack/i18n-function.svg?branch=master)](https://travis-ci.org/seedstack/i18n-function) [![Stories in Ready](https://badge.waffle.io/seedstack/i18n-function.png?label=ready&title=Ready)](https://waffle.io/seedstack/i18n-function)
+# SeedStack i18n function [![Build status](https://travis-ci.org/seedstack/i18n-function.svg?branch=master)](https://travis-ci.org/seedstack/i18n-function) [![Coverage Status](https://coveralls.io/repos/seedstack/i18n-function/badge.svg?branch=master)](https://coveralls.io/r/seedstack/i18n-function?branch=master)
 
 Server-side internationalization providing a Java and REST API along with W20 i18n admin screens.  
 
