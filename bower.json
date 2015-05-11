@@ -19,7 +19,7 @@
     "package.json"
   ],
   "dependencies": {
-    "w20": "2.0.0-M1",
+    "w20": "^2.0.0",
     "dropzone": "4.0.1"
   },
   "resolutions": {
