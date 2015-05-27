@@ -70,7 +70,7 @@ public class KeyDataImporter implements DataImporter<KeyDTO> {
         LOGGER.info("staging size: " + staging.size());
         for (KeyDTO keyDTO : staging) {
             try {
-                Key key = fluentAssembler.assemble().dto(keyDTO).to(Key.class).fromFactory();
+                Key key = fluentAssembler.merge(keyDTO).into(Key.class).fromFactory();
                 keyRepository.persist(key);
             } catch (RuntimeException e) {
                 LOGGER.error(e.getMessage(), e);

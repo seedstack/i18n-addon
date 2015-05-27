@@ -36,6 +36,6 @@ public class KeyDataExporter implements DataExporter<KeyDTO> {
 
     @Override
     public Iterator<KeyDTO> exportData() {
-        return fluentAssembler.assemble().aggregates(keyRepository.loadAll()).to(KeyDTO.class).iterator();
+        return fluentAssembler.assemble(keyRepository.loadAll()).to(KeyDTO.class).iterator();
     }
 }

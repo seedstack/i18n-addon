@@ -37,6 +37,6 @@ public class LocaleDataExporter implements DataExporter<LocaleDTO> {
 
     @Override
     public Iterator<LocaleDTO> exportData() {
-        return fluentAssembler.assemble().aggregates(localeRepository.loadAll()).to(LocaleDTO.class).iterator();
+        return fluentAssembler.assemble(localeRepository.loadAll()).to(LocaleDTO.class).iterator();
     }
 }

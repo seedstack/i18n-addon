@@ -69,7 +69,7 @@ public class LocaleDataImporter implements DataImporter<LocaleDTO> {
             }
         }
         for (LocaleDTO localeDTO : staging) {
-            Locale locale = fluentAssembler.assemble().dto(localeDTO).to(Locale.class).fromFactory();
+            Locale locale = fluentAssembler.merge(localeDTO).into(Locale.class).fromFactory();
             localeRepository.save(locale);
         }
         LOGGER.info("Import of i18n locale completed");
