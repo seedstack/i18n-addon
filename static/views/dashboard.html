@@ -9,26 +9,17 @@
                     </div>
                     <button data-ng-click="goTo('seed-i18n/keys')"
                             class="btn btn-link menu-item"
-                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}"
-                            data-tooltip="{{ 'application.view.seed-i18n.minimumlocales' | localize }}"
-                            data-tooltip-trigger="mouseenter && {{ allowTranslate() }}"
-                            data-tooltip-placement="bottom">
+                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}">
                         {{ "application.view.seed-i18n.keys" | localize }}
                     </button>
                     <button data-ng-click="goTo('seed-i18n/translate')"
                             class="btn btn-link menu-item"
-                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}"
-                            data-tooltip="{{ 'application.view.seed-i18n.minimumlocales' | localize }}"
-                            data-tooltip-trigger="mouseenter && {{ allowTranslate() }}"
-                            data-tooltip-placement="bottom">
+                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}">
                         {{ "application.view.seed-i18n.translate" | localize }}
                     </button>
                     <button data-ng-click="goTo('seed-i18n/statistic')"
                             class="btn btn-link menu-item"
-                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}"
-                            data-tooltip="{{ 'application.view.seed-i18n.minimumlocales' | localize }}"
-                            data-tooltip-trigger="mouseenter && {{ allowTranslate() }}"
-                            data-tooltip-placement="bottom">
+                            data-ng-class="{'disabled-link': !allowTranslate(), 'enabled-link': allowTranslate()}">
                         {{ "application.view.seed-i18n.statistic" | localize }}
                     </button>
                 </div>
