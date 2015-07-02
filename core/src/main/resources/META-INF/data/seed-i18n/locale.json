@@ -5,17 +5,16 @@
         "items": [
             {
                 "code": "en",
-                "language": "english",
-                "englishLanguage": "english",
+                "language": "English",
+                "englishLanguage": "English",
                 "defaultLocale": true
             },
             {
                 "code": "fr",
-                "language": "français",
-                "englishLanguage": "french",
+                "language": "Français",
+                "englishLanguage": "French",
                 "defaultLocale": false
             }
-
         ]
     }
 ]

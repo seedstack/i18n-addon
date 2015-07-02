@@ -15,18 +15,19 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.locale.LocaleAssembler;
 import org.seedstack.i18n.rest.locale.LocaleFinder;
 import org.seedstack.i18n.rest.locale.LocaleRepresentation;
-import jodd.util.collection.SortedArrayList;
+import org.seedstack.seed.core.api.Configuration;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
 import org.seedstack.seed.transaction.api.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
-* @author pierre.thirouin@ext.mpsa.com
-* Date: 26/11/13
-*/
+ * @author pierre.thirouin@ext.mpsa.com
+ *         Date: 26/11/13
+ */
 @JpaUnit("seed-i18n-domain")
 @Transactional
 public class LocaleJpaFinder implements LocaleFinder {
@@ -36,6 +37,15 @@ public class LocaleJpaFinder implements LocaleFinder {
 
     @Inject
     private LocaleAssembler assembler;
+
+    @Configuration(value = "org.seedstack.i18n.additional-locales.codes", mandatory = false)
+    private String[] additionalLocaleCodes;
+
+    @Configuration(value = "org.seedstack.i18n.additional-locales.names", mandatory = false)
+    private String[] additionalLocaleNativeNames;
+
+    @Configuration(value = "org.seedstack.i18n.additional-locales.english-names", mandatory = false)
+    private String[] additionalLocaleEnglishNames;
 
     @Override
     public LocaleRepresentation findDefaultLocale() {
@@ -61,28 +71,40 @@ public class LocaleJpaFinder implements LocaleFinder {
     public LocaleRepresentation findAvailableLocale(String localeCode) {
         Locale locale = localeRepository.load(localeCode);
         if (locale != null) {
-			return assembler.assembleDtoFromAggregate(locale);
-		}
+            return assembler.assembleDtoFromAggregate(locale);
+        }
         return null;
     }
 
     @Override
     public List<LocaleRepresentation> findLocalesFullVersion() {
-        List<LocaleRepresentation> localeRepresentations = new SortedArrayList<LocaleRepresentation>();
+        List<LocaleRepresentation> localeRepresentations = new ArrayList<LocaleRepresentation>();
         ULocale[] locales = ULocale.getAvailableLocales();
+
         for (ULocale locale : locales) {
             localeRepresentations.add(assembleLocaleRepresentationFromLocale(locale));
         }
+
+        localeRepresentations.addAll(buildAdditionalLocaleRepresentations());
+
+        Collections.sort(localeRepresentations);
+
         return localeRepresentations;
     }
 
     @Override
     public List<LocaleRepresentation> findLocales() {
-        List<LocaleRepresentation> localeRepresentations = new SortedArrayList<LocaleRepresentation>();
+        List<LocaleRepresentation> localeRepresentations = new ArrayList<LocaleRepresentation>();
         java.util.Locale[] locales = java.util.Locale.getAvailableLocales();
+
         for (java.util.Locale locale : locales) {
             localeRepresentations.add(assembleLocaleRepresentationFromLocale(locale));
         }
+
+        localeRepresentations.addAll(buildAdditionalLocaleRepresentations());
+
+        Collections.sort(localeRepresentations);
+
         return localeRepresentations;
     }
 
@@ -123,5 +145,36 @@ public class LocaleJpaFinder implements LocaleFinder {
         representation.setLanguage(locale.getDisplayName(locale));
         representation.setEnglishLanguage(locale.getDisplayName(java.util.Locale.ENGLISH));
         return representation;
+    }
+
+    private List<LocaleRepresentation> buildAdditionalLocaleRepresentations() {
+        List<LocaleRepresentation> localeRepresentations = new ArrayList<LocaleRepresentation>();
+
+        if (additionalLocaleCodes != null) {
+            for (int i = 0; i < additionalLocaleCodes.length; i++) {
+                LocaleRepresentation additionalLocaleRepresentation = new LocaleRepresentation();
+                additionalLocaleRepresentation.setCode(additionalLocaleCodes[i]);
+
+                if (additionalLocaleEnglishNames != null) {
+                    if (i < additionalLocaleEnglishNames.length) {
+                        additionalLocaleRepresentation.setEnglishLanguage(additionalLocaleEnglishNames[i]);
+                    } else {
+                        additionalLocaleRepresentation.setEnglishLanguage(additionalLocaleCodes[i]);
+                    }
+                }
+
+                if (additionalLocaleNativeNames != null) {
+                    if (i < additionalLocaleNativeNames.length) {
+                        additionalLocaleRepresentation.setLanguage(additionalLocaleNativeNames[i]);
+                    } else {
+                        additionalLocaleRepresentation.setLanguage(additionalLocaleCodes[i]);
+                    }
+                }
+
+                localeRepresentations.add(additionalLocaleRepresentation);
+            }
+        }
+
+        return localeRepresentations;
     }
 }
