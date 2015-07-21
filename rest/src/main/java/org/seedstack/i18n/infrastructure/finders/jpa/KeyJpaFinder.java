@@ -17,9 +17,9 @@ import org.seedstack.i18n.rest.key.KeyAssembler;
 import org.seedstack.i18n.rest.key.KeyFinder;
 import org.seedstack.i18n.rest.key.KeyRepresentation;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.api.interfaces.query.range.Range;
-import org.seedstack.business.api.interfaces.query.result.Result;
-import org.seedstack.business.jpa.interfaces.query.finder.BaseSimpleJpaFinder;
+import org.seedstack.business.api.interfaces.finder.Range;
+import org.seedstack.business.api.interfaces.finder.Result;
+import org.seedstack.business.jpa.BaseJpaRangeFinder;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -34,7 +34,7 @@ import java.util.Map;
  * @author pierre.thirouin@ext.mpsa.com
  *         Date: 13/05/2014
  */
-public class KeyJpaFinder extends BaseSimpleJpaFinder<KeyRepresentation> implements KeyFinder {
+public class KeyJpaFinder extends BaseJpaRangeFinder<KeyRepresentation> implements KeyFinder {
 
     private static final String IS_APPROX = "isApprox";
     private static final String IS_MISSING = "isMissing";

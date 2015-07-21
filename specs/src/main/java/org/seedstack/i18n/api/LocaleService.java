@@ -10,7 +10,7 @@
 package org.seedstack.i18n.api;
 
 
-import org.seedstack.business.api.application.annotations.ApplicationService;
+import org.seedstack.business.api.application.ApplicationService;
 
 import java.util.Set;
 

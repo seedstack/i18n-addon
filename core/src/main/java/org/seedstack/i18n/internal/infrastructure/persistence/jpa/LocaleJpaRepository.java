@@ -14,7 +14,7 @@ import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.seedstack.business.jpa.infrastructure.repository.BaseJpaRepository;
+import org.seedstack.business.jpa.BaseJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

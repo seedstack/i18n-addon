@@ -10,7 +10,7 @@
 package org.seedstack.i18n.rest.locale;
 
 
-import org.seedstack.business.api.interfaces.query.finder.Finder;
+import org.seedstack.business.api.interfaces.finder.Finder;
 
 import java.util.List;
 

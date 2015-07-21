@@ -10,7 +10,7 @@
 package org.seedstack.i18n.api;
 
 
-import org.seedstack.business.api.interfaces.annotations.InterfacesService;
+import org.seedstack.business.api.interfaces.InterfacesService;
 
 import java.text.ParseException;
 import java.util.Date;

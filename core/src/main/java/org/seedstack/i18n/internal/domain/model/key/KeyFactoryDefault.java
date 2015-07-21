@@ -10,7 +10,7 @@
 package org.seedstack.i18n.internal.domain.model.key;
 
 import org.javatuples.Triplet;
-import org.seedstack.business.core.domain.base.BaseFactory;
+import org.seedstack.business.api.domain.BaseFactory;
 
 import java.util.Map;
 

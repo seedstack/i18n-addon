@@ -9,7 +9,7 @@
  */
 package org.seedstack.i18n.internal.application.service;
 
-import org.seedstack.business.api.interfaces.annotations.InterfacesService;
+import org.seedstack.business.api.interfaces.InterfacesService;
 
 import java.util.Map;
 

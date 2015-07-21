@@ -17,9 +17,9 @@ import org.seedstack.i18n.rest.translation.TranslationAssembler;
 import org.seedstack.i18n.rest.translation.TranslationFinder;
 import org.seedstack.i18n.rest.translation.TranslationRepresentation;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.api.interfaces.query.range.Range;
-import org.seedstack.business.api.interfaces.query.result.Result;
-import org.seedstack.business.jpa.interfaces.query.finder.BaseSimpleJpaFinder;
+import org.seedstack.business.api.interfaces.finder.Range;
+import org.seedstack.business.api.interfaces.finder.Result;
+import org.seedstack.business.jpa.BaseJpaRangeFinder;
 import org.seedstack.seed.core.utils.SeedCheckUtils;
 
 import javax.inject.Inject;
@@ -36,7 +36,7 @@ import java.util.Map;
  * @author pierre.thirouin@ext.mpsa.com
  *         Date: 15/05/2014
  */
-public class TranslationJpaFinder extends BaseSimpleJpaFinder<TranslationRepresentation> implements TranslationFinder {
+public class TranslationJpaFinder extends BaseJpaRangeFinder<TranslationRepresentation> implements TranslationFinder {
 
     private static final String IS_APPROX = "isApprox";
     private static final String IS_MISSING = "isMissing";
