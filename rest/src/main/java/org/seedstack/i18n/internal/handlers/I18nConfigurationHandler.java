@@ -9,6 +9,7 @@
  */
 package org.seedstack.i18n.internal.handlers;
 
+import com.google.common.base.Joiner;
 import com.ibm.icu.util.LocaleMatcher;
 import com.ibm.icu.util.LocalePriorityList;
 import com.ibm.icu.util.ULocale;
@@ -21,7 +22,11 @@ import org.seedstack.seed.transaction.api.Transactional;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,7 +42,7 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
             "az_Cyrl_AZ", "az_Latn", "az_Latn_AZ", "ba", "ba_RU", "be", "be_BY", "bg", "bg_BG", "bn", "bn_BD", "bn_IN",
             "bo", "bo_CN", "br", "br_FR", "bs", "bs_Cyrl", "bs_Cyrl_BA", "bs_Latn", "bs_Latn_BA", "ca", "ca_ES", "co",
             "co_FR", "cs", "cs_CZ", "cy", "cy_GB", "da", "da_DK", "de", "de_AT", "de_CH", "de_DE", "de_LI", "de_LU", "dsb",
-            "dsb_DE", "dv", "dv_MV", "el", "el_GR", "en_029", "en_AU", "en_BZ", "en_CA", "en_GB", "en_IE", "en_IN", "en_JM",
+            "dsb_DE", "dv", "dv_MV", "el", "el_GR", "en", "en_029", "en_AU", "en_BZ", "en_CA", "en_GB", "en_IE", "en_IN", "en_JM",
             "en_MY", "en_NZ", "en_PH", "en_SG", "en_TT", "en_US", "en_ZA", "en_ZW", "es", "es_AR", "es_BO", "es_CL", "es_CO",
             "es_CR", "es_DO", "es_EC", "es_ES", "es_GT", "es_HN", "es_MX", "es_NI", "es_PA", "es_PE", "es_PR", "es_PY", "es_SV",
             "es_US", "es_UY", "es_VE", "et", "et_EE", "eu", "eu_ES", "fa", "fa_IR", "fi", "fi_FI", "fil", "fil_PH", "fo",
@@ -68,6 +73,7 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
     private static final String EN = "en";
 
     private static volatile LocaleMatcher localeMatcher;
+    private static Set<String> supportedLocales;
 
     @Inject
     private LocaleService localeService;
@@ -81,20 +87,12 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
         if (localeMatcher == null) {
             synchronized (this) {
                 if (localeMatcher == null) {
-                    LocalePriorityList.Builder builder = LocalePriorityList.add(EN);
+                    supportedLocales = sortLanguages(
+                            W20_BUILTIN_LOCALES,
+                            application.getConfiguration().getStringArray("org.seedstack.i18n.additional-locales.codes")
+                    );
 
-                    for (String w20AvailableLocale : W20_BUILTIN_LOCALES) {
-                        builder.add(w20AvailableLocale);
-                    }
-
-                    String[] additionalLocaleCodes = application.getConfiguration().getStringArray("org.seedstack.i18n.additional-locales.codes");
-                    if (additionalLocaleCodes != null) {
-                        for (String additionalLocaleCode : additionalLocaleCodes) {
-                            builder.add(additionalLocaleCode);
-                        }
-                    }
-
-                    localeMatcher = new LocaleMatcher(builder.build());
+                    localeMatcher = new LocaleMatcher(LocalePriorityList.add(Joiner.on(',').join(supportedLocales)).build());
                 }
             }
         }
@@ -149,7 +147,27 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
     }
 
     private String getClosestW20Locale(String locale) {
-        ULocale bestMatch = localeMatcher.getBestMatch(locale);
-        return bestMatch.toLanguageTag();
+        if (supportedLocales.contains(locale)) {
+            return new ULocale(locale).toLanguageTag();
+        } else {
+            ULocale bestMatch = localeMatcher.getBestMatch(locale);
+            return bestMatch.toLanguageTag();
+        }
+    }
+
+    private Set<String> sortLanguages(String[]... arrays) {
+        List<String> result = new ArrayList<String>();
+
+        for (String[] array : arrays) {
+            if (array != null) {
+                result.addAll(Arrays.asList(array));
+            }
+        }
+
+        // Allows to define more generic locales (like 'en' or 'fr') with less priority than more specific ones (like 'en-US' or 'fr-FR')
+        Collections.sort(result);
+        Collections.reverse(result);
+
+        return new HashSet<String>(result);
     }
 }
