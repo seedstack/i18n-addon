@@ -2,8 +2,5 @@
   "name": "seedstack-i18n-function-web",
   "devDependencies": {
     "seedstack-i18n": "../../.."
-  },
-  "resolutions": {
-    "angular": "1.3.6"
   }
 }

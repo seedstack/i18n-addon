@@ -9,7 +9,7 @@
  */
 package org.seedstack.i18n.internal.application.service;
 
-import org.seedstack.business.api.interfaces.InterfacesService;
+import org.seedstack.business.api.Service;
 
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author adrien.lauer@mpsa.com
  * @author pierre.thirouin@ext.mpsa.com
  */
-@InterfacesService
+@Service
 public interface TranslationService {
 
     /**

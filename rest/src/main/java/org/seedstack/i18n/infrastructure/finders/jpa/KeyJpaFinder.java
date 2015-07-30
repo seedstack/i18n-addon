@@ -72,7 +72,7 @@ public class KeyJpaFinder extends BaseJpaRangeFinder<KeyRepresentation> implemen
         List<Key> keys;
         // Get all the keys with their default translation
         if (range != null) {
-            keys = entityManager.createQuery(q).setFirstResult((int) range.getOffset()).setMaxResults(range.getSize()).getResultList();
+            keys = entityManager.createQuery(q).setFirstResult((int) range.getOffset()).setMaxResults((int)range.getSize()).getResultList();
         } else {
             keys = entityManager.createQuery(q).getResultList();
         }

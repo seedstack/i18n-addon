@@ -9,8 +9,7 @@
  */
 package org.seedstack.i18n.api;
 
-
-import org.seedstack.business.api.interfaces.InterfacesService;
+import org.seedstack.business.api.Service;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -22,7 +21,7 @@ import java.util.Date;
  * @author adrien.lauer@mpsa.com
  * @author yves.dautremay@mpsa.com
  */
-@InterfacesService
+@Service
 public interface LocalizationService {
     /**
      * Return a localized string based on the specified locale and key.

@@ -9,8 +9,7 @@
  */
 package org.seedstack.i18n.api;
 
-
-import org.seedstack.business.api.application.ApplicationService;
+import org.seedstack.business.api.Service;
 
 import java.util.Set;
 
@@ -20,7 +19,7 @@ import java.util.Set;
  * 
  * @author yves.dautremay@mpsa.com
  */
-@ApplicationService
+@Service
 public interface LocaleService {
 
 	/**

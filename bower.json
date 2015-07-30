@@ -20,10 +20,7 @@
     "package.json"
   ],
   "dependencies": {
-    "w20": "^2.0.0",
-    "dropzone": "4.0.1"
-  },
-  "resolutions": {
-    "angular": "1.3.6"
+    "w20": "~2.0.0",
+    "dropzone": "~4.0.1"
   }
 }
