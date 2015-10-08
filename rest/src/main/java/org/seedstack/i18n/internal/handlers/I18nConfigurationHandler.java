@@ -14,14 +14,13 @@ import com.ibm.icu.util.LocaleMatcher;
 import com.ibm.icu.util.LocalePriorityList;
 import com.ibm.icu.util.ULocale;
 import org.seedstack.i18n.api.LocaleService;
-import org.seedstack.i18n.internal.domain.model.locale.Locale;
-import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.seed.core.api.Application;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
 import org.seedstack.seed.transaction.api.Transactional;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,71 +30,67 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * This W20 add-on handler provides configuration values for the W20-core culture module, notably the default and available
+ * languages. If the backend uses locales unknown to W20, they are translated to the best W20-acceptable match. This uses
+ * an hard-coded list of W20-acceptable cultures. This list can be extended with the <code>org.seedstack.i18n.additional-locales.codes</code>
+ * configuration property.
+ *
+ * This handler is defined as a singleton as its initialization is a bit cpu-intensive.
+ *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 17/04/2014
+ * @author adrien.lauer@mpsa.com
  */
+@Singleton
 public class I18nConfigurationHandler implements FragmentConfigurationHandler {
 
     private static final String[] W20_BUILTIN_LOCALES = new String[]{
-            "af", "af_ZA", "am", "am_ET", "ar", "ar_AE", "ar_BH", "ar_DZ", "ar_EG", "ar_IQ", "ar_JO", "ar_KW", "ar_LB", "ar_LY",
-            "ar_MA", "ar_OM", "ar_QA", "ar_SA", "ar_SY", "ar_TN", "ar_YE", "arn", "arn_CL", "as", "as_IN", "az", "az_Cyrl",
-            "az_Cyrl_AZ", "az_Latn", "az_Latn_AZ", "ba", "ba_RU", "be", "be_BY", "bg", "bg_BG", "bn", "bn_BD", "bn_IN",
-            "bo", "bo_CN", "br", "br_FR", "bs", "bs_Cyrl", "bs_Cyrl_BA", "bs_Latn", "bs_Latn_BA", "ca", "ca_ES", "co",
-            "co_FR", "cs", "cs_CZ", "cy", "cy_GB", "da", "da_DK", "de", "de_AT", "de_CH", "de_DE", "de_LI", "de_LU", "dsb",
-            "dsb_DE", "dv", "dv_MV", "el", "el_GR", "en", "en_029", "en_AU", "en_BZ", "en_CA", "en_GB", "en_IE", "en_IN", "en_JM",
-            "en_MY", "en_NZ", "en_PH", "en_SG", "en_TT", "en_US", "en_ZA", "en_ZW", "es", "es_AR", "es_BO", "es_CL", "es_CO",
-            "es_CR", "es_DO", "es_EC", "es_ES", "es_GT", "es_HN", "es_MX", "es_NI", "es_PA", "es_PE", "es_PR", "es_PY", "es_SV",
-            "es_US", "es_UY", "es_VE", "et", "et_EE", "eu", "eu_ES", "fa", "fa_IR", "fi", "fi_FI", "fil", "fil_PH", "fo",
-            "fo_FO", "fr", "fr_BE", "fr_CA", "fr_CH", "fr_FR", "fr_LU", "fr_MC", "fy", "fy_NL", "ga", "ga_IE", "gd", "gd_GB", "gl",
-            "gl_ES", "gsw", "gsw_FR", "gu", "gu_IN", "ha", "ha_Latn", "ha_Latn_NG", "he", "he_IL", "hi", "hi_IN", "hr", "hr_BA",
-            "hr_HR", "hsb", "hsb_DE", "hu", "hu_HU", "hy", "hy_AM", "id", "id_ID", "ig", "ig_NG", "ii", "ii_CN", "is", "is_IS",
-            "it", "it_CH", "it_IT", "iu", "iu_Cans", "iu_Cans_CA", "iu_Latn", "iu_Latn_CA", "ja", "ja_JP", "ka", "ka_GE",
-            "kk", "kk_KZ", "kl", "kl_GL", "km", "km_KH", "kn", "kn_IN", "ko", "ko_KR", "kok", "kok_IN", "ky", "ky_KG", "lb",
-            "lb_LU", "lo", "lo_LA", "lt", "lt_LT", "lv", "lv_LV", "mi", "mi_NZ", "mk", "mk_MK", "ml", "ml_IN", "mn", "mn_Cyrl",
-            "mn_MN", "mn_Mong", "mn_Mong_CN", "moh", "moh_CA", "mr", "mr_IN", "ms", "ms_BN", "ms_MY", "mt", "mt_MT", "nb",
-            "nb_NO", "ne", "ne_NP", "nl", "nl_BE", "nl_NL", "nn", "nn_NO", "no", "nso", "nso_ZA", "oc", "oc_FR", "or", "or_IN",
-            "pa", "pa_IN", "pl", "pl_PL", "prs", "prs_AF", "ps", "ps_AF", "pt", "pt_BR", "pt_PT", "qut", "qut_GT", "quz",
-            "quz_BO", "quz_EC", "quz_PE", "rm", "rm_CH", "ro", "ro_RO", "ru", "ru_RU", "rw", "rw_RW", "sa", "sa_IN", "sah",
-            "sah_RU", "se", "se_FI", "se_NO", "se_SE", "si", "si_LK", "sk", "sk_SK", "sl", "sl_SI", "sma", "sma_NO", "sma_SE",
-            "smj", "smj_NO", "smj_SE", "smn", "smn_FI", "sms", "sms_FI", "sq", "sq_AL", "sr", "sr_Cyrl", "sr_Cyrl_BA", "sr_Cyrl_CS",
-            "sr_Cyrl_ME", "sr_Cyrl_RS", "sr_Latn", "sr_Latn_BA", "sr_Latn_CS", "sr_Latn_ME", "sr_Latn_RS", "sv", "sv_FI",
-            "sv_SE", "sw", "sw_KE", "syr", "syr_SY", "ta", "ta_IN", "te", "te_IN", "tg", "tg_Cyrl", "tg_Cyrl_TJ", "th", "th_TH",
-            "tk", "tk_TM", "tn", "tn_ZA", "tr", "tr_TR", "tt", "tt_RU", "tzm", "tzm_Latn", "tzm_Latn_DZ", "ug", "ug_CN",
-            "uk", "uk_UA", "ur", "ur_PK", "uz", "uz_Cyrl", "uz_Cyrl_UZ", "uz_Latn", "uz_Latn_UZ", "vi", "vi_VN", "wo", "wo_SN",
-            "xh", "xh_ZA", "yo", "yo_NG", "zh", "zh_CHS", "zh_CHT", "zh_CN", "zh_Hans", "zh_Hant", "zh_HK", "zh_MO", "zh_SG",
-            "zh_TW", "zu", "zu_ZA"
+            "af", "af-ZA", "am", "am-ET", "ar", "ar-AE", "ar-BH", "ar-DZ", "ar-EG", "ar-IQ", "ar-JO", "ar-KW", "ar-LB", "ar-LY",
+            "ar-MA", "ar-OM", "ar-QA", "ar-SA", "ar-SY", "ar-TN", "ar-YE", "arn", "arn-CL", "as", "as-IN", "az", "az-Cyrl",
+            "az-Cyrl-AZ", "az-Latn", "az-Latn-AZ", "ba", "ba-RU", "be", "be-BY", "bg", "bg-BG", "bn", "bn-BD", "bn-IN",
+            "bo", "bo-CN", "br", "br-FR", "bs", "bs-Cyrl", "bs-Cyrl-BA", "bs-Latn", "bs-Latn-BA", "ca", "ca-ES", "co",
+            "co-FR", "cs", "cs-CZ", "cy", "cy-GB", "da", "da-DK", "de", "de-AT", "de-CH", "de-DE", "de-LI", "de-LU", "dsb",
+            "dsb-DE", "dv", "dv-MV", "el", "el-GR", "en", "en-029", "en-AU", "en-BZ", "en-CA", "en-GB", "en-IE", "en-IN", "en-JM",
+            "en-MY", "en-NZ", "en-PH", "en-SG", "en-TT", "en-US", "en-ZA", "en-ZW", "es", "es-AR", "es-BO", "es-CL", "es-CO",
+            "es-CR", "es-DO", "es-EC", "es-ES", "es-GT", "es-HN", "es-MX", "es-NI", "es-PA", "es-PE", "es-PR", "es-PY", "es-SV",
+            "es-US", "es-UY", "es-VE", "et", "et-EE", "eu", "eu-ES", "fa", "fa-IR", "fi", "fi-FI", "fil", "fil-PH", "fo",
+            "fo-FO", "fr", "fr-BE", "fr-CA", "fr-CH", "fr-FR", "fr-LU", "fr-MC", "fy", "fy-NL", "ga", "ga-IE", "gd", "gd-GB", "gl",
+            "gl-ES", "gsw", "gsw-FR", "gu", "gu-IN", "ha", "ha-Latn", "ha-Latn-NG", "he", "he-IL", "hi", "hi-IN", "hr", "hr-BA",
+            "hr-HR", "hsb", "hsb-DE", "hu", "hu-HU", "hy", "hy-AM", "id", "id-ID", "ig", "ig-NG", "ii", "ii-CN", "is", "is-IS",
+            "it", "it-CH", "it-IT", "iu", "iu-Cans", "iu-Cans-CA", "iu-Latn", "iu-Latn-CA", "ja", "ja-JP", "ka", "ka-GE",
+            "kk", "kk-KZ", "kl", "kl-GL", "km", "km-KH", "kn", "kn-IN", "ko", "ko-KR", "kok", "kok-IN", "ky", "ky-KG", "lb",
+            "lb-LU", "lo", "lo-LA", "lt", "lt-LT", "lv", "lv-LV", "mi", "mi-NZ", "mk", "mk-MK", "ml", "ml-IN", "mn", "mn-Cyrl",
+            "mn-MN", "mn-Mong", "mn-Mong-CN", "moh", "moh-CA", "mr", "mr-IN", "ms", "ms-BN", "ms-MY", "mt", "mt-MT", "nb",
+            "nb-NO", "ne", "ne-NP", "nl", "nl-BE", "nl-NL", "nn", "nn-NO", "no", "nso", "nso-ZA", "oc", "oc-FR", "or", "or-IN",
+            "pa", "pa-IN", "pl", "pl-PL", "prs", "prs-AF", "ps", "ps-AF", "pt", "pt-BR", "pt-PT", "qut", "qut-GT", "quz",
+            "quz-BO", "quz-EC", "quz-PE", "rm", "rm-CH", "ro", "ro-RO", "ru", "ru-RU", "rw", "rw-RW", "sa", "sa-IN", "sah",
+            "sah-RU", "se", "se-FI", "se-NO", "se-SE", "si", "si-LK", "sk", "sk-SK", "sl", "sl-SI", "sma", "sma-NO", "sma-SE",
+            "smj", "smj-NO", "smj-SE", "smn", "smn-FI", "sms", "sms-FI", "sq", "sq-AL", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-CS",
+            "sr-Cyrl-ME", "sr-Cyrl-RS", "sr-Latn", "sr-Latn-BA", "sr-Latn-CS", "sr-Latn-ME", "sr-Latn-RS", "sv", "sv-FI",
+            "sv-SE", "sw", "sw-KE", "syr", "syr-SY", "ta", "ta-IN", "te", "te-IN", "tg", "tg-Cyrl", "tg-Cyrl-TJ", "th", "th-TH",
+            "tk", "tk-TM", "tn", "tn-ZA", "tr", "tr-TR", "tt", "tt-RU", "tzm", "tzm-Latn", "tzm-Latn-DZ", "ug", "ug-CN",
+            "uk", "uk-UA", "ur", "ur-PK", "uz", "uz-Cyrl", "uz-Cyrl-UZ", "uz-Latn", "uz-Latn-UZ", "vi", "vi-VN", "wo", "wo-SN",
+            "xh", "xh-ZA", "yo", "yo-NG", "zh", "zh-CHS", "zh-CHT", "zh-CN", "zh-Hans", "zh-Hant", "zh-HK", "zh-MO", "zh-SG",
+            "zh-TW", "zu", "zu-ZA"
     };
 
-    private static final String W20_CORE = "w20-core";
-    private static final String CULTURE = "culture";
-    private static final String AVAILABLE = "available";
-    private static final String DEFAULT = "default";
-    private static final String EN = "en";
+    public static final String W20_CORE_FRAGMENT = "w20-core";
+    public static final String CULTURE_MODULE = "culture";
+    public static final String AVAILABLE_CULTURES = "available";
+    public static final String DEFAULT_CULTURE = "default";
+    public static final String EN_LANGUAGE_TAG = "en";
 
-    private static volatile LocaleMatcher localeMatcher;
-    private static Set<String> supportedLocales;
-
-    @Inject
-    private LocaleService localeService;
+    private final LocaleMatcher localeMatcher;
+    private final Set<String> supportedLocales;
+    private final LocaleService localeService;
 
     @Inject
-    private LocaleRepository localeRepository;
-
-    @Inject
-    public I18nConfigurationHandler(Application application) {
-        // double-checked locking (don't remove the volatile on localeMatcher field)
-        if (localeMatcher == null) {
-            synchronized (this) {
-                if (localeMatcher == null) {
-                    supportedLocales = sortLanguages(
-                            W20_BUILTIN_LOCALES,
-                            application.getConfiguration().getStringArray("org.seedstack.i18n.additional-locales.codes")
-                    );
-
-                    localeMatcher = new LocaleMatcher(LocalePriorityList.add(Joiner.on(',').join(supportedLocales)).build());
-                }
-            }
-        }
+    public I18nConfigurationHandler(Application application, LocaleService localeService) {
+        supportedLocales = sortLanguages(
+                W20_BUILTIN_LOCALES,
+                application.getConfiguration().getStringArray("org.seedstack.i18n.additional-locales.codes")
+        );
+        localeMatcher = new LocaleMatcher(LocalePriorityList.add(Joiner.on(',').join(supportedLocales)).build());
+        this.localeService = localeService;
     }
 
     @Override
@@ -105,7 +100,7 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
 
     @Override
     public Boolean overrideModuleStatus(String fragmentName, String moduleName) {
-        if (W20_CORE.equals(fragmentName) && CULTURE.equals(moduleName)) {
+        if (W20_CORE_FRAGMENT.equals(fragmentName) && CULTURE_MODULE.equals(moduleName)) {
             return true;
         }
         return null;
@@ -120,26 +115,25 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
     @Transactional
     @Override
     public void overrideConfiguration(String fragmentName, String moduleName, Map<String, Object> sourceConfiguration) {
-        if (W20_CORE.equals(fragmentName) && CULTURE.equals(moduleName)) {
+        if (W20_CORE_FRAGMENT.equals(fragmentName) && CULTURE_MODULE.equals(moduleName)) {
             // "available" : ["en-US", "fr-FR"]
-            if (!sourceConfiguration.containsKey(AVAILABLE)) {
-                Set<String> availableLocales = localeService.getAvailableLocales();
-                Set<String> closestAvailableLocales = new HashSet<String>(availableLocales.size());
+            if (!sourceConfiguration.containsKey(AVAILABLE_CULTURES)) {
+                Set<String> closestAvailableLocales = new HashSet<String>();
 
-                for (String availableLocale : availableLocales) {
+                for (String availableLocale : localeService.getAvailableLocales()) {
                     closestAvailableLocales.add(getClosestW20Locale(availableLocale));
                 }
 
-                sourceConfiguration.put(AVAILABLE, closestAvailableLocales);
+                sourceConfiguration.put(AVAILABLE_CULTURES, closestAvailableLocales);
             }
 
             // "default" : "ietf-code-of-default-language"
-            if (!sourceConfiguration.containsKey(DEFAULT)) {
-                Locale defaultLocale = localeRepository.getDefaultLocale();
+            if (!sourceConfiguration.containsKey(DEFAULT_CULTURE)) {
+                String defaultLocale = localeService.getDefaultLocale();
                 if (defaultLocale != null) {
-                    sourceConfiguration.put(DEFAULT, getClosestW20Locale(defaultLocale.getEntityId()));
+                    sourceConfiguration.put(DEFAULT_CULTURE, getClosestW20Locale(defaultLocale));
                 } else {
-                    sourceConfiguration.put(DEFAULT, EN);
+                    sourceConfiguration.put(DEFAULT_CULTURE, EN_LANGUAGE_TAG);
                 }
             }
         }
@@ -148,10 +142,9 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
 
     private String getClosestW20Locale(String locale) {
         if (supportedLocales.contains(locale)) {
-            return new ULocale(locale).toLanguageTag();
+            return locale;
         } else {
-            ULocale bestMatch = localeMatcher.getBestMatch(locale);
-            return bestMatch.toLanguageTag();
+            return localeMatcher.getBestMatch(ULocale.forLanguageTag(locale)).toLanguageTag();
         }
     }
 
