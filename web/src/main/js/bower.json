@@ -1,5 +1,5 @@
 {
-  "name": "seedstack-i18n-function-web",
+  "name": "seedstack-i18n-web",
   "devDependencies": {
     "seedstack-i18n": "../../.."
   }

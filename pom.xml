@@ -9,25 +9,30 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.seedstack</groupId>
-        <artifactId>parent</artifactId>
-        <version>2.0.0</version>
+        <artifactId>parent-internal</artifactId>
+        <version>2.1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.seedstack.functions.i18n</groupId>
-    <artifactId>i18n-function</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <groupId>org.seedstack.addons</groupId>
+    <artifactId>i18n</artifactId>
+    <version>2.1.0-M1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>2.0.0</seed.version>
-        <business.version>2.0.0</business.version>
-        <io-function.version>2.0.0</io-function.version>
-        <w20-function.version>2.0.0</w20-function.version>
+        <seed.version>2.1.0-M1-SNAPSHOT</seed.version>
+        <business.version>2.1.0-M1-SNAPSHOT</business.version>
+        <io.version>2.1.0-M1-SNAPSHOT</io.version>
+        <w20-bridge.version>2.1.0-M1-SNAPSHOT</w20-bridge.version>
+        <jpa.version>2.1.0-M1-SNAPSHOT</jpa.version>
+
+        <compatibility.groupId>org.seedstack.functions.i18n</compatibility.groupId>
+        <compatibility.version>2.0.0</compatibility.version>
     </properties>
 
     <modules>
@@ -37,69 +42,7 @@
         <module>web</module>
         <module>demo</module>
         <module>bom</module>
-        <module>doc</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.seedstack.seed</groupId>
-                <artifactId>seed-bom</artifactId>
-                <version>${seed.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack.business</groupId>
-                <artifactId>business-bom</artifactId>
-                <version>${business.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack.functions.io</groupId>
-                <artifactId>io-function-bom</artifactId>
-                <version>${io-function.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-bom</artifactId>
-                <version>${w20-function.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>java-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>logging-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>hibernate-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>jersey-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -111,30 +54,29 @@
                         <includedLicenses>
                             <includedLicense>Apache 2</includedLicense>
                             <includedLicense>BSD</includedLicense>
+                            <includedLicense>CDDL 1.0</includedLicense>
                             <includedLicense>CDDL 1.1</includedLicense>
-                            <includedLicense>LGPL 2.1</includedLicense>
-                            <includedLicense>LGPL 3.0</includedLicense>
                             <includedLicense>ICU License</includedLicense>
+                            <includedLicense>LGPL 3.0</includedLicense>
                             <includedLicense>MIT</includedLicense>
-                            <includedLicense>MPL 1.1</includedLicense>
                             <includedLicense>MPL 2.0</includedLicense>
                             <includedLicense>Public Domain</includedLicense>
-                            <includedLicense>The JSON License</includedLicense>
                             <includedLicense>WTFPL</includedLicense>
 
                             <!-- Some licenses are ignored because they are alternatives to acceptable licenses and the plugin doesn't handle alternate licenses -->
                             <includedLicense>IGNORED_LICENSE</includedLicense>
                         </includedLicenses>
                         <licenseMerges>
-                            <licenseMerge>Apache 2|Apache License, Version 2.0</licenseMerge>
                             <licenseMerge>Apache 2|The Apache Software License, Version 2.0</licenseMerge>
+                            <licenseMerge>Apache 2|Apache License, Version 2.0</licenseMerge>
                             <licenseMerge>Apache 2|Apache License 2.0</licenseMerge>
                             <licenseMerge>BSD|The New BSD License</licenseMerge>
-                            <licenseMerge>BSD|BSD License</licenseMerge>
-                            <licenseMerge>LGPL 3.0|GNU Lesser Public License</licenseMerge>
-                            <licenseMerge>MIT|MIT license</licenseMerge>
+                            <licenseMerge>CDDL 1.0|CDDL License</licenseMerge>
                             <licenseMerge>MIT|MIT License</licenseMerge>
+                            <licenseMerge>LGPL 3.0|GNU Lesser Public License</licenseMerge>
 
+                            <licenseMerge>IGNORED_LICENSE|LGPL 2.1</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|MPL 1.1</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|GPL2 w/ CPE</licenseMerge>
                         </licenseMerges>
                     </configuration>
@@ -143,33 +85,30 @@
         </pluginManagement>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-unittest-support</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
     <scm>
-        <url>https://github.com/seedstack/i18n-function</url>
-        <connection>scm:git:git://github.com/seedstack/i18n-function.git</connection>
-        <developerConnection>scm:git:git@github.com:seedstack/i18n-function.git</developerConnection>
+        <url>https://github.com/seedstack/i18n-addon</url>
+        <connection>scm:git:git://github.com/seedstack/i18n-addon.git</connection>
+        <developerConnection>scm:git:git@github.com:seedstack/i18n-addon.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/content/groups/staging</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/content/groups/staging</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <profiles>
+        <profile>
+            <id>staging</id>
+            <repositories>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Sonatype Nexus Staging</name>
+                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Sonatype Nexus Staging</name>
+                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
 </project>

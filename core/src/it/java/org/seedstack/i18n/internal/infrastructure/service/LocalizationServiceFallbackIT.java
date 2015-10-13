@@ -31,7 +31,7 @@ import javax.inject.Inject;
 @JpaUnit("seed-i18n-domain")
 @Transactional
 @RunWith(SeedITRunner.class)
-public class LocalizationServiceFallback {
+public class LocalizationServiceFallbackIT {
 
     @Inject
     private LocalizationService localizationService;

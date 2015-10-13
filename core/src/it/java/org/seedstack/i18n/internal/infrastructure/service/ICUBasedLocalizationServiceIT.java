@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 @JpaUnit("seed-i18n-domain")
 @Transactional
 @RunWith(SeedITRunner.class)
-public class ICUBasedLocalizationServiceUnitTest {
+public class ICUBasedLocalizationServiceIT {
 
     private String french;
 

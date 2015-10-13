@@ -10,20 +10,26 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.seedstack.functions.i18n</groupId>
-        <artifactId>i18n-function</artifactId>
-        <version>2.0.2-SNAPSHOT</version>
+        <groupId>org.seedstack.addons</groupId>
+        <artifactId>i18n</artifactId>
+        <version>2.1.0-M1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>i18n-function-web</artifactId>
+    <artifactId>i18n-web</artifactId>
+
+    <properties>
+        <compatibility.artifactId>i18n-function-web</compatibility.artifactId>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.seedstack.functions.i18n</groupId>
-            <artifactId>i18n-function-rest</artifactId>
+            <groupId>org.seedstack.addons</groupId>
+            <artifactId>i18n-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -64,10 +70,10 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/seedstack-i18n">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components/seedstack-i18n" />
+                                    <fileset dir="${project.build.directory}/grunt/bower_components/seedstack-i18n"/>
                                 </copy>
                                 <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/dropzone">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components/dropzone" />
+                                    <fileset dir="${project.build.directory}/grunt/bower_components/dropzone"/>
                                 </copy>
                             </target>
                         </configuration>

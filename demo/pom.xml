@@ -10,16 +10,22 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.seedstack.functions.i18n</groupId>
-        <artifactId>i18n-function</artifactId>
-        <version>2.0.2-SNAPSHOT</version>
+        <groupId>org.seedstack.addons</groupId>
+        <artifactId>i18n</artifactId>
+        <version>2.1.0-M1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>i18n-function-demo</artifactId>
+    <artifactId>i18n-demo</artifactId>
     <packaging>war</packaging>
+
+    <properties>
+        <compatibility.skip>true</compatibility.skip>
+    </properties>
 
     <build>
         <pluginManagement>
@@ -52,32 +58,38 @@
     <dependencies>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-web-support-security</artifactId>
+            <artifactId>seed-web-security</artifactId>
+            <version>${seed.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.functions.i18n</groupId>
-            <artifactId>i18n-function-web</artifactId>
+            <groupId>org.seedstack.addons</groupId>
+            <artifactId>i18n-web</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.11.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-web</artifactId>
+            <groupId>org.seedstack.addons</groupId>
+            <artifactId>w20-bridge-web</artifactId>
+            <version>${w20-bridge.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-web-business-theme</artifactId>
+            <groupId>org.seedstack.addons</groupId>
+            <artifactId>w20-bridge-web-business-theme</artifactId>
+            <version>${w20-bridge.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
+            <version>2.3.3</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>1.1.3</version>
         </dependency>
     </dependencies>
 </project>

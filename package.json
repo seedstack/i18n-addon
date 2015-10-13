@@ -1,7 +1,7 @@
 {
-  "name": "seedstack-i18n-function",
-  "version": "2.0.0",
-  "description": "SeedStack i18n reusable function",
+  "name": "seedstack-i18n",
+  "version": "2.1.0",
+  "description": "SeedStack i18n add-on",
   "license": "MPL 2.0",
   "contributors": [
     {
