@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.seedstack.functions.i18n</groupId>
         <artifactId>i18n-function</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.0.1</version>
     </parent>
 
     <artifactId>i18n-function-demo</artifactId>
