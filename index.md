@@ -14,8 +14,8 @@ The i18n function provides backend services and a Web UI to manage application l
 i18n function to your project, add the following dependency to your Web module pom:
 
     <dependency>
-        <groupId>org.seedstack.functions.i18n</groupId>
-        <artifactId>i18n-function-web</artifactId>
+        <groupId>org.seedstack.addons</groupId>
+        <artifactId>i18n-web</artifactId>
     </dependency>
 
 # Locales
