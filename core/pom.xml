@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.seedstack.addons</groupId>
+        <groupId>org.seedstack.addons.i18n</groupId>
         <artifactId>i18n</artifactId>
         <version>2.1.0-M1-SNAPSHOT</version>
     </parent>
@@ -25,7 +25,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.seedstack.addons</groupId>
+            <groupId>org.seedstack.addons.i18n</groupId>
             <artifactId>i18n-specs</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -40,7 +40,7 @@
             <version>${business.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.addons</groupId>
+            <groupId>org.seedstack.addons.jpa</groupId>
             <artifactId>jpa</artifactId>
             <version>${jpa.version}</version>
         </dependency>
