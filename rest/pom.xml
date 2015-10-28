@@ -51,7 +51,7 @@
             <version>${io.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.addons.w20-bridge</groupId>
+            <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-specs</artifactId>
             <version>${w20-bridge.version}</version>
         </dependency>

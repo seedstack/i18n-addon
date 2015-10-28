@@ -70,12 +70,12 @@
             <version>4.3.11.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.addons.w20-bridge</groupId>
+            <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web</artifactId>
             <version>${w20-bridge.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.addons.w20-bridge</groupId>
+            <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-business-theme</artifactId>
             <version>${w20-bridge.version}</version>
         </dependency>
