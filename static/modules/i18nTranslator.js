@@ -11,11 +11,11 @@ define([
     '{angular}/angular',
     '{lodash}/lodash',
     '{dropzone}/dropzone-amd-module',
-    '{w20-ui}/modules/notifications',
+    '{w20-core}/modules/notifications',
     '{angular-sanitize}/angular-sanitize',
     '{angular-resource}/angular-resource',
-    "{w20-core}/modules/security",
-    "{w20-dataviz}/modules/charts/multibar"
+    '{w20-core}/modules/security',
+    '{w20-dataviz}/modules/charts/multibar'
 ], function (_module, require, angular, _, Dropzone) {
     'use strict';
 
