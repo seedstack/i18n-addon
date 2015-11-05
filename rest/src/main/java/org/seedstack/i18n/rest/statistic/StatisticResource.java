@@ -10,8 +10,8 @@ package org.seedstack.i18n.rest.statistic;
 import org.seedstack.i18n.rest.locale.LocaleFinder;
 import org.seedstack.i18n.rest.locale.LocaleRepresentation;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

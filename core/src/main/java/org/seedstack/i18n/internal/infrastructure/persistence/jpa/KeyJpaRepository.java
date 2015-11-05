@@ -10,7 +10,7 @@ package org.seedstack.i18n.internal.infrastructure.persistence.jpa;
 import com.google.common.cache.LoadingCache;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.business.jpa.BaseJpaRepository;
+import org.seedstack.jpa.BaseJpaRepository;
 
 import javax.inject.Inject;
 import java.util.List;

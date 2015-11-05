@@ -13,9 +13,9 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.locale.LocaleAssembler;
 import org.seedstack.i18n.rest.locale.LocaleFinder;
 import org.seedstack.i18n.rest.locale.LocaleRepresentation;
-import org.seedstack.seed.core.api.Configuration;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.seed.Configuration;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

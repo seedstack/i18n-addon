@@ -12,7 +12,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.inject.PrivateModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import org.seedstack.seed.core.api.Install;
+import org.seedstack.seed.Install;
 
 import java.util.Map;
 

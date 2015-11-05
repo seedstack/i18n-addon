@@ -9,7 +9,7 @@ package org.seedstack.i18n.internal.domain.model.key;
 
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.api.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.BaseAggregateRoot;
 
 import javax.persistence.*;
 import java.io.Serializable;

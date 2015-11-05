@@ -12,7 +12,7 @@ import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.seedstack.i18n.api.LocaleService;
-import org.seedstack.seed.core.api.Application;
+import org.seedstack.seed.Application;
 
 import java.util.HashMap;
 import java.util.Set;

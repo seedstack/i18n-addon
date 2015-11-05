@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.internal.application.service;
 
-import org.seedstack.business.api.Service;
+import org.seedstack.business.Service;
 
 import java.util.Map;
 

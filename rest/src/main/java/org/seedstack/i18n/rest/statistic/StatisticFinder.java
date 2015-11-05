@@ -8,7 +8,7 @@
 package org.seedstack.i18n.rest.statistic;
 
 import org.seedstack.i18n.rest.locale.LocaleRepresentation;
-import org.seedstack.business.api.interfaces.finder.Finder;
+import org.seedstack.business.finder.Finder;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@
 package org.seedstack.i18n.rest.exception.mapper;
 
 
-import org.seedstack.seed.security.api.exceptions.AuthorizationException;
+import org.seedstack.seed.security.AuthorizationException;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

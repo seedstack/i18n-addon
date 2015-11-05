@@ -8,9 +8,9 @@
 package org.seedstack.i18n.rest.key;
 
 
-import org.seedstack.business.api.interfaces.finder.Finder;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
+import org.seedstack.business.finder.Finder;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
 
 import java.util.List;
 import java.util.Map;

@@ -15,9 +15,9 @@ import org.seedstack.i18n.rest.key.KeyAssembler;
 import org.seedstack.i18n.rest.key.KeyFinder;
 import org.seedstack.i18n.rest.key.KeyRepresentation;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.jpa.BaseJpaRangeFinder;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.jpa.BaseJpaRangeFinder;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

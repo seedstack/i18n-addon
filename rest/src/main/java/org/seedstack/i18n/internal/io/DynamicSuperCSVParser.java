@@ -8,10 +8,10 @@
 package org.seedstack.i18n.internal.io;
 
 import org.seedstack.i18n.rest.io.DataRepresentation;
-import org.seedstack.io.api.RendererErrorCode;
+import org.seedstack.io.RendererErrorCode;
 import org.seedstack.io.spi.AbstractTemplateParser;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
-import org.seedstack.seed.core.api.SeedException;
+import org.seedstack.seed.SeedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.supercsv.cellprocessor.Optional;

@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.api;
 
-import org.seedstack.business.api.Service;
+import org.seedstack.business.Service;
 
 import java.util.Set;
 

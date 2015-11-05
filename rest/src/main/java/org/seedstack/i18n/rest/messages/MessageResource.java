@@ -9,8 +9,8 @@ package org.seedstack.i18n.rest.messages;
 
 import com.google.common.cache.LoadingCache;
 import org.seedstack.i18n.rest.exception.SeedWebCheckUtils;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

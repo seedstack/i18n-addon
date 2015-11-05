@@ -7,12 +7,12 @@
  */
 package org.seedstack.i18n.internal.data.key;
 
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
+import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.seed.core.spi.data.DataExporter;
-import org.seedstack.seed.core.spi.data.DataSet;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.seed.DataExporter;
+import org.seedstack.seed.DataSet;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.Iterator;

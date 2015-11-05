@@ -11,7 +11,7 @@ import com.google.common.base.Preconditions;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.api.interfaces.assembler.BaseAssembler;
+import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * Assembles a Key representation with key metadata and default translation.

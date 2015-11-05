@@ -15,11 +15,11 @@ import org.javatuples.Triplet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.seed.core.api.DataManager;
-import org.seedstack.seed.core.api.Logging;
+import org.seedstack.seed.DataManager;
+import org.seedstack.seed.Logging;
 import org.seedstack.seed.it.SeedITRunner;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

@@ -15,12 +15,12 @@ import org.seedstack.i18n.rest.exception.SeedWebCheckUtils;
 import org.seedstack.i18n.utils.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.javatuples.Triplet;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.api.interfaces.view.PaginatedView;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.security.api.annotations.RequiresPermissions;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.business.view.PaginatedView;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.security.RequiresPermissions;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

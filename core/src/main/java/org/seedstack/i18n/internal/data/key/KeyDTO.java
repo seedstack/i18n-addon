@@ -8,8 +8,8 @@
 package org.seedstack.i18n.internal.data.key;
 
 
-import org.seedstack.business.api.interfaces.assembler.MatchingEntityId;
-import org.seedstack.business.api.interfaces.assembler.MatchingFactoryParameter;
+import org.seedstack.business.assembler.MatchingEntityId;
+import org.seedstack.business.assembler.MatchingFactoryParameter;
 
 import java.util.ArrayList;
 import java.util.List;

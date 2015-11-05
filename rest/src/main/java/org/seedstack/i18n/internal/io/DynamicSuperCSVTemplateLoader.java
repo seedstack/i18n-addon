@@ -10,12 +10,12 @@ package org.seedstack.i18n.internal.io;
 import com.google.common.collect.Sets;
 import org.seedstack.i18n.rest.locale.LocaleFinder;
 import org.seedstack.i18n.rest.locale.LocaleRepresentation;
-import org.seedstack.io.spi.template.Template;
-import org.seedstack.io.spi.templateloader.TemplateLoader;
+import org.seedstack.io.spi.Template;
+import org.seedstack.io.spi.TemplateLoader;
 import org.seedstack.io.supercsv.Column;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 import org.supercsv.cellprocessor.Optional;
 
 import javax.inject.Inject;

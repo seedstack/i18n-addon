@@ -13,9 +13,9 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.exception.SeedWebCheckUtils;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.security.api.annotations.RequiresPermissions;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.security.RequiresPermissions;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

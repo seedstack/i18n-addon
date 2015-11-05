@@ -8,7 +8,7 @@
 package org.seedstack.i18n.internal.domain.model.locale;
 
 
-import org.seedstack.business.api.domain.GenericFactory;
+import org.seedstack.business.domain.GenericFactory;
 
 /**
  * Locale Factory interface.

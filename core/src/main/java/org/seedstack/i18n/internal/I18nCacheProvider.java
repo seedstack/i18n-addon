@@ -13,7 +13,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.apache.commons.configuration.Configuration;
-import org.seedstack.seed.core.api.Application;
+import org.seedstack.seed.Application;
 
 import javax.inject.Inject;
 import java.util.Map;

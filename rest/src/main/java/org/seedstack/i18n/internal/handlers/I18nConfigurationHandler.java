@@ -12,9 +12,9 @@ import com.ibm.icu.util.LocaleMatcher;
 import com.ibm.icu.util.LocalePriorityList;
 import com.ibm.icu.util.ULocale;
 import org.seedstack.i18n.api.LocaleService;
-import org.seedstack.seed.core.api.Application;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.seed.Application;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import javax.inject.Inject;

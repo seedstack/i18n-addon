@@ -15,9 +15,9 @@ import org.seedstack.i18n.rest.translation.TranslationAssembler;
 import org.seedstack.i18n.rest.translation.TranslationFinder;
 import org.seedstack.i18n.rest.translation.TranslationRepresentation;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.jpa.BaseJpaRangeFinder;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.seed.core.utils.SeedCheckUtils;
 
 import javax.inject.Inject;

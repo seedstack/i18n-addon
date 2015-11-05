@@ -9,9 +9,9 @@ package org.seedstack.i18n.rest.locale;
 
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.exception.SeedWebCheckUtils;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.security.api.annotations.RequiresPermissions;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.security.RequiresPermissions;
+import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

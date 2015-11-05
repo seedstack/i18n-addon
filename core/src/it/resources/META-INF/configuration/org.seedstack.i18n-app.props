@@ -8,9 +8,11 @@
 
 [org.seedstack.seed]
 core.data-initialization = none
-persistence.jpa.units = seed-i18n-domain
 
-[org.seedstack.seed.persistence.jpa.unit.seed-i18n-domain.property]
+[org.seedstack.jpa]
+units = seed-i18n-domain
+
+[org.seedstack.jpa.unit.seed-i18n-domain.property]
 javax.persistence.jdbc.driver = org.hsqldb.jdbcDriver
 javax.persistence.jdbc.url = jdbc:hsqldb:mem:testdb
 javax.persistence.jdbc.user = sa

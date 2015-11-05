@@ -8,7 +8,7 @@
 package org.seedstack.i18n.rest.messages;
 
 
-import org.seedstack.business.api.interfaces.finder.Finder;
+import org.seedstack.business.finder.Finder;
 
 import java.util.Map;
 

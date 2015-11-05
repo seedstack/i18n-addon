@@ -19,11 +19,11 @@ import org.javatuples.Triplet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
 import org.seedstack.seed.it.SeedITRunner;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
