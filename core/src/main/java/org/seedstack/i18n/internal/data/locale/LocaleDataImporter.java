@@ -8,13 +8,13 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
+import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.seed.core.spi.data.DataImporter;
-import org.seedstack.seed.core.spi.data.DataSet;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.seed.DataImporter;
+import org.seedstack.seed.DataSet;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

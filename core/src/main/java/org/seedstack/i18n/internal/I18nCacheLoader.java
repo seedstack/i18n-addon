@@ -8,8 +8,7 @@
 package org.seedstack.i18n.internal;
 
 import com.google.common.cache.CacheLoader;
-import org.seedstack.i18n.api.LocaleService;
-import org.seedstack.i18n.internal.application.service.TranslationService;
+import org.seedstack.i18n.LocaleService;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.seed.core.utils.SeedCheckUtils;
 

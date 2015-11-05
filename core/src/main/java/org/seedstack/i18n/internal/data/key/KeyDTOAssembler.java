@@ -9,7 +9,7 @@ package org.seedstack.i18n.internal.data.key;
 
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
-import org.seedstack.business.api.interfaces.assembler.BaseAssembler;
+import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
