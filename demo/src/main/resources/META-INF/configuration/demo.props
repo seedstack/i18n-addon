@@ -8,7 +8,9 @@
 
 [org.seedstack.seed]
 core.application-id = i18n-demo
-persistence.jpa.units = seed-i18n-domain
+
+[org.seedstack.jpa]
+units = seed-i18n-domain
 
 [org.seedstack.jpa.unit.seed-i18n-domain.property]
 javax.persistence.jdbc.driver=org.hsqldb.jdbcDriver
