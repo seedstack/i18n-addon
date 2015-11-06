@@ -1,6 +1,6 @@
 {
   "name": "seedstack-i18n-web",
   "devDependencies": {
-    "seedstack-i18n": "../../.."
+    "w20-i18n-addon": "~2.1"
   }
 }
