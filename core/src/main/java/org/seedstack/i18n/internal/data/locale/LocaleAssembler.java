@@ -8,7 +8,7 @@
 package org.seedstack.i18n.internal.data.locale;
 
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
-import org.seedstack.business.api.interfaces.assembler.BaseAssembler;
+import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com

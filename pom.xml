@@ -30,8 +30,7 @@
         <w20-bridge.version>2.1.0-M1-SNAPSHOT</w20-bridge.version>
         <jpa.version>2.1.0-M1-SNAPSHOT</jpa.version>
 
-        <compatibility.groupId>org.seedstack.functions.i18n</compatibility.groupId>
-        <compatibility.version>2.0.0</compatibility.version>
+        <compatibility.skip>true</compatibility.skip>
     </properties>
 
     <modules>

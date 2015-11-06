@@ -8,7 +8,7 @@
 package org.seedstack.i18n.internal.domain.model.locale;
 
 import com.ibm.icu.util.ULocale;
-import org.seedstack.business.api.domain.BaseFactory;
+import org.seedstack.business.domain.BaseFactory;
 
 /**
  * Locale factory implementation.

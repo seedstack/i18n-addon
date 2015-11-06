@@ -8,7 +8,7 @@
 package org.seedstack.i18n.internal.domain.model.key;
 
 
-import org.seedstack.business.api.domain.BaseEntity;
+import org.seedstack.business.domain.BaseEntity;
 
 import javax.persistence.*;
 

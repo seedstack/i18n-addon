@@ -8,8 +8,8 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
-import org.seedstack.business.api.interfaces.assembler.MatchingEntityId;
-import org.seedstack.business.api.interfaces.assembler.MatchingFactoryParameter;
+import org.seedstack.business.assembler.MatchingEntityId;
+import org.seedstack.business.assembler.MatchingFactoryParameter;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
