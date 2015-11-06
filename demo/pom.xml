@@ -76,6 +76,16 @@
         </dependency>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web-bootstrap-3</artifactId>
+            <version>${w20-bridge.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web-dataviz</artifactId>
+            <version>${w20-bridge.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-business-theme</artifactId>
             <version>${w20-bridge.version}</version>
         </dependency>

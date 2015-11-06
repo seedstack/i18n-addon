@@ -67,11 +67,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/seedstack-i18n">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components/seedstack-i18n"/>
-                                </copy>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/dropzone">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components/dropzone"/>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
+                                    <fileset dir="${project.build.directory}/grunt/bower_components">
+                                        <include name="**/w20-i18n-addon/**" />
+                                        <include name="**/dropzone/**" />
+                                    </fileset>
                                 </copy>
                             </target>
                         </configuration>
