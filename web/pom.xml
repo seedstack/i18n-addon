@@ -67,7 +67,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/bower_components">
                                     <fileset dir="${project.build.directory}/grunt/bower_components">
                                         <include name="**/w20-i18n-addon/**" />
                                         <include name="**/dropzone/**" />

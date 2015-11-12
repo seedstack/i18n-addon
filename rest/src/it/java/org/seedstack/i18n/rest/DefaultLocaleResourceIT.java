@@ -37,7 +37,7 @@ public class DefaultLocaleResourceIT extends AbstractSeedWebIT {
 
     private static final String ID_FIELD = "code";
 
-    private static final String RESOURCE_URL = "rest/seed-i18n/default-locale";
+    private static final String RESOURCE_URL = "seed-i18n/default-locale";
 
     private static final String ENGLISH_LANGUAGE_FIELD = "englishLanguage";
 
@@ -66,7 +66,7 @@ public class DefaultLocaleResourceIT extends AbstractSeedWebIT {
         // PUT "it" locale => 200 OK
         expect().statusCode(200).given().auth().basic("admin", "password").
                 header("Accept", "application/json").header("Content-Type", "application/json")
-                .body(array.toString()).put(baseURL.toString() + "rest/seed-i18n/available-locales");
+                .body(array.toString()).put(baseURL.toString() + "seed-i18n/available-locales");
 
         response = expect().statusCode(200).given().auth().basic("admin", "password").
                 header("Accept", "application/json").header("Content-Type", "application/json")

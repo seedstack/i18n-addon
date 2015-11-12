@@ -5,7 +5,7 @@
         "items": [
             {
                 "comment": "i18n",
-                "name": "application.view.seed-i18n.i18n",
+                "name": "application.view.w20-i18n-addon.i18n",
                 "outdated": false,
                 "translations": [
                     {
