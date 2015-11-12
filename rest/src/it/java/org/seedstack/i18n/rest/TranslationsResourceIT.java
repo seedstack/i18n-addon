@@ -35,7 +35,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
 
     private static final String ID_FIELD = "name";
 
-    private static final String BASE_URL = "rest/seed-i18n/translations";
+    private static final String BASE_URL = "seed-i18n/translations";
 
     private String idValue;
 
@@ -100,26 +100,26 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
         // Create a key
         expect().statusCode(201).given().auth().basic("admin", "password").
                 header("Accept", "application/json").header("Content-Type", "application/json").
-                body(jsonKeyObject.toString()).post(baseURL.toString() + "rest/seed-i18n/keys");
+                body(jsonKeyObject.toString()).post(baseURL.toString() + "seed-i18n/keys");
 
         Response response;
         try {
             // Add the fr translation
             expect().statusCode(204).given().auth().basic("admin", "password").
                     header("Accept", "application/json").header("Content-Type", "application/json").
-                    body(jsonTranslationObject.toString()).put(baseURL.toString() + "rest/seed-i18n/translations/fr/" + jsonKeyObject.getString(ID_FIELD));
+                    body(jsonTranslationObject.toString()).put(baseURL.toString() + "seed-i18n/translations/fr/" + jsonKeyObject.getString(ID_FIELD));
 
             // Get the translation
             response = expect().statusCode(200).given().auth().basic("admin", "password").
                     header("Accept", "application/json").header("Content-Type", "application/json")
-                    .get(baseURL.toString() + "rest/seed-i18n/translations/fr/" + jsonKeyObject.getString(ID_FIELD));
+                    .get(baseURL.toString() + "seed-i18n/translations/fr/" + jsonKeyObject.getString(ID_FIELD));
 
             // missing value must have been update by the server
             jsonTranslationObject.put("missing", false);
             JSONAssert.assertEquals(jsonTranslationObject, new JSONObject(response.asString()), false);
 
         } finally {
-            delete(baseURL.toString() + "rest/seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
+            delete(baseURL.toString() + "seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
         }
     }
 
@@ -140,7 +140,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
         // Create the key
         expect().statusCode(201).given().auth().basic("admin", "password").
                 header("Accept", "application/json").header("Content-Type", "application/json").
-                body(jsonKeyObject.toString()).post(baseURL.toString() + "rest/seed-i18n/keys");
+                body(jsonKeyObject.toString()).post(baseURL.toString() + "seed-i18n/keys");
 
         try {
             // Add translation in English and French
@@ -167,7 +167,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
 
         } finally {
             // clean the repo
-            delete(baseURL.toString() + "rest/seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
+            delete(baseURL.toString() + "seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
         }
     }
 
@@ -183,7 +183,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
         Response response;
         response = expect().statusCode(200).given().auth().basic("admin", "password").
                 header("Accept", "application/json").header("Content-Type", "application/json").
-                get(baseURL.toString() + "rest/seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
+                get(baseURL.toString() + "seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
 
         JSONObject actual = new JSONObject(response.asString());
         Assertions.assertThat(actual.getBoolean("outdated")).isEqualTo(outdated);
@@ -200,7 +200,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
         jsonKeyObject.put("translation", "updated translation");
         expect().statusCode(200).given().auth().basic("admin", "password").
                 header("Accept", "application/json").header("Content-Type", "application/json").
-                body(jsonKeyObject.toString()).put(baseURL.toString() + "rest/seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
+                body(jsonKeyObject.toString()).put(baseURL.toString() + "seed-i18n/keys/" + jsonKeyObject.getString(ID_FIELD));
     }
 
     /**

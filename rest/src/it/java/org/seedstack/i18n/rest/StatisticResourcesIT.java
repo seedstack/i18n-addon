@@ -37,7 +37,7 @@ public class StatisticResourcesIT extends AbstractSeedWebIT {
 
 	private static final String ID_FIELD = "locale";
 
-	private static final String BASE_URL = "rest/seed-i18n/statistic";
+	private static final String BASE_URL = "seed-i18n/statistic";
 
 	private static final String ENGLISH_LANGUAGE_FIELD = "englishLanguage";
 
@@ -58,14 +58,14 @@ public class StatisticResourcesIT extends AbstractSeedWebIT {
 		jsonObjectEn.put(TRANSLATED, 50);
 		jsonObjectEn.put(TOTRANSLATE, 0);
 		jsonObjectEn.put(KEY_TOTAL, 50);
-		jsonObjectEn.put(ENGLISH_LANGUAGE_FIELD, "english");
+		jsonObjectEn.put(ENGLISH_LANGUAGE_FIELD, "English");
 
 		jsonObjectFr = new JSONObject();
 		jsonObjectFr.put(ID_FIELD, "fr");
 		jsonObjectFr.put(TRANSLATED, 50);
 		jsonObjectFr.put(TOTRANSLATE, 0);
 		jsonObjectFr.put(KEY_TOTAL, 50);
-		jsonObjectFr.put(ENGLISH_LANGUAGE_FIELD, "french");
+		jsonObjectFr.put(ENGLISH_LANGUAGE_FIELD, "French");
 	}
 
 	@Deployment

@@ -37,7 +37,7 @@ public class LocalesResourcesIT extends AbstractSeedWebIT {
 
     private static final String ID_FIELD = "code";
 
-    private static final String BASE_URL = "rest/seed-i18n/locales";
+    private static final String BASE_URL = "seed-i18n/locales";
 
     private static final String ENGLISH_LANGUAGE_FIELD = "englishLanguage";
 
