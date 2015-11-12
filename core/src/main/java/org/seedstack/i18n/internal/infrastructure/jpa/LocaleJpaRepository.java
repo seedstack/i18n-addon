@@ -13,8 +13,6 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.seedstack.jpa.BaseJpaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,8 +25,6 @@ import java.util.List;
  *         Date: 13/05/2014
  */
 public class LocaleJpaRepository extends BaseJpaRepository<Locale, String> implements LocaleRepository {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocaleJpaRepository.class);
 
     @Override
     public List<Locale> loadAll() {
@@ -51,7 +47,6 @@ public class LocaleJpaRepository extends BaseJpaRepository<Locale, String> imple
         try {
             return entityManager.createQuery(q.select(l)).getSingleResult();
         } catch (NoResultException e) {
-            LOGGER.warn(e.getMessage(), e);
             return null;
         }
     }
