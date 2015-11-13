@@ -10,14 +10,18 @@
 core.application-id = seed-i18n
 core.application-name = SEED i18n web
 
-[org.seedstack.jpa]
-units = seed-i18n-domain
+[org.seedstack]
+jpa.units = seed-i18n-domain
+jdbc.datasources=ds
 
-[org.seedstack.jpa.unit.seed-i18n-domain.property]
-javax.persistence.jdbc.driver=org.hsqldb.jdbcDriver
-javax.persistence.jdbc.url=jdbc:hsqldb:mem:testdb
-javax.persistence.jdbc.user=sa
-javax.persistence.jdbc.password=
-hibernate.dialect=org.hibernate.dialect.HSQLDialect
-hibernate.hbm2ddl.auto=create
-sql.enforce_strict_size=true
+[org.seedstack.jdbc.datasource.ds]
+driver=org.hsqldb.jdbcDriver
+url = jdbc:hsqldb:mem:testdb
+user = sa
+password =
+
+[org.seedstack.jpa.unit.seed-i18n-domain]
+datasource=ds
+property.hibernate.dialect = org.hibernate.dialect.HSQLDialect
+property.hibernate.hbm2ddl.auto = create
+property.sql.enforce_strict_size = true
