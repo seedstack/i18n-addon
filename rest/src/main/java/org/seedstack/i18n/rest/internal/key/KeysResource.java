@@ -7,17 +7,15 @@
  */
 package org.seedstack.i18n.rest.internal.key;
 
-import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.internal.domain.model.key.Translation;
-import org.seedstack.i18n.rest.internal.exception.SeedWebCheckUtils;
-import org.seedstack.i18n.rest.internal.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.javatuples.Triplet;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.PaginatedView;
+import org.seedstack.i18n.internal.domain.model.key.Key;
+import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
+import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
+import org.seedstack.i18n.rest.internal.BooleanUtils;
+import org.seedstack.i18n.rest.internal.exception.SeedWebCheckUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
@@ -121,12 +119,12 @@ public class KeysResource {
         SeedWebCheckUtils.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
         SeedWebCheckUtils.checkIfNotBlank(representation.getName(), THE_KEY_SHOULD_CONTAINS_A_NAME);
         SeedWebCheckUtils.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
+
         Key key = keyRepository.load(representation.getName());
         if (key == null) {
-            Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-            Triplet<String, Boolean, Boolean> translation = new Triplet<String, Boolean, Boolean>(representation.getTranslation(), representation.isApprox(), representation.isOutdated());
-            translations.put(representation.getDefaultLocale(), translation);
-            key = factory.createKey(representation.getName(), representation.getComment(), translations);
+            key = factory.createKey(representation.getName());
+            key.setComment(representation.getComment());
+            key.addTranslation(representation.getDefaultLocale(), representation.getTranslation(), representation.isApprox());
             keyRepository.persist(key);
         } else {
             return Response.status(Response.Status.CONFLICT).build();
@@ -173,27 +171,20 @@ public class KeysResource {
         SeedWebCheckUtils.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
         SeedWebCheckUtils.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
         SeedWebCheckUtils.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
+
         Key key = keyRepository.load(name);
-        if (key != null) {
-            key.setComment(representation.getComment());
-            key.setOutdated(representation.isOutdated());
-            // Sets all the translations to outdated TRUE except the default translation
-            Map<String, Translation> translations = key.getTranslations();
-            for (Translation translation : translations.values()) {
-                if (!translation.getEntityId().getLocale().equals(representation.getDefaultLocale())) {
-                    translation.setOutdated(true);
-                }
-            }
-            // Updates the default translation
-            key.addTranslation(representation.getDefaultLocale(), representation.getTranslation(), representation.isApprox(), false);
-            keyRepository.save(key);
-        } else {
+        if (key == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        KeyRepresentation keyRepresentation = keyFinder.findKey(name);
-        return Response.ok(new URI(uriInfo.getRequestUri() + "/" + keyRepresentation.getName()))
-                .entity(keyRepresentation).build();
+        key.setComment(representation.getComment());
+        key.setOutdated();
+        // Updates the default translation
+        key.addTranslation(representation.getDefaultLocale(), representation.getTranslation(), representation.isApprox());
+
+        keyRepository.save(key);
+
+        return Response.ok(new URI(uriInfo.getRequestUri() + "/" + name)).entity(keyFinder.findKey(name)).build();
     }
 
     /**

@@ -26,9 +26,6 @@ public class LocaleAssembler extends BaseAssembler<Locale, LocaleDTO> {
 
     @Override
     protected void doMergeAggregateWithDto(Locale targetEntity, LocaleDTO sourceDto) {
-        targetEntity.setEntityId(sourceDto.getCode());
         targetEntity.setDefaultLocale(sourceDto.isDefaultLocale());
-        targetEntity.setEnglishLanguage(sourceDto.getEnglishLanguage());
-        targetEntity.setLanguage(sourceDto.getLanguage());
     }
 }

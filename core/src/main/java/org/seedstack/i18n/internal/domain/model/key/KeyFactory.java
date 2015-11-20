@@ -7,10 +7,7 @@
  */
 package org.seedstack.i18n.internal.domain.model.key;
 
-import org.javatuples.Triplet;
 import org.seedstack.business.domain.GenericFactory;
-
-import java.util.Map;
 
 /**
  * Interface of Key factory.
@@ -28,23 +25,4 @@ public interface KeyFactory extends GenericFactory<Key> {
      */
     Key createKey(String name);
 
-    /**
-     * Create a Key
-     *
-     * @param name     key name
-     * @param comment  key description
-     * @param outdated is key outdated
-     * @return key
-     */
-    Key createKey(String name, String comment, boolean outdated);
-
-    /**
-     * Create a Key
-     *
-     * @param name         key name
-     * @param comment      key description
-     * @param translations key translations
-     * @return key
-     */
-    Key createKey(String name, String comment, Map<String, Triplet<String, Boolean, Boolean>> translations);
 }

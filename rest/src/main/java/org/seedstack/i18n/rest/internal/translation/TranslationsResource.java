@@ -134,7 +134,7 @@ public class TranslationsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions("seed:i18n:translation:write")
-    public Response translate(TranslationRepresentation representation, @PathParam(LOCALE) String locale,
+    public Response updateTranslation(TranslationRepresentation representation, @PathParam(LOCALE) String locale,
                               @PathParam("key") String keyName) {
         SeedWebCheckUtils.checkIfNotBlank(locale, THE_LOCALE_SHOULD_NOT_BE_BLANK);
         SeedWebCheckUtils.checkIfNotNull(representation, THE_TRANSLATION_SHOULD_NOT_BE_NULL);
@@ -143,8 +143,7 @@ public class TranslationsResource {
         Key key = keyRepository.load(keyName);
 
         if (key != null) {
-            key.addTranslation(locale, representation.getTarget().getTranslation(),
-                    representation.getTarget().isApprox(), false);
+            key.addTranslation(locale, representation.getTarget().getTranslation(), representation.getTarget().isApprox());
             keyRepository.save(key);
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();

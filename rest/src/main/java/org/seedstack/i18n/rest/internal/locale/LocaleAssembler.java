@@ -12,7 +12,6 @@ import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- * Date: 26/11/13
  */
 public class LocaleAssembler extends BaseAssembler<Locale, LocaleRepresentation> {
 
@@ -25,8 +24,6 @@ public class LocaleAssembler extends BaseAssembler<Locale, LocaleRepresentation>
 
     @Override
     protected void doMergeAggregateWithDto(Locale targetEntity, LocaleRepresentation sourceDto) {
-        targetEntity.setEntityId(sourceDto.getCode());
-        targetEntity.setLanguage(sourceDto.getLanguage());
-        targetEntity.setEnglishLanguage(sourceDto.getEnglishLanguage());
+        // Do nothing
     }
 }

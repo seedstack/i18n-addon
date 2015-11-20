@@ -39,16 +39,10 @@ public interface LocaleRepository extends GenericRepository<Locale, String> {
     /**
      * Changes the default locale.
      *
-     * @param locale new default locale
+     * @param locale the new default locale
+     * @throws java.lang.IllegalArgumentException if the given locale is blank or is not available
      */
     void changeDefaultLocaleTo(String locale);
-
-    /**
-     * Saves all given locales
-     *
-     * @param entity locales
-     */
-    void persistAll(List<Locale> entity);
 
     /**
      * Deletes all locales.

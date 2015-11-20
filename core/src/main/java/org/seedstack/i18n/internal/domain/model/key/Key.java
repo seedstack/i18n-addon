@@ -7,9 +7,8 @@
  */
 package org.seedstack.i18n.internal.domain.model.key;
 
-import com.google.common.base.Preconditions;
-import org.apache.commons.lang.StringUtils;
 import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleCodeSpecification;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import java.util.Map;
  * @author pierre.thirouin@ext.mpsa.com
  */
 @Entity
-@Table(name="SEED_I18N_KEY")
+@Table(name = "SEED_I18N_KEY")
 public class Key extends BaseAggregateRoot<String> implements Serializable {
 
     private static final long serialVersionUID = -2498537747032788365L;
@@ -50,16 +49,10 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     /**
      * Constructor.
      *
-     * @param name         key name
-     * @param comment      key comment
-     * @param translations key translations
-     * @param outdated     is the key outdated
+     * @param name key name
      */
-    protected Key(String name, String comment, Map<String, Translation> translations, boolean outdated) {
+    public Key(String name) {
         this.entityId = name;
-        this.description = comment;
-        this.translations = translations;
-        this.outdated = outdated;
     }
 
     @Override
@@ -68,63 +61,71 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     }
 
     /**
-     * Sets entity id.
+     * Saves or updates the translation for the specified locale.
+     * If the key was outdated, checks if the key is still outdated.
      *
-     * @param entityId key name
+     * @param locale specified the translation locale
+     * @param value  translation value
+     * @return the new translation
+     * @throws java.lang.IllegalArgumentException if the locale is null or empty
+     * or contains other characters than letters and "-".
      */
-    public void setEntityId(String entityId) {
-        this.entityId = entityId;
+    public Translation addTranslation(String locale, String value) {
+        return addTranslation(locale, value, false);
     }
-
     /**
      * Saves or updates the translation for the specified locale.
      * If the key was outdated, checks if the key is still outdated.
      *
-     * @param locale      specified the translation locale
-     * @param value       translation value
-     * @param approximate translation approximate indicator
-     * @param outdated    translation outdated indicator
-     * @throws java.lang.IllegalArgumentException if locale is blank
+     * @param locale specified the translation locale
+     * @param value  translation value
+     * @return the new translation
+     * @throws java.lang.IllegalArgumentException if the locale is null or empty
+     * or contains other characters than letters and "-".
      */
-    public void addTranslation(String locale, String value, boolean approximate, boolean outdated) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(locale));
+    public Translation addTranslation(String locale, String value, boolean isApproximate) {
+        LocaleCodeSpecification.assertCode(locale);
+
         // If exists, get the translation for the given locale
         Translation translation = this.translations.get(locale);
         if (translation == null) {
-            translation = new Translation();
-            translation.setEntityId(new TranslationId(entityId, locale));
+            translation = new Translation(new TranslationId(entityId, locale), this, value);
+        } else {
+            translation.updateValue(value);
         }
-        translation.setValue(value);
-        translation.setApproximate(approximate);
-        translation.setOutdated(outdated);
-        translation.setKey(this);
+        translation.setApproximate(isApproximate);
         translations.put(locale, translation);
-        updateOutdated();
+        checkOutdatedStatus();
+        return translation;
     }
 
     /**
      * Returns the translation corresponding to the given locale code.
      *
      * @param locale locale code
-     * @return translation
-     * @throws java.lang.IllegalArgumentException if locale is blank
+     * @return the translation
+     * @throws java.lang.IllegalArgumentException if the locale is null or empty
+     * or contains other characters than letters and "-".
      */
     public Translation getTranslation(String locale) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(locale), "The locale should not be blank");
+        LocaleCodeSpecification.assertCode(locale);
+
         return this.getTranslations().get(locale);
     }
 
     /**
-     * Remove the translation corresponding to the given locale code.
+     * Removes the translation corresponding to the given locale code.
      *
      * @param locale locale code
-     * @throws java.lang.IllegalArgumentException if locale is blank
+     * @throws java.lang.IllegalArgumentException if the locale is null or empty
+     * or contains other characters than letters and "-".
      */
     public void removeTranslation(String locale) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(locale));
+        LocaleCodeSpecification.assertCode(locale);
+
         Translation translation = getTranslation(locale);
         if (translation != null) {
-            this.getTranslations().remove(translation);
+            this.getTranslations().remove(locale);
         }
     }
 
@@ -136,10 +137,11 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @return Key
      */
     public Key subKey(String sourceLocale, String targetLocale) {
-        Key subKey = new Key();
+        Key subKey = new Key(entityId);
         subKey.setComment(description);
-        subKey.setOutdated(outdated);
-        subKey.setEntityId(entityId);
+        if (outdated) {
+            subKey.setOutdated();
+        }
         Map<String, Translation> subTranslations = new HashMap<String, Translation>();
         addTranslation(subTranslations, subKey, sourceLocale);
         addTranslation(subTranslations, subKey, targetLocale);
@@ -155,10 +157,11 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @return Key
      */
     public Key subKey(String defaultLocale) {
-        Key subKey = new Key();
+        Key subKey = new Key(entityId);
         subKey.setComment(description);
-        subKey.setOutdated(outdated);
-        subKey.setEntityId(entityId);
+        if (outdated) {
+            subKey.setOutdated();
+        }
         Map<String, Translation> subTranslations = new HashMap<String, Translation>();
         addTranslation(subTranslations, subKey, defaultLocale);
         subKey.setTranslations(subTranslations);
@@ -168,22 +171,23 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     private void addTranslation(Map<String, Translation> translations, Key key, String locale) {
         Translation source = this.translations.get(locale);
         if (source == null) {
-            source = new Translation(new TranslationId(key.entityId, locale), key, "", false, false);
+            source = new Translation(new TranslationId(key.entityId, locale), key, "");
         }
         translations.put(locale, source);
     }
 
     /**
-     * Checks if the key has outdated translation
-     * and then update the outdated indicator of the key.
+     * Checks if the key has outdated translations and then update the outdated status of the key.
      */
-    public void updateOutdated() {
-        outdated = false;
+    public void checkOutdatedStatus() {
+        boolean newStatus = false;
         for (Translation translation : translations.values()) {
             if (translation.isOutdated()) {
-                outdated = true;
+                newStatus = true;
+                break;
             }
         }
+        outdated = newStatus;
     }
 
     /**
@@ -214,12 +218,14 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     }
 
     /**
-     * Sets the outdated indicator.
-     *
-     * @param outdated outdated indicator
+     * Marks the key and all its translations as outdated.
      */
-    public void setOutdated(boolean outdated) {
-        this.outdated = outdated;
+    public void setOutdated() {
+        this.outdated = true;
+
+        for (Translation translation : this.translations.values()) {
+            translation.setOutdated();
+        }
     }
 
     /**
@@ -238,6 +244,10 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      */
     public Map<String, Translation> getTranslations() {
         return translations;
+    }
+
+    public boolean isTranslated(String locale) {
+        return translations.get(locale) != null;
     }
 }
 

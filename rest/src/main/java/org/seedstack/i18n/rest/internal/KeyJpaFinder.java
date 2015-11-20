@@ -30,7 +30,6 @@ import java.util.Map;
  * KeyFinder implementation for JPA.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 13/05/2014
  */
 public class KeyJpaFinder extends BaseJpaRangeFinder<KeyRepresentation> implements KeyFinder {
 

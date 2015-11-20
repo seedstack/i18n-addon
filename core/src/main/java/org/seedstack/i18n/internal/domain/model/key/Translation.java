@@ -23,40 +23,25 @@ import javax.persistence.*;
 public class Translation extends BaseEntity<TranslationId> {
     @EmbeddedId
     private TranslationId entityId;
-
     @ManyToOne
     @MapsId("key")
     private Key key;
-
     private String value;
-
     private boolean outdated;
-
     private boolean approximate;
 
     protected Translation() {
     }
 
-    protected Translation(TranslationId translationId, Key key, String value, boolean outdated, boolean approximate) {
+    protected Translation(TranslationId translationId, Key key, String value) {
         this.entityId = translationId;
         this.key = key;
         this.value = value;
-        this.outdated = outdated;
-        this.approximate = approximate;
     }
 
     @Override
     public TranslationId getEntityId() {
         return entityId;
-    }
-
-    /**
-     * Sets the entity id.
-     *
-     * @param entityId translation id
-     */
-    public void setEntityId(TranslationId entityId) {
-        this.entityId = entityId;
     }
 
     /**
@@ -69,15 +54,6 @@ public class Translation extends BaseEntity<TranslationId> {
     }
 
     /**
-     * Sets the translation key.
-     *
-     * @param key translation key
-     */
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
-    /**
      * Returns the translation value.
      *
      * @return translation
@@ -87,16 +63,20 @@ public class Translation extends BaseEntity<TranslationId> {
     }
 
     /**
-     * Sets the translation value
+     * Changes the translation value. If the translation was marked
+     * as outdated, its status is reinitialized.
      *
      * @param value translation
      */
-    public void setValue(String value) {
+    void updateValue(String value) {
         this.value = value;
+        this.outdated = false;
+        this.approximate = false;
     }
 
     /**
-     * Indicates the reference translation has changed and this translation hasn't been updated.
+     * Indicates that the reference translation has changed and this
+     * translation hasn't been updated.
      *
      * @return the outdated
      */
@@ -105,10 +85,10 @@ public class Translation extends BaseEntity<TranslationId> {
     }
 
     /**
-     * @param outdated the outdated to set
+     * Marks the translation as outdated.
      */
-    public void setOutdated(boolean outdated) {
-        this.outdated = outdated;
+    public void setOutdated() {
+        this.outdated = true;
     }
 
     /**
@@ -123,7 +103,7 @@ public class Translation extends BaseEntity<TranslationId> {
     /**
      * @param approximate the approximate to set
      */
-    public void setApproximate(boolean approximate) {
+    void setApproximate(boolean approximate) {
         this.approximate = approximate;
     }
 

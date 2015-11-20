@@ -7,23 +7,23 @@
  */
 package org.seedstack.i18n;
 
-import org.seedstack.i18n.LocaleService;
-import org.seedstack.i18n.LocalizationService;
-import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.javatuples.Triplet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.i18n.internal.domain.model.key.Key;
+import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
+import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,9 +32,12 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SeedITRunner.class)
 public class ICUBasedLocalizationServiceIT {
 
-    private String french;
-
-    private String US;
+    private static final String FR_FR = "fr-FR";
+    private static final String EN_US = "en-US";
+    public static final String EN_CA = "en-CA";
+    public static final String ZH_CN = "zh-CN";
+    private static final String FANCY_LOCALE = "fo-BA";
+    public static final String KEY = "key";
 
     private String defaultLocale;
 
@@ -55,15 +58,12 @@ public class ICUBasedLocalizationServiceIT {
         for (String locale : localeService.getAvailableLocales()) {
             localeService.deleteLocale(locale);
         }
-        defaultLocale = "fr-FR";
-        french = "fr-FR";
-        String dummy = "pouet";
-        US = "en-US";
+        defaultLocale = FR_FR;
 
-        localeService.addLocale(french);
-        localeService.addLocale(US);
-        localeService.addLocale(dummy);
-        localeService.changeDefaultLocaleTo(french);
+        localeService.addLocale(FR_FR);
+        localeService.addLocale(EN_US);
+        localeService.addLocale(FANCY_LOCALE);
+        localeService.changeDefaultLocaleTo(FR_FR);
     }
 
     @After
@@ -78,10 +78,10 @@ public class ICUBasedLocalizationServiceIT {
 
     @Test
     public void getClosestLocale_returns_closest_locale() {
-        String result1 = localeService.getClosestLocale("en-CA");
-        assertEquals("en-US", result1);
+        String result1 = localeService.getClosestLocale(EN_CA);
+        assertEquals(EN_US, result1);
 
-        String result2 = localeService.getClosestLocale("zh-CN");
+        String result2 = localeService.getClosestLocale(ZH_CN);
         assertEquals(defaultLocale, result2);
     }
 
@@ -89,11 +89,11 @@ public class ICUBasedLocalizationServiceIT {
     public void formatDate_formats_a_date() {
         Calendar cal = new GregorianCalendar(2013, 4, 28, 17, 52, 5);
 
-        String result1 = localizationService.formatDate("fr-FR", cal.getTime(), "dMyHmsE");
+        String result1 = localizationService.formatDate(FR_FR, cal.getTime(), "dMyHmsE");
         assertEquals("mar. 28/5/2013 17:52:05", result1);
-        String result2 = localizationService.formatDate("en-US", cal.getTime(), "dMyHmsE");
+        String result2 = localizationService.formatDate(EN_US, cal.getTime(), "dMyHmsE");
         assertEquals("Tue, 5/28/2013, 17:52:05", result2);
-        String result3 = localizationService.formatDate("fr-FR", new Date(cal.getTimeInMillis() + TimeZone.getDefault().getOffset(cal.getTimeInMillis())), "dMyHmsE", "America/Argentina/Buenos_Aires");
+        String result3 = localizationService.formatDate(FR_FR, new Date(cal.getTimeInMillis() + TimeZone.getDefault().getOffset(cal.getTimeInMillis())), "dMyHmsE", "America/Argentina/Buenos_Aires");
         assertEquals("mar. 28/5/2013 14:52:05", result3);
     }
 
@@ -101,82 +101,79 @@ public class ICUBasedLocalizationServiceIT {
     public void parseDate_parses_a_date() throws ParseException {
         Calendar cal = new GregorianCalendar(2013, 4, 28, 17, 52, 5);
 
-        Date result1 = localizationService.parseDate("fr-FR", "mar. 28/5/2013 17:52:05", "dMyHmsE");
+        Date result1 = localizationService.parseDate(FR_FR, "mar. 28/5/2013 17:52:05", "dMyHmsE");
         assertEquals(cal.getTime(), result1);
-        Date result2 = localizationService.parseDate("en-US", "Tue, 5/28/2013, 17:52:05", "dMyHmsE");
+        Date result2 = localizationService.parseDate(EN_US, "Tue, 5/28/2013, 17:52:05", "dMyHmsE");
         assertEquals(cal.getTime(), result2);
-        Date result3 = localizationService.parseDate("fr-FR", "mar. 28/5/2013 14:52:05", "dMyHmsE", "America/Argentina/Buenos_Aires");
+        Date result3 = localizationService.parseDate(FR_FR, "mar. 28/5/2013 14:52:05", "dMyHmsE", "America/Argentina/Buenos_Aires");
         assertEquals(new Date(cal.getTimeInMillis() + TimeZone.getDefault().getOffset(cal.getTimeInMillis())), result3);
     }
 
     @Test
     public void formatCurrency_formats_currency() {
-        String result1 = localizationService.formatCurrencyAmount("fr-FR", 12.34);
+        String result1 = localizationService.formatCurrencyAmount(FR_FR, 12.34);
         assertEquals("12,34 €", result1);
-        String result2 = localizationService.formatCurrencyAmount("en-CA", 12.34);
+        String result2 = localizationService.formatCurrencyAmount(EN_CA, 12.34);
         assertEquals("CA$12.34", result2);
 
-        String result3 = localizationService.formatCurrencyAmount("fr-FR", 12.34, "GBP");
+        String result3 = localizationService.formatCurrencyAmount(FR_FR, 12.34, "GBP");
         assertEquals("12,34 £UK", result3);
-        String result4 = localizationService.formatCurrencyAmount("en-US", 12.34, "EUR");
+        String result4 = localizationService.formatCurrencyAmount(EN_US, 12.34, "EUR");
         assertEquals("€12.34", result4);
     }
 
     @Test
     public void parseCurrency_parses_currency() throws ParseException {
-        Number result1 = localizationService.parseCurrencyAmount("fr-FR", "12,34 €");
+        Number result1 = localizationService.parseCurrencyAmount(FR_FR, "12,34 €");
         assertEquals(12.34, result1.doubleValue(), 0);
-        Number result2 = localizationService.parseCurrencyAmount("en-CA", "CA$12.34");
+        Number result2 = localizationService.parseCurrencyAmount(EN_CA, "CA$12.34");
         assertEquals(12.34, result2.doubleValue(), 0);
 
-        Number result3 = localizationService.parseCurrencyAmount("fr-FR", "12,34 £UK", "GBP");
+        Number result3 = localizationService.parseCurrencyAmount(FR_FR, "12,34 £UK", "GBP");
         assertEquals(12.34, result3.doubleValue(), 0);
-        Number result4 = localizationService.parseCurrencyAmount("en-US", "€12.34", "EUR");
+        Number result4 = localizationService.parseCurrencyAmount(EN_US, "€12.34", "EUR");
         assertEquals(12.34, result4.doubleValue(), 0);
     }
 
     @Test
     public void formatNumber_formats_a_number() {
-        String result1 = localizationService.formatNumber("fr-FR", 12.34);
+        String result1 = localizationService.formatNumber(FR_FR, 12.34);
         assertEquals("12,34", result1);
-        String result2 = localizationService.formatNumber("en-US", 12.34);
+        String result2 = localizationService.formatNumber(EN_US, 12.34);
         assertEquals("12.34", result2);
     }
 
     @Test
     public void parseNumber_parses_a_number() throws ParseException {
-        Number result1 = localizationService.parseNumber("fr-FR", "12,34");
+        Number result1 = localizationService.parseNumber(FR_FR, "12,34");
         assertEquals(12.34, result1.doubleValue(), 0);
-        Number result2 = localizationService.parseNumber("en-US", "12.34");
+        Number result2 = localizationService.parseNumber(EN_US, "12.34");
         assertEquals(12.34, result2.doubleValue(), 0);
     }
 
     @Test
     public void localize_localizes_simple_message() {
-        String key = "key";
         String messageValue = "message";
-        Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-        Triplet<String, Boolean, Boolean> usTranslation = new Triplet<String, Boolean, Boolean>(messageValue, true, true);
-        translations.put("fr_FR", usTranslation);
-        Key key1 = factory.createKey(key, "comment", translations);
-        repository.persist(key1);
-        assertEquals(messageValue, localizationService.localize("fr-FR", "key"));
+
+        Key key = factory.createKey(KEY);
+        key.addTranslation(FR_FR, messageValue);
+        repository.persist(key);
+
+        assertEquals(messageValue, localizationService.localize(FR_FR, KEY));
     }
 
     @Test
     public void localize_localizes_no_message() {
-        String key = "key";
-        assertEquals("[" + key + "]", localizationService.localize("fr-FR", "key"));
+        String key = KEY;
+        assertEquals("[" + key + "]", localizationService.localize(FR_FR, KEY));
 
-        Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-        Key key1 = factory.createKey(key, "comment", translations);
+        Key key1 = factory.createKey(key);
         repository.persist(key1);
-        assertEquals("[" + key + "]", localizationService.localize("fr-FR", "key"));
+        assertEquals("[" + key + "]", localizationService.localize(FR_FR, KEY));
     }
 
     @Test
     public void localize_localizes_complex_message() {
-        String key = "key";
         Object[] arguments = {
                 7,
                 new Date(new GregorianCalendar(2013, 4, 28, 17, 52, 5).getTimeInMillis()),
@@ -187,22 +184,19 @@ public class ICUBasedLocalizationServiceIT {
 
         String messageValueFR = "Le {1,date} à {1,time}, il y eut \"{2}\" sur la planète {0,number,integer}. Cet incident a coûté {3, number, currency}";
 
-        Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-        Triplet<String, Boolean, Boolean> usTranslation = new Triplet<String, Boolean, Boolean>(messageValueUS, true, true);
-        Triplet<String, Boolean, Boolean> frTranslation = new Triplet<String, Boolean, Boolean>(messageValueFR, true, true);
-        translations.put("en_US", usTranslation);
-        translations.put("fr_FR", frTranslation);
-        Key key1 = factory.createKey(key, "comment", translations);
-        repository.persist(key1);
+        Key key = factory.createKey(KEY);
+        key.addTranslation(EN_US, messageValueUS);
+        key.addTranslation(FR_FR, messageValueFR);
+        repository.persist(key);
 
-        assertEquals("At 5:52:05 PM on May 28, 2013, there was a disturbance in the Force on planet 7. The incident cost $17.36", localizationService.localize("en-US", "key", arguments));
+        assertEquals("At 5:52:05 PM on May 28, 2013, there was a disturbance in the Force on planet 7. The incident cost $17.36", localizationService.localize(EN_US, KEY, arguments));
 
-        assertEquals("Le 28 mai 2013 à 17:52:05, il y eut \"a disturbance in the Force\" sur la planète 7. Cet incident a coûté 17,36 €", localizationService.localize("fr-FR", "key", arguments));
+        assertEquals("Le 28 mai 2013 à 17:52:05, il y eut \"a disturbance in the Force\" sur la planète 7. Cet incident a coûté 17,36 €", localizationService.localize(FR_FR, KEY, arguments));
     }
 
     @Test
     public void localize_with_plural() {
-        String key = "key";
+        String key = KEY;
         Object[] arguments1 = {
                 0,
                 "MyDisk"
@@ -212,24 +206,22 @@ public class ICUBasedLocalizationServiceIT {
                 "=1{There is one file on disk \"{1}\".}" +
                 "other{There are # files on disk \"{1}\".}}";
 
-        Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-        Triplet<String, Boolean, Boolean> usTranslation = new Triplet<String, Boolean, Boolean>(messageValueUS, true, true);
-        translations.put("en_US", usTranslation);
-        Key key1 = factory.createKey(key, "comment", translations);
+        Key key1 = factory.createKey(key);
+        key1.addTranslation(EN_US, messageValueUS);
         repository.persist(key1);
 
-        assertEquals("There are no files on disk \"MyDisk\".", localizationService.localize("en-US", "key", arguments1));
+        assertEquals("There are no files on disk \"MyDisk\".", localizationService.localize(EN_US, KEY, arguments1));
 
         Object[] arguments2 = {
                 1,
                 "Toto"
         };
-        assertEquals("There is one file on disk \"Toto\".", localizationService.localize("en-US", "key", arguments2));
+        assertEquals("There is one file on disk \"Toto\".", localizationService.localize(EN_US, KEY, arguments2));
 
         Object[] arguments3 = {
                 20,
                 "Pouet"
         };
-        assertEquals("There are 20 files on disk \"Pouet\".", localizationService.localize("en-US", "key", arguments3));
+        assertEquals("There are 20 files on disk \"Pouet\".", localizationService.localize(EN_US, KEY, arguments3));
     }
 }

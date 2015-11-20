@@ -43,8 +43,6 @@ public class KeyAssembler extends BaseAssembler<Key, KeyRepresentation> {
 
     @Override
     protected void doMergeAggregateWithDto(Key targetEntity, KeyRepresentation sourceDto) {
-        targetEntity.setOutdated(sourceDto.isOutdated());
-        targetEntity.setComment(sourceDto.getComment());
-        targetEntity.addTranslation(sourceDto.getDefaultLocale(), sourceDto.getTranslation(), sourceDto.isApprox(), sourceDto.isOutdated());
+        throw new UnsupportedOperationException();
     }
 }

@@ -13,7 +13,6 @@ import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 20/03/14
  */
 public class KeyDTOAssembler extends BaseAssembler<Key, KeyDTO> {
 
@@ -30,9 +29,11 @@ public class KeyDTOAssembler extends BaseAssembler<Key, KeyDTO> {
     @Override
     protected void doMergeAggregateWithDto(Key targetEntity, KeyDTO sourceDto) {
         targetEntity.setComment(sourceDto.getComment());
-        targetEntity.setOutdated(sourceDto.isOutdated());
-        for (TranslationDTO tln : sourceDto.getTranslations()) {
-            targetEntity.addTranslation(tln.getLocale(), tln.getValue(), tln.isApproximate(), false);
+        if (sourceDto.isOutdated()) {
+            targetEntity.setOutdated();
+        }
+        for (TranslationDTO translation : sourceDto.getTranslations()) {
+            targetEntity.addTranslation(translation.getLocale(), translation.getValue(), translation.isApproximate());
         }
     }
 }

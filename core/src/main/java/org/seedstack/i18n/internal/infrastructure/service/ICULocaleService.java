@@ -15,7 +15,6 @@ import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.apache.commons.lang.Validate;
 
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -75,16 +74,20 @@ public class ICULocaleService implements LocaleService {
 
     @Override
     public synchronized void addLocale(String locale) {
-        Validate.notNull(locale, LOCALE_MUST_NOT_BE_NULL);
+        if (locale == null || locale.equals("")) {
+            throw new IllegalArgumentException(LOCALE_MUST_NOT_BE_NULL);
+        }
         if (localeRepository.load(locale) == null) {
-            Locale newLocale = localeFactory.create(locale);
+            Locale newLocale = localeFactory.createFromCode(locale);
             localeRepository.persist(newLocale);
         }
     }
 
     @Override
     public void deleteLocale(String locale) {
-        Validate.notNull(locale, LOCALE_MUST_NOT_BE_NULL);
+        if (locale == null || locale.equals("")) {
+            throw new IllegalArgumentException(LOCALE_MUST_NOT_BE_NULL);
+        }
         localeRepository.delete(localeRepository.load(locale));
     }
 
@@ -98,7 +101,7 @@ public class ICULocaleService implements LocaleService {
         }
     }
 
-    ULocale getClosestULocale(String locale) {
+    private ULocale getClosestULocale(String locale) {
         String defaultLocale = getDefaultLocale();
 
         if (isAvailable(locale)) {

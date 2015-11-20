@@ -40,43 +40,38 @@ public class LocaleJpaRepository extends BaseJpaRepository<Locale, String> imple
 
     @Override
     public Locale getDefaultLocale() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Locale> q = cb.createQuery(Locale.class);
-        Root<Locale> l = q.from(Locale.class);
-        q.where(cb.equal(l.get("defaultLocale"), true));
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Locale> query = criteriaBuilder.createQuery(Locale.class);
+        Root<Locale> localeRoot = query.from(Locale.class);
+        query.where(criteriaBuilder.equal(localeRoot.get("defaultLocale"), true));
         try {
-            return entityManager.createQuery(q.select(l)).getSingleResult();
+            return entityManager.createQuery(query.select(localeRoot)).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
 
-    /**
-     * Sets the given locale as default locale. If a locale was already the default reinitialize this locale.
-     *
-     * @param locale new default locale
-     * @throws java.lang.IllegalArgumentException if the given locale parameter is blank
-     * @throws java.lang.NullPointerException     if the new default locale is not an available locale
-     */
     @Override
     public void changeDefaultLocaleTo(String locale) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(locale));
-        Locale newDefault = load(locale.replace("-", "_"));
-        Validate.notNull(newDefault, "The locale " + locale + " is not available.");
-        Locale oldDefault = getDefaultLocale();
-        if (oldDefault != null) {
-            oldDefault.setDefaultLocale(false);
-            save(oldDefault);
+        if (locale == null || locale.equals("")) {
+            throw new IllegalArgumentException("The default locale cannot be null or empty.");
         }
+        Locale newDefault = load(locale);
+        if (newDefault == null) {
+            throw new IllegalArgumentException("Enable to change the default locale. The locale " + locale + " is not available.");
+        }
+        Locale oldDefault = getDefaultLocale();
 
-        newDefault.setDefaultLocale(true);
-        save(newDefault);
-    }
+        // If the default locale is the same do nothing
+        if (newDefault != oldDefault) {
+            // otherwise reinitialize the previous one
+            if (oldDefault != null) {
+                oldDefault.setDefaultLocale(false);
+                save(oldDefault);
+            }
 
-    @Override
-    public void persistAll(List<Locale> locales) {
-        for (Locale locale : locales) {
-            persist(locale);
+            newDefault.setDefaultLocale(true);
+            save(newDefault);
         }
     }
 
