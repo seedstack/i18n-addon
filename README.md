@@ -1,5 +1,5 @@
 # SeedStack i18n function 
-[![Build status](https://travis-ci.org/seedstack/i18n-addon.svg?branch=master)](https://travis-ci.org/seedstack/i18n-addon) [![Coverage Status](https://coveralls.io/repos/seedstack/i18n-addon/badge.svg?branch=master)](https://coveralls.io/r/seedstack/i18n-addon?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.i18n/i18n-addon/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.i18n/i18n-addon)
+[![Build status](https://travis-ci.org/seedstack/i18n-addon.svg?branch=master)](https://travis-ci.org/seedstack/i18n-addon) [![Coverage Status](https://coveralls.io/repos/seedstack/i18n-addon/badge.svg?branch=master)](https://coveralls.io/r/seedstack/i18n-addon?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.i18n/i18n/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.i18n/i18n)
 
 Server-side internationalization providing a Java and REST API along with W20 i18n admin screens.  
 
