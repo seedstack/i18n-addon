@@ -40,7 +40,7 @@ public interface LocaleService {
     /**
      * Returns the application's default locale.
      *
-     * @return The locale defined as default in the repository
+     * @return The default locale or null if there is no default locale
      */
     String getDefaultLocale();
 

@@ -68,12 +68,12 @@ public class ICULocaleService implements LocaleService {
     }
 
     @Override
-    public synchronized void changeDefaultLocaleTo(String locale) {
+    public void changeDefaultLocaleTo(String locale) {
         localeRepository.changeDefaultLocaleTo(locale);
     }
 
     @Override
-    public synchronized void addLocale(String locale) {
+    public void addLocale(String locale) {
         if (locale == null || locale.equals("")) {
             throw new IllegalArgumentException(LOCALE_MUST_NOT_BE_NULL);
         }
