@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.locale;
 
-import org.seedstack.i18n.rest.internal.exception.SeedWebCheckUtils;
+import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;

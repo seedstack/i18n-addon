@@ -5,29 +5,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest.internal.exception;
+package org.seedstack.i18n.rest.internal.shared;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Web exception which sends an HTTP error code 400 with a message.
+ * Web exception which sends an HTTP error code 409 (conflict) with a message.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 26/05/2014
+ *         Date: 07/02/14
  */
-public class BadRequestException extends WebApplicationException {
+public class AlreadyExistException extends WebApplicationException {
 
     private static final long serialVersionUID = -4568375759076851959L;
 
     /**
-     * BadRequestException constructor.
-     * Send to the client an HTTP error code 400 with a message.
+     * AlreadyExistException constructor.
      *
      * @param message functional message indicating the request error
      */
-    public BadRequestException(String message) {
-        super(Response.status(Response.Status.BAD_REQUEST).entity(message).type(MediaType.TEXT_PLAIN).build());
+    public AlreadyExistException(String message) {
+        super(Response.status(Response.Status.CONFLICT).entity(message).type(MediaType.TEXT_PLAIN).build());
     }
 }

@@ -15,22 +15,26 @@ import org.junit.Test;
  */
 public class LocaleTest {
 
+    public static final String ES_AR = "es-AR";
+    public static final String ESPAÑOL_ARGENTINA = "español (Argentina)";
+    public static final String SPANISH_ARGENTINA = "Spanish (Argentina)";
+
     @Test
     public void testLocaleConstructor() {
-        Locale locale = new Locale("es-AR", "español (Argentina)", "Spanish (Argentina)");
-        Assertions.assertThat(locale.getEntityId()).isEqualTo("es-AR");
-        Assertions.assertThat(locale.getLanguage()).isEqualTo("español (Argentina)");
-        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("Spanish (Argentina)");
+        Locale locale = new Locale(ES_AR, ESPAÑOL_ARGENTINA, SPANISH_ARGENTINA);
+        Assertions.assertThat(locale.getEntityId()).isEqualTo(ES_AR);
+        Assertions.assertThat(locale.getLanguage()).isEqualTo(ESPAÑOL_ARGENTINA);
+        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo(SPANISH_ARGENTINA);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidLocaleId() {
-        new Locale("es_AR", "español (Argentina)", "Spanish (Argentina)");
+        new Locale("es_AR", ESPAÑOL_ARGENTINA, SPANISH_ARGENTINA);
     }
 
     @Test
     public void testDefaultLocale() {
-        Locale locale = new Locale("es-AR", "español (Argentina)", "Spanish (Argentina)");
+        Locale locale = new Locale(ES_AR, ESPAÑOL_ARGENTINA, SPANISH_ARGENTINA);
         Assertions.assertThat(locale.isDefaultLocale()).isFalse();
         locale.setDefaultLocale(true);
         Assertions.assertThat(locale.isDefaultLocale()).isTrue();

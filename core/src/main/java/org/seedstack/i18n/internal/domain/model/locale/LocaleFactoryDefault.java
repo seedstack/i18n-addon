@@ -19,12 +19,12 @@ public class LocaleFactoryDefault extends BaseFactory<Locale> implements LocaleF
     private LocaleCodeSpecification localeCodeSpecification = new LocaleCodeSpecification();
 
     @Override
-    public Locale create(String language) {
+    public Locale createFromLanguage(String language) {
         return createFromLocale(new java.util.Locale(language));
     }
 
     @Override
-    public Locale create(String language, String region) {
+    public Locale createFromLanguageAndRegion(String language, String region) {
         return createFromLocale(new java.util.Locale(language, region));
     }
 

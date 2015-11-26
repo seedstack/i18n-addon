@@ -9,8 +9,8 @@ package org.seedstack.i18n.rest.internal.translation;
 
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.rest.internal.exception.SeedWebCheckUtils;
-import org.seedstack.i18n.rest.internal.BooleanUtils;
+import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
+import org.seedstack.i18n.rest.internal.shared.BooleanUtils;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.PaginatedView;

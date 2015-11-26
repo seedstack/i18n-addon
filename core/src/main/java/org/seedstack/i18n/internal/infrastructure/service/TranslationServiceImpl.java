@@ -75,6 +75,10 @@ public class TranslationServiceImpl implements TranslationService {
         }
     }
 
+    private boolean isEmpty(String value) {
+        return value == null || value.equals("");
+    }
+
     private void updateTranslation(String locale, String value, Key key) {
         if (translationHasChanged(key, locale, value)) {
             if (isDefaultLocale(locale)) {
@@ -84,17 +88,13 @@ public class TranslationServiceImpl implements TranslationService {
         }
     }
 
-    private boolean isEmpty(String value) {
-        return value == null || value.equals("");
+    private boolean translationHasChanged(Key key, String locale, String newTranslation) {
+        Translation translation = key.getTranslation(locale);
+        return translation == null || !newTranslation.equals(translation.getValue());
     }
 
     private boolean isDefaultLocale(String locale) {
         String defaultLocale = localeService.getDefaultLocale();
         return defaultLocale != null && defaultLocale.equals(locale);
-    }
-
-    private boolean translationHasChanged(Key key, String locale, String newTranslation) {
-        Translation translation = key.getTranslation(locale);
-        return translation == null || !newTranslation.equals(translation.getValue());
     }
 }

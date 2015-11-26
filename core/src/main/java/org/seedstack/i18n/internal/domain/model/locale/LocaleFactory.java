@@ -29,7 +29,7 @@ public interface LocaleFactory extends GenericFactory<Locale> {
      * @param language language identifier
      * @return the locale
      */
-    Locale create(String language);
+    Locale createFromLanguage(String language);
 
     /**
      * Creates a locale based on the language and the region, e.g. "fr" and "BE" for French (Belgium).
@@ -38,5 +38,5 @@ public interface LocaleFactory extends GenericFactory<Locale> {
      * @param region   region identifier
      * @return the locale
      */
-    Locale create(String language, String region);
+    Locale createFromLanguageAndRegion(String language, String region);
 }

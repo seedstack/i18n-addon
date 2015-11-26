@@ -19,30 +19,42 @@ public class LocaleFactoryTest {
 
     @Test
     public void testCreateLocaleWithLanguage() {
-        Locale frLocale = localeFactory.create("fr");
-        Assertions.assertThat(frLocale.getEntityId()).isEqualTo("fr");
-        Assertions.assertThat(frLocale.getLanguage()).isEqualTo("français");
-        Assertions.assertThat(frLocale.getEnglishLanguage()).isEqualTo("French");
-
-        Locale enLocale = localeFactory.create("en");
-        Assertions.assertThat(enLocale.getEntityId()).isEqualTo("en");
-        Assertions.assertThat(enLocale.getLanguage()).isEqualTo("English");
-        Assertions.assertThat(enLocale.getEnglishLanguage()).isEqualTo("English");
+        Locale frLocale = localeFactory.createFromLanguage("fr");
+        assertLocale(frLocale, "fr", "français", "French");
     }
 
     @Test
     public void testCreateLocaleWithLanguageAndRegion() {
-        Locale locale = localeFactory.create("fr", "BE");
-        Assertions.assertThat(locale.getEntityId()).isEqualTo("fr-BE");
-        Assertions.assertThat(locale.getLanguage()).isEqualTo("français (Belgique)");
-        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("French (Belgium)");
+        Locale locale = localeFactory.createFromLanguageAndRegion("fr", "BE");
+        assertLocale(locale, "fr-BE", "français (Belgique)", "French (Belgium)");
+
+        Locale esARLocale = localeFactory.createFromLanguageAndRegion("es", "ar");
+        assertLocale(esARLocale, "es-AR", "español (Argentina)", "Spanish (Argentina)");
+    }
+
+    @Test
+    public void testLocaleCreationDontDependOnPlatform() {
+        java.util.Locale.setDefault(new java.util.Locale("fr"));
+        Locale esARLocale = localeFactory.createFromLanguageAndRegion("es", "ar");
+        assertLocale(esARLocale, "es-AR", "español (Argentina)", "Spanish (Argentina)");
+
+        java.util.Locale.setDefault(new java.util.Locale("en"));
+        esARLocale = localeFactory.createFromLanguageAndRegion("es", "ar");
+        assertLocale(esARLocale, "es-AR", "español (Argentina)", "Spanish (Argentina)");
     }
 
     @Test
     public void testCreateLocaleWithLanguageAndCountry() {
+        Locale frLocale = localeFactory.createFromCode("fr");
+        assertLocale(frLocale, "fr", "français", "French");
+
         Locale locale = localeFactory.createFromCode("fr-BE");
-        Assertions.assertThat(locale.getEntityId()).isEqualTo("fr-BE");
-        Assertions.assertThat(locale.getLanguage()).isEqualTo("français (Belgique)");
-        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("French (Belgium)");
+        assertLocale(locale, "fr-BE", "français (Belgique)", "French (Belgium)");
+    }
+
+    private void assertLocale(Locale locale, String code, String language, String englishLanguage) {
+        Assertions.assertThat(locale.getEntityId()).isEqualTo(code);
+        Assertions.assertThat(locale.getLanguage()).isEqualTo(language);
+        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo(englishLanguage);
     }
 }

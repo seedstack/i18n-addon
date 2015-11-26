@@ -43,7 +43,7 @@ public class LocaleJpaRepositoryIT {
 
     @Before
     public void setUp() {
-        expectedLocale = localeFactory.create(localeId);
+        expectedLocale = localeFactory.createFromCode(localeId);
     }
 
     @After
