@@ -12,69 +12,73 @@ import org.seedstack.business.Service;
 import java.util.Set;
 
 /**
- * Repository for locales. A locale is just a String identifying a region. Some
+ * This service allows to manage the application's locales.
+ *
+ * A locale is just a String identifying a region. Some
  * examples include fr-FR, en-GB, en-US-pouet, zn, any string you want to use.
- * 
+ *
  * @author yves.dautremay@mpsa.com
  */
 @Service
 public interface LocaleService {
 
-	/**
-	 * Tells if the given locale is available in this repository
-	 * 
-	 * @param localeCode
-	 *            the locale to test. returns false if null.
-	 * @return true is the locale is in the repository, false otherwise.
-	 */
-	boolean isAvailable(String localeCode);
-
-	/**
-	 * Gives all the locales defined in the reposiroty
-	 * 
-	 * @return a set with all the locales. An empty set if no locales are
-	 *         defined.
-	 */
-	Set<String> getAvailableLocales();
-
-	/**
-	 * Default locale of the application.
-	 * 
-	 * @return The locale defined as default in the repository
-	 */
-	String getDefaultLocale();
+    /**
+     * Indicates whether the locale is available. Returns false if the given code is null.
+     *
+     * @param localeCode the locale code, e.g. "fr-BE"
+     * @return true is the locale exists, false otherwise.
+     */
+    boolean isAvailable(String localeCode);
 
     /**
-     * Get the closest locale supported by the application
+     * Returns all the available locales for the application.
+     *
+     * @return a set with all the locales or an empty set if no locale is present.
+     */
+    Set<String> getAvailableLocales();
+
+    /**
+     * Returns the application's default locale.
+     *
+     * @return The locale defined as default in the repository
+     */
+    String getDefaultLocale();
+
+    /**
+     * Returns the closest locale from the given locale which is supported by the application.
      *
      * @param locale The locale to match.
      * @return The supported locale.
      */
     String getClosestLocale(String locale);
 
-	/**
-	 * Changes the current default locale to the given one.
-	 * 
-	 * @param locale
-	 *            the locale to define as default. Throws
-	 *            IllegalArgumentException if null.
-	 */
-	void changeDefaultLocaleTo(String locale);
+    /**
+     * Changes the current default locale.
+     *
+     * @param locale the locale to define as default.
+     * @throws IllegalArgumentException if the locale is null.
+     */
+    void changeDefaultLocaleTo(String locale);
 
-	/**
-	 * Adds a locale to the repository. Does nothing if locale already exists.
-	 * 
-	 * @param locale
-	 *            the locale to add. Throws IllegalArgumentException if null.
-	 */
-	void addLocale(String locale);
+    /**
+     * Adds a new available locale.
+     * <p>
+     * Does nothing if locale already exists.
+     * </p>
+     *
+     * @param locale the locale to add.
+     * @throws IllegalArgumentException if the locale is null.
+     */
+    void addLocale(String locale);
 
-	/**
-	 * Deletes a locale from the repository. Does nothing if the given locale
-	 * does not exist in the repository.
-	 * 
-	 * @param locale
-	 *            the locale to delete. Throws IllegalArgumentException if null.
-	 */
-	void deleteLocale(String locale);
+    /**
+     * Deletes an available locale.
+     * <p>
+     * Does nothing if the given locale does not exist.
+     * </p>
+     *
+     * @param locale the locale to delete.
+     * @throws IllegalArgumentException if the locale is null.
+     */
+    void deleteLocale(String locale);
 }

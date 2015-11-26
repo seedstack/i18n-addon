@@ -7,24 +7,23 @@
  */
 package org.seedstack.i18n;
 
-import org.seedstack.i18n.LocaleService;
-import org.seedstack.i18n.LocalizationService;
-import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.assertj.core.api.Assertions;
-import org.javatuples.Triplet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.i18n.internal.domain.model.key.Key;
+import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
+import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -34,6 +33,14 @@ import java.util.*;
 @Transactional
 @RunWith(SeedITRunner.class)
 public class LocalizationServiceIT {
+
+    public static final String EN = "en";
+    public static final String FR = "fr";
+    public static final String EN_GB = "en-GB";
+    public static final String EN_US = "en-US";
+    public static final String ZH_CN = "zh-CN";
+    public static final String FR_FR = "fr-FR";
+    public static final String COMMENT = "comment";
 
     @Inject
     private LocalizationService localizationService;
@@ -53,11 +60,11 @@ public class LocalizationServiceIT {
         for (String availableLocale : availableLocales) {
             localeService.deleteLocale(availableLocale);
         }
-        localeService.addLocale("en-US");
-        localeService.addLocale("en-GB");
-        localeService.addLocale("fr");
-        localeService.addLocale("fr-FR");
-        localeService.addLocale("zh-CN");
+        localeService.addLocale(EN_US);
+        localeService.addLocale(EN_GB);
+        localeService.addLocale(FR);
+        localeService.addLocale(FR_FR);
+        localeService.addLocale(ZH_CN);
     }
 
     @Test
@@ -83,7 +90,7 @@ public class LocalizationServiceIT {
 
     @Test
     public void localize_number() throws ParseException {
-        Float number = new Float(10000.01);
+        Float number = 10000.01f;
         String formattedNumber = localizationService.formatNumber(Locale.US.toString(), number);
         Number expectedNumber = localizationService.parseNumber(Locale.US.toString(), formattedNumber);
         Assertions.assertThat(expectedNumber.floatValue()).isEqualTo(number);
@@ -100,46 +107,40 @@ public class LocalizationServiceIT {
         String frValue = "ma traduction, une fois";
 
         // Create a key with a translation
-        Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-        Triplet<String, Boolean, Boolean> fr_FRTranslation = new Triplet<String, Boolean, Boolean>(fr_FRValue, true, true);
-        Triplet<String, Boolean, Boolean> frTranslation = new Triplet<String, Boolean, Boolean>(frValue, true, true);
-        translations.put("fr", frTranslation);
-        translations.put("fr_FR", fr_FRTranslation);
-        Key key1 = factory.createKey(keyID1, "comment", translations);
+        Key key1 = factory.createKey(keyID1);
+        key1.setComment(COMMENT);
+        key1.addTranslation(FR, frValue);
+        key1.addTranslation(FR_FR, fr_FRValue);
         repository.persist(key1);
 
-        String localizedKey = localizationService.localize("fr_FR", keyID1);
+        String localizedKey = localizationService.localize(FR_FR, keyID1);
         Assertions.assertThat(localizedKey).isEqualTo(fr_FRValue);
 
-        localizedKey = localizationService.localize("fr", keyID1);
+        localizedKey = localizationService.localize(FR, keyID1);
         Assertions.assertThat(localizedKey).isEqualTo(frValue);
     }
 
     @Test
     public void translation_with_closest_locale_en_GB() {
-        String locale_en = "en";
-        String locale_en_GB = "en_GB";
         String translation_en = "my translation";
         String translation_en_GB = "my translation with a GB accent";
-        localeService.addLocale(locale_en);
-        localeService.addLocale(locale_en_GB);
+        localeService.addLocale(EN);
+        localeService.addLocale(EN_GB);
 
-        Map<String, Triplet<String, Boolean, Boolean>> translations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-
-        translations.put(locale_en, Triplet.with(translation_en, false, false));
-        translations.put(locale_en_GB, Triplet.with(translation_en_GB, false, false));
         // create the key
-        Key key = factory.createKey("key", "comment", translations);
+        Key key = factory.createKey("key");
+        key.addTranslation(EN, translation_en);
+        key.addTranslation(EN_GB, translation_en_GB);
         repository.persist(key);
 
-        String requestedTranslation = localizationService.localize(locale_en, key.getEntityId());
+        String requestedTranslation = localizationService.localize(EN, key.getEntityId());
         Assertions.assertThat(requestedTranslation).isEqualTo(translation_en);
 
-        requestedTranslation = localizationService.localize(locale_en_GB, key.getEntityId());
+        requestedTranslation = localizationService.localize(EN_GB, key.getEntityId());
         Assertions.assertThat(requestedTranslation).isEqualTo(translation_en_GB);
 
-        localeService.deleteLocale(locale_en);
-        localeService.deleteLocale(locale_en_GB);
+        localeService.deleteLocale(EN);
+        localeService.deleteLocale(EN_GB);
         repository.delete(key);
     }
 
@@ -148,6 +149,5 @@ public class LocalizationServiceIT {
         for (String locale : localeService.getAvailableLocales()) {
             localeService.deleteLocale(locale);
         }
-
     }
 }

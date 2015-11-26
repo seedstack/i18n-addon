@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest.internal;
+package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
 import com.ibm.icu.util.ULocale;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
@@ -139,7 +139,7 @@ public class LocaleJpaFinder implements LocaleFinder {
      */
     LocaleRepresentation assembleLocaleRepresentationFromLocale(java.util.Locale locale) {
         LocaleRepresentation representation = new LocaleRepresentation();
-        representation.setCode(locale.toString());
+        representation.setCode(Locale.formatLocaleCode(locale.toString()));
         representation.setLanguage(locale.getDisplayName(locale));
         representation.setEnglishLanguage(locale.getDisplayName(java.util.Locale.ENGLISH));
         return representation;

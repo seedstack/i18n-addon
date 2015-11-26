@@ -7,17 +7,15 @@
  */
 package org.seedstack.i18n;
 
-import org.seedstack.i18n.LocaleService;
-import org.seedstack.i18n.LocalizationService;
-import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.i18n.internal.domain.model.key.Key;
+import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
+import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
@@ -49,7 +47,7 @@ public class LocalizationServiceFallbackIT {
         localeService.addLocale("fr-BE");
 
         Key key = keyFactory.createKey("key");
-        key.addTranslation("fr", "youpi", false, false);
+        key.addTranslation("fr", "youpi");
         keyRepository.persist(key);
 
         String actualTranslation = localizationService.localize("fr-BE", "key");

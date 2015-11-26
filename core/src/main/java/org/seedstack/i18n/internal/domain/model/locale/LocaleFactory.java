@@ -16,31 +16,27 @@ import org.seedstack.business.domain.GenericFactory;
 public interface LocaleFactory extends GenericFactory<Locale> {
 
     /**
-     * Create a locale.
+     * Creates a locale from a locale code, e.g. fr-BE for French (Belgium).
      *
-     * @param localeId locale identifier
-     * @return locale
+     * @param localeCode locale code
+     * @return the locale
      */
-    Locale create(String localeId);
+    Locale createFromCode(String localeCode);
 
     /**
-     * Create a locale.
+     * Creates a locale based on the language code, e.g. "fr" for French.
      *
-     * @param localeId        locale identifier
-     * @param language        language
-     * @param englishLanguage language english name
-     * @return locale
+     * @param language language identifier
+     * @return the locale
      */
-    Locale create(String localeId, String language, String englishLanguage);
+    Locale createFromLanguage(String language);
 
     /**
-     * Create a locale.
+     * Creates a locale based on the language and the region, e.g. "fr" and "BE" for French (Belgium).
      *
-     * @param code            code
-     * @param language        language
-     * @param englishLanguage language english name
-     * @param defaultLocale   default locale
-     * @return locale
+     * @param language language identifier
+     * @param region   region identifier
+     * @return the locale
      */
-    Locale create(String code, String language, String englishLanguage, boolean defaultLocale);
+    Locale createFromLanguageAndRegion(String language, String region);
 }

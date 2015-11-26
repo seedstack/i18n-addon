@@ -8,7 +8,7 @@
 package org.seedstack.i18n.rest.internal.messages;
 
 import com.google.common.cache.LoadingCache;
-import org.seedstack.i18n.rest.internal.exception.SeedWebCheckUtils;
+import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 

@@ -7,30 +7,56 @@
  */
 package org.seedstack.i18n.internal.domain.model.locale;
 
-import com.ibm.icu.util.ULocale;
 import org.seedstack.business.domain.BaseFactory;
+
+import static java.util.Locale.ENGLISH;
 
 /**
  * Locale factory implementation.
  */
 public class LocaleFactoryDefault extends BaseFactory<Locale> implements LocaleFactory {
 
+    private LocaleCodeSpecification localeCodeSpecification = new LocaleCodeSpecification();
+
     @Override
-    public Locale create(String localeId) {
-        ULocale uLocale = new ULocale(localeId);
-        return create(uLocale.getBaseName(), uLocale.getDisplayNameWithDialect(uLocale), uLocale.getDisplayNameWithDialect(ULocale.ENGLISH));
+    public Locale createFromLanguage(String language) {
+        return createFromLocale(new java.util.Locale(language));
     }
 
     @Override
-    public Locale create(String localeId, String language, String englishLanguage) {
-        Locale locale = new Locale(localeId);
-        locale.setLanguage(language);
-        locale.setEnglishLanguage(englishLanguage);
-        return locale;
+    public Locale createFromLanguageAndRegion(String language, String region) {
+        return createFromLocale(new java.util.Locale(language, region));
     }
 
     @Override
-    public Locale create(String code, String language, String englishLanguage, boolean defaultLocale) {
-        return new Locale(code, language, englishLanguage, defaultLocale);
+    public Locale createFromCode(String localeCode) {
+        if (!localeCodeSpecification.isSatisfiedBy(localeCode)) {
+            throw new IllegalArgumentException(String.format(LocaleCodeSpecification.MESSAGE, localeCode));
+        }
+        String[] localeFragments = localeCode.split("\\-");
+        java.util.Locale locale;
+
+        switch (localeFragments.length) {
+            case 1:
+                locale = new java.util.Locale(localeFragments[0]);
+                break;
+            case 2:
+                locale = new java.util.Locale(localeFragments[0], localeFragments[1]);
+                break;
+            case 3:
+                locale = new java.util.Locale(localeFragments[0], localeFragments[1], localeFragments[2]);
+                break;
+            default:
+                throw new IllegalArgumentException("Unrecognized locale format: " + localeCode);
+        }
+
+        return this.createFromLocale(locale);
+    }
+
+    private Locale createFromLocale(java.util.Locale locale) {
+        String normalizedLocaleCode = Locale.formatLocaleCode(locale.toString());
+        String nativeLanguageName = locale.getDisplayName(locale);
+        String englishLanguageName = locale.getDisplayName(new java.util.Locale(ENGLISH.toString()));
+        return new Locale(normalizedLocaleCode, nativeLanguageName, englishLanguageName);
     }
 }

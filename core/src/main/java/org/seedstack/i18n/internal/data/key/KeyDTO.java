@@ -16,17 +16,13 @@ import java.util.List;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 13/03/14
  */
 public class KeyDTO {
 
     private String name;
-
     private String comment;
-
-    private List<TranslationDTO> translations = new ArrayList<TranslationDTO>();
-
     private boolean outdated;
+    private List<TranslationDTO> translations = new ArrayList<TranslationDTO>();
 
     /**
      * Adds a translation to the keyDTO
@@ -53,6 +49,7 @@ public class KeyDTO {
 
     /**
      * Sets the key name.
+     *
      * @param name key name
      */
     public void setName(String name) {
@@ -61,15 +58,16 @@ public class KeyDTO {
 
     /**
      * Gets the key comment.
+     *
      * @return key comment
      */
-    @MatchingFactoryParameter(index = 1)
     public String getComment() {
         return comment;
     }
 
     /**
      * Sets the key comment.
+     *
      * @param comment key comment
      */
     public void setComment(String comment) {
@@ -78,6 +76,7 @@ public class KeyDTO {
 
     /**
      * Gets the translations
+     *
      * @return list of translation
      */
     public List<TranslationDTO> getTranslations() {
@@ -86,6 +85,7 @@ public class KeyDTO {
 
     /**
      * Sets the list of translations.
+     *
      * @param translations key translations
      */
     public void setTranslations(List<TranslationDTO> translations) {
@@ -94,15 +94,16 @@ public class KeyDTO {
 
     /**
      * Is the key outdated.
+     *
      * @return outdated indicator
      */
-    @MatchingFactoryParameter(index = 2)
     public boolean isOutdated() {
         return outdated;
     }
 
     /**
      * Set the outdated indicator.
+     *
      * @param outdated is the key outdated
      */
     public void setOutdated(boolean outdated) {

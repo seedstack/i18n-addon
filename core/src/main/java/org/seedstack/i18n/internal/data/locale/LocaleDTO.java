@@ -18,9 +18,6 @@ import org.seedstack.business.assembler.MatchingFactoryParameter;
 public class LocaleDTO {
 
     private static final int PARAM_0 = 0;
-    private static final int PARAM_1 = 1;
-    private static final int PARAM_2 = 2;
-    private static final int PARAM_3 = 3;
 
     private String code;
 
@@ -40,8 +37,6 @@ public class LocaleDTO {
         this.code = code;
     }
 
-    @MatchingEntityId(index= PARAM_1)
-    @MatchingFactoryParameter(index= PARAM_1)
     public String getLanguage() {
         return language;
     }
@@ -50,8 +45,6 @@ public class LocaleDTO {
         this.language = language;
     }
 
-    @MatchingEntityId(index= PARAM_2)
-    @MatchingFactoryParameter(index= PARAM_2)
     public String getEnglishLanguage() {
         return englishLanguage;
     }
@@ -60,8 +53,6 @@ public class LocaleDTO {
         this.englishLanguage = englishLanguage;
     }
 
-    @MatchingEntityId(index= PARAM_3)
-    @MatchingFactoryParameter(index= PARAM_3)
     public boolean isDefaultLocale() {
         return defaultLocale;
     }

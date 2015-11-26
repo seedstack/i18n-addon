@@ -9,20 +9,18 @@ package org.seedstack.i18n;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.assertj.core.api.Assertions;
-import org.javatuples.Triplet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.i18n.internal.domain.model.key.Key;
+import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
+import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,8 +36,6 @@ public class KeyJpaRepositoryIT {
 
     private Key expectedKey;
 
-    private HashMap<String, Triplet<String, Boolean, Boolean>> locateTranslations;
-
     @Inject
     private KeyFactory factory;
     @Inject
@@ -48,10 +44,10 @@ public class KeyJpaRepositoryIT {
     @Before
     public void setUp() {
         keyId = UUID.randomUUID().toString();
-        locateTranslations = new HashMap<String, Triplet<String, Boolean, Boolean>>();
-        locateTranslations.put("fr", Triplet.with("traduction", false, false));
-        locateTranslations.put("en", Triplet.with("translation", false, false));
-        expectedKey = factory.createKey(keyId, "comment", locateTranslations);
+        expectedKey = factory.createKey(keyId);
+        expectedKey.setComment("comment");
+        expectedKey.addTranslation("fr", "traduction");
+        expectedKey.addTranslation("en", "translation");
     }
 
     @After
@@ -85,19 +81,25 @@ public class KeyJpaRepositoryIT {
 
     @Test
     public void save_then_delete_multiple_keys() {
-        Key key1 = factory.createKey(keyId + 1, "comment", locateTranslations);
-        Key key2 = factory.createKey(keyId + 2, "comment", locateTranslations);
+        Key key1 = factory.createKey(keyId + 1);
+        key1.addTranslation("fr", "traduction");
+        key1.addTranslation("en", "translation");
+
+        Key key2 = factory.createKey(keyId + 2);
+        key2.addTranslation("fr", "traduction");
+        key2.addTranslation("en", "translation");
+
         List<Key> keys = Lists.newArrayList(expectedKey, key1, key2);
 
         keyRepository.persist(keys);
 
-            List<Key> key = keyRepository.loadAll();
-            Assertions.assertThat(key.size()).isEqualTo(3);
+        List<Key> key = keyRepository.loadAll();
+        Assertions.assertThat(key.size()).isEqualTo(3);
 
         keyRepository.delete(keys);
 
-            List<Key> result = keyRepository.loadAll();
-            Assertions.assertThat(result.size()).isEqualTo(0);
+        List<Key> result = keyRepository.loadAll();
+        Assertions.assertThat(result.size()).isEqualTo(0);
 
     }
 

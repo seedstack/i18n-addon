@@ -22,8 +22,21 @@ public interface TranslationService {
 
     /**
      * Returns all the keys and their translations for the specified locale.
+     *
      * @param locale The locale identifier.
      * @return a map of all the keys and their translations or an empty map
      */
     Map<String, String> getTranslationsForLocale(String locale);
+
+    /**
+     * Translates a key for a given locale.
+     *  <p>
+     *  If the locale is the default locale, set the key and all its translations as outdated.
+     *  </p>
+     *
+     * @param key    the key to translate
+     * @param locale the locale
+     * @param value  the translation
+     */
+    void translate(String key, String locale, String value);
 }

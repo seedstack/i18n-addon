@@ -8,16 +8,16 @@
 package org.seedstack.i18n;
 
 import com.google.inject.Inject;
-import org.seedstack.i18n.internal.domain.model.locale.Locale;
-import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
-import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.i18n.internal.domain.model.locale.Locale;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
 import java.util.List;
@@ -26,7 +26,6 @@ import java.util.List;
  * Tests locale repository.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 20/11/13
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
@@ -38,13 +37,13 @@ public class LocaleJpaRepositoryIT {
     private Locale expectedLocale;
 
     @Inject
-    private LocaleFactory factory;
+    private LocaleFactory localeFactory;
     @Inject
     private LocaleRepository localeRepository;
 
     @Before
     public void setUp() {
-        expectedLocale = factory.create(localeId, "français", "french", true);
+        expectedLocale = localeFactory.createFromCode(localeId);
     }
 
     @After
@@ -73,7 +72,7 @@ public class LocaleJpaRepositoryIT {
     public void save_then_load() {
         localeRepository.save(expectedLocale);
         Locale locale = localeRepository.load(expectedLocale.getEntityId());
-        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("french");
+        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("French");
     }
 
     @Test

@@ -58,9 +58,6 @@ public class TranslationAssembler extends BaseAssembler<Key, TranslationRepresen
 
     @Override
     protected void doMergeAggregateWithDto(Key targetEntity, TranslationRepresentation sourceDto) {
-        // update only the comment and the target translation (not the default translation)
-        targetEntity.setComment(sourceDto.getComment());
-        TranslationValueRepresentation target = sourceDto.getTarget();
-        targetEntity.addTranslation(target.getLocale(), target.getTranslation(), target.isApprox(), target.isOutdated());
+        throw new UnsupportedOperationException();
     }
 }

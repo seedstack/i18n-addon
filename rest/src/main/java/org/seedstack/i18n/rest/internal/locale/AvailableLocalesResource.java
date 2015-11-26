@@ -11,7 +11,7 @@ import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.i18n.rest.internal.exception.SeedWebCheckUtils;
+import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
@@ -32,7 +32,6 @@ import java.util.List;
  * This REST resource provide method to access application available locales.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 26/11/13
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
@@ -105,7 +104,7 @@ public class AvailableLocalesResource {
         Locale locale = localeRepository.load(representation.getCode());
         Locale result;
         if (locale == null) {
-            localeRepository.persist(factory.create(representation.getCode(), representation.getLanguage(), representation.getEnglishLanguage()));
+            localeRepository.persist(factory.createFromCode(representation.getCode()));
             result = localeRepository.load(representation.getCode());
         } else {
             return Response.status(Response.Status.CONFLICT).build();
@@ -127,7 +126,7 @@ public class AvailableLocalesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions("seed:i18n:locale:write")
-    public Response updateAvailableLocale(List<LocaleRepresentation> representations, @Context UriInfo uriInfo) throws URISyntaxException {
+    public Response replaceAvailableLocales(List<LocaleRepresentation> representations, @Context UriInfo uriInfo) throws URISyntaxException {
         // Delete the old list of available locales
         localeRepository.clear();
         if (representations != null && !representations.isEmpty()) {
@@ -136,7 +135,9 @@ public class AvailableLocalesResource {
             String defaultLocale = localeService.getDefaultLocale();
             for (LocaleRepresentation representation : representations) {
                 boolean isDefault = StringUtils.isNotBlank(defaultLocale) && defaultLocale.equals(representation.getCode());
-                locales.add(factory.create(representation.getCode(), representation.getLanguage(), representation.getEnglishLanguage(), isDefault));
+                Locale locale = factory.createFromCode(representation.getCode());
+                locale.setDefaultLocale(isDefault);
+                locales.add(locale);
             }
             // And persist the new
             for (Locale locale : locales) {

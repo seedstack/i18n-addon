@@ -10,6 +10,7 @@ package org.seedstack.i18n.internal.data.locale;
 
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.seed.DataImporter;
 import org.seedstack.seed.DataSet;
@@ -24,32 +25,35 @@ import java.util.List;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 20/03/14
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
 @DataSet(group = "seed-i18n", name = "locale")
 public class LocaleDataImporter implements DataImporter<LocaleDTO> {
 
-    @Inject
-    private LocaleRepository localeRepository;
-
-    private List<LocaleDTO> staging = new ArrayList<LocaleDTO>();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(LocaleDataImporter.class);
 
+    private final LocaleRepository localeRepository;
+    private final LocaleFactory localeFactory;
+    private final FluentAssembler fluentAssembler;
+    private final List<LocaleDTO> staging;
+
     @Inject
-    private FluentAssembler fluentAssembler;
+    public LocaleDataImporter(LocaleRepository localeRepository, LocaleFactory localeFactory, FluentAssembler fluentAssembler) {
+        this.localeRepository = localeRepository;
+        this.localeFactory = localeFactory;
+        this.fluentAssembler = fluentAssembler;
+        this.staging = new ArrayList<LocaleDTO>();
+    }
 
     @Override
     public boolean isInitialized() {
         boolean initialized = localeRepository.count() != 0;
         if (initialized) {
-            LOGGER.info("i18n keys already initialized");
+            LOGGER.info("i18n locales already imported");
         } else {
-            LOGGER.info("i18n keys not initialized");
+            LOGGER.debug("i18n locales not imported");
         }
-
         return initialized;
     }
 
@@ -61,16 +65,17 @@ public class LocaleDataImporter implements DataImporter<LocaleDTO> {
     @Override
     public void commit(boolean clear) {
         if (clear) {
-            LOGGER.info("Clear i18n locale repository");
+            LOGGER.debug("Clear i18n locale repository");
             for (Locale locale : localeRepository.loadAll()) {
                 localeRepository.delete(locale);
             }
         }
         for (LocaleDTO localeDTO : staging) {
-            Locale locale = fluentAssembler.merge(localeDTO).into(Locale.class).fromFactory();
-            localeRepository.save(locale);
+            Locale newLocale = localeFactory.createFromCode(localeDTO.getCode());
+            fluentAssembler.merge(localeDTO).into(newLocale);
+            localeRepository.save(newLocale);
         }
-        LOGGER.info("Import of i18n locale completed");
+        LOGGER.info("Import of i18n locales completed");
         staging.clear();
     }
 

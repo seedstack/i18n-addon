@@ -39,7 +39,7 @@ public class DataAssembler extends BaseAssembler<Key, DataRepresentation> {
             // Create a translation if it doesn't exist or if the translation has changed
             // So, if a translation has changed "outdated" and "approx" are passed to false
             if (translation == null || !translation.getValue().equals(entry.getValue())) {
-                targetEntity.addTranslation(entry.getKey(), entry.getValue(), false, false);
+                targetEntity.addTranslation(entry.getKey(), entry.getValue());
             }
         }
     }

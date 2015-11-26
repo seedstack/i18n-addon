@@ -21,10 +21,11 @@ import java.io.Serializable;
  * @author pierre.thirouin@ext.mpsa.com
  */
 @Entity
-@Table(name="SEED_I18N_LOCALE")
+@Table(name = "SEED_I18N_LOCALE")
 public class Locale extends BaseAggregateRoot<String> implements Serializable {
 
     private static final long serialVersionUID = 5353966062091859950L;
+
     /**
      * Identifies the locale with the ISO 639 alpha-2 or alpha-3 language code and the ISO 3166 alpha-2 country code.
      * Example: en-US, fr-FR
@@ -56,39 +57,31 @@ public class Locale extends BaseAggregateRoot<String> implements Serializable {
     /**
      * Constructor.
      *
-     * @param code locale code
-     */
-    protected Locale(String code) {
-        this.code = code;
-    }
-
-    /**
-     * Constructor.
-     *
      * @param code            locale code
      * @param language        locale language
      * @param englishLanguage locale english language
-     * @param defaultLocale   is default locale
      */
-    protected Locale(String code, String language, String englishLanguage, boolean defaultLocale) {
+    protected Locale(String code, String language, String englishLanguage) {
+        if (!new LocaleCodeSpecification().isSatisfiedBy(code)) {
+            throw new IllegalArgumentException(String.format(LocaleCodeSpecification.MESSAGE, code));
+        }
         this.code = code;
         this.language = language;
         this.englishLanguage = englishLanguage;
-        this.defaultLocale = defaultLocale;
+    }
+
+    /**
+     * Formats the locale code with the accepted format, e.g. "fr_BE" becomes "fr-BE".
+     *
+     * @return the formatted locale
+     */
+    public static String formatLocaleCode(String locale) {
+        return locale.replace("_", "-");
     }
 
     @Override
     public String getEntityId() {
         return code;
-    }
-
-    /**
-     * Sets the locale code.
-     *
-     * @param code entity id
-     */
-    public void setEntityId(String code) {
-        this.code = code;
     }
 
     /**
@@ -101,30 +94,12 @@ public class Locale extends BaseAggregateRoot<String> implements Serializable {
     }
 
     /**
-     * Sets the locale language.
-     *
-     * @param language the language to set
-     */
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    /**
      * Returns the locale english language
      *
      * @return english language
      */
     public String getEnglishLanguage() {
         return englishLanguage;
-    }
-
-    /**
-     * Sets the english language.
-     *
-     * @param englishLanguage locale english language
-     */
-    public void setEnglishLanguage(String englishLanguage) {
-        this.englishLanguage = englishLanguage;
     }
 
     /**

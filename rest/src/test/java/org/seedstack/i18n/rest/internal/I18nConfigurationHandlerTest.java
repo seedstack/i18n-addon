@@ -12,7 +12,6 @@ import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.seedstack.i18n.LocaleService;
-import org.seedstack.i18n.rest.internal.I18nConfigurationHandler;
 import org.seedstack.seed.Application;
 
 import java.util.HashMap;
@@ -55,13 +54,13 @@ public class I18nConfigurationHandlerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void test_language_matching() {
-        configure("fr-CA", new String[]{"en-GB", "fr-CA", "fr-XX"}, new String[]{});
+        configure("fr-CA", new String[]{"en-GB", "fr-CA", "es-AR", "fr-XX"}, new String[]{});
 
         HashMap<String, Object> sourceConfiguration = new HashMap<String, Object>();
         underTest.overrideConfiguration(I18nConfigurationHandler.W20_CORE_FRAGMENT, I18nConfigurationHandler.CULTURE_MODULE, sourceConfiguration);
 
         // fr-XX is assimilated to fr in W20
-        assertThat((Set<String>) sourceConfiguration.get(I18nConfigurationHandler.AVAILABLE_CULTURES)).containsOnly("en-GB", "fr-CA", "fr");
+        assertThat((Set<String>) sourceConfiguration.get(I18nConfigurationHandler.AVAILABLE_CULTURES)).containsOnly("en-GB", "fr-CA", "es-AR", "fr");
     }
 
     @Test

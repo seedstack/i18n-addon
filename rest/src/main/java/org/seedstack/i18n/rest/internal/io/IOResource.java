@@ -7,11 +7,11 @@
  */
 package org.seedstack.i18n.rest.internal.io;
 
+import com.sun.jersey.multipart.BodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import com.sun.jersey.multipart.FormDataBodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
 import org.seedstack.io.Parse;
 import org.seedstack.io.Parser;
 import org.seedstack.io.Render;
@@ -78,14 +78,13 @@ public class IOResource {
     public Response uploadTranslations(FormDataMultiPart multiPart) {
         List<DataRepresentation> translations = new ArrayList<DataRepresentation>();
         if (multiPart != null) {
-            List<FormDataBodyPart> fields = multiPart.getFields("file[]");
-            for (FormDataBodyPart field : fields) {
+            for (BodyPart bodyPart : multiPart.getBodyParts()) {
                 // Check file extension
-                if (field.getContentDisposition() == null || !field.getContentDisposition().getFileName().endsWith(".csv")) {
+                if (bodyPart.getContentDisposition() == null || !bodyPart.getContentDisposition().getFileName().endsWith(".csv")) {
                     return Response.status(Response.Status.BAD_REQUEST)
                             .entity("Incorrect input file").type(MediaType.TEXT_PLAIN_TYPE).build();
                 }
-                translations.addAll(parser.parse(field.getValueAs(InputStream.class), DataRepresentation.class));
+                translations.addAll(parser.parse(bodyPart.getEntityAs(InputStream.class), DataRepresentation.class));
             }
 
             List<Key> keys = mergeOrCreateKeyWithDto(translations);

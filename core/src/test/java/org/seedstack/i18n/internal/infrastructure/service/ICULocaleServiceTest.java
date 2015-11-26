@@ -7,13 +7,19 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.Tested;
+import mockit.integration.junit4.JMockit;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.seedstack.i18n.internal.domain.model.locale.Locale;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit Test on LocaleService.
@@ -21,46 +27,119 @@ import static org.mockito.Mockito.when;
  * @author pierre.thirouin@ext.mpsa.com
  *         Date: 15/07/2014
  */
+@RunWith(JMockit.class)
 public class ICULocaleServiceTest {
 
-    private ICULocaleService localeService;
+    private static final String EN = "en";
+    private static final String FR = "fr";
+    private static final String FR_BE = "fr-BE";
 
-    @Before
-    public void setUp() {
-        localeService = mock(ICULocaleService.class);
+    @Tested
+    private ICULocaleService localeService;
+    @Injectable
+    private LocaleRepository localeRepository;
+    @Injectable
+    private LocaleFactory localeFactory;
+    @Mocked
+    private Locale defaultLocale;
+    @Mocked
+    private Locale locale;
+
+    @Test
+    public void isAvailableAcceptsNull() {
+        boolean frIsAvailable = localeService.isAvailable(null);
+        Assertions.assertThat(frIsAvailable).isFalse();
     }
 
     @Test
-    public void getClosestLocale_return_actual_locale() {
-        when(localeService.isAvailable("fr_BE")).thenReturn(true);
-        when(localeService.getDefaultLocale()).thenReturn("en");
-        when(localeService.getClosestLocale("fr_BE")).thenCallRealMethod();
-        when(localeService.getClosestULocale("fr_BE")).thenCallRealMethod();
-        String zzz = localeService.getClosestLocale("fr_BE");
-        Assertions.assertThat(zzz).isEqualTo("fr-BE");
+    public void testIsAvailable() {
+        new Expectations() {
+            {
+                localeRepository.load(FR);
+                result = null;
+            }
+        };
+        Assertions.assertThat(localeService.isAvailable(FR)).isFalse();
+    }
+
+    @Test
+    public void testIsNotAvailable() {
+        new Expectations() {
+            {
+                localeRepository.load(FR);
+                result = locale;
+            }
+        };
+        Assertions.assertThat(localeService.isAvailable(FR)).isTrue();
+    }
+
+    @Test
+    public void getClosestLocaleReturnsActualLocale() {
+        new Expectations() {
+            {
+                localeRepository.load(FR_BE);
+                result = locale;
+
+                localeRepository.getDefaultLocale();
+                result = locale;
+            }
+        };
+
+        String closestLocale = localeService.getClosestLocale(FR_BE);
+        Assertions.assertThat(closestLocale).isEqualTo(FR_BE);
     }
 
     @Test
     public void getClosestLocale_return_closest_locale() {
-        when(localeService.getAvailableLocales()).thenReturn(Sets.newHashSet("en", "fr"));
-        when(localeService.getDefaultLocale()).thenReturn("en");
-        when(localeService.getClosestLocale("fr_BE")).thenCallRealMethod();
-        when(localeService.getClosestULocale("fr_BE")).thenCallRealMethod();
-        String zzz = localeService.getClosestLocale("fr_BE");
-        Assertions.assertThat(zzz).isEqualTo("fr");
+        mockDefaultLocale(EN);
+        new Expectations() {
+            {
+                localeRepository.loadAll();
+                result = Lists.newArrayList(locale);
+                locale.getEntityId();
+                result = FR;
+
+                localeRepository.load(FR_BE);
+                result = null;
+            }
+        };
+
+        String closestLocale = localeService.getClosestLocale(FR_BE);
+        Assertions.assertThat(closestLocale).isEqualTo(FR);
+    }
+
+    private Expectations mockDefaultLocale(final String locale) {
+        return new Expectations() {
+            {
+                localeRepository.getDefaultLocale();
+                result = defaultLocale;
+                defaultLocale.getEntityId();
+                result = locale;
+            }
+        };
     }
 
     @Test
     public void getClosestLocale_return_default_when_no_closest_locale() {
-        when(localeService.getDefaultLocale()).thenReturn("fr");
-        when(localeService.getClosestLocale("zzz")).thenCallRealMethod();
-        when(localeService.getClosestULocale("zzz")).thenCallRealMethod();
+        mockDefaultLocale(FR);
+        new Expectations() {
+            {
+                localeRepository.load("zzz");
+                result = null;
+            }
+        };
         String zzz = localeService.getClosestLocale("zzz");
-        Assertions.assertThat(zzz).isEqualTo("fr");
+        Assertions.assertThat(zzz).isEqualTo(FR);
     }
 
     @Test
     public void getClosestLocale_is_null_when_no_default_locale() {
+        new Expectations() {
+            {
+                localeRepository.load("zzz");
+                result = null;
+            }
+        };
         String zzz = localeService.getClosestLocale("zzz");
         Assertions.assertThat(zzz).isNull();
     }
