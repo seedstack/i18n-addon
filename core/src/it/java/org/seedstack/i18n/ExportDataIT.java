@@ -27,7 +27,6 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 14/03/14
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional

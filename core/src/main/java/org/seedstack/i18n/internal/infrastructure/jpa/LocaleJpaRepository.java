@@ -7,11 +7,8 @@
  */
 package org.seedstack.i18n.internal.infrastructure.jpa;
 
-import com.google.common.base.Preconditions;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.seedstack.jpa.BaseJpaRepository;
 
 import javax.persistence.NoResultException;
@@ -22,7 +19,6 @@ import java.util.List;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 13/05/2014
  */
 public class LocaleJpaRepository extends BaseJpaRepository<Locale, String> implements LocaleRepository {
 

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @author pierre.thirouin@ext.mpsa.com Date: 20/11/13
+ * @author pierre.thirouin@ext.mpsa.com
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional

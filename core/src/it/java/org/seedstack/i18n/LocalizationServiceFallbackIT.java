@@ -22,7 +22,6 @@ import javax.inject.Inject;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 25/06/2014
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional

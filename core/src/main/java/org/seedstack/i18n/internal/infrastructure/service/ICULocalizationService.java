@@ -22,6 +22,8 @@ import org.seedstack.i18n.internal.domain.model.key.Translation;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
@@ -32,6 +34,8 @@ import java.util.List;
 /**
  * Localization service implementation based on ICU.
  */
+@JpaUnit("seed-i18n-domain")
+@Transactional
 public class ICULocalizationService implements LocalizationService {
 
     private final LocaleService localeService;

@@ -18,7 +18,6 @@ import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 28/05/2014
  */
 @Install
 public class I18nCacheModule extends PrivateModule {

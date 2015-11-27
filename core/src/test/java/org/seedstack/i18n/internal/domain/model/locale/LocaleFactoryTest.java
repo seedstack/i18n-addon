@@ -48,8 +48,23 @@ public class LocaleFactoryTest {
         Locale frLocale = localeFactory.createFromCode("fr");
         assertLocale(frLocale, "fr", "français", "French");
 
-        Locale locale = localeFactory.createFromCode("fr-BE");
-        assertLocale(locale, "fr-BE", "français (Belgique)", "French (Belgium)");
+        Locale frBeLocale = localeFactory.createFromCode("fr-BE");
+        assertLocale(frBeLocale, "fr-BE", "français (Belgique)", "French (Belgium)");
+    }
+
+    @Test
+    public void testCreateFromLocale() {
+        java.util.Locale japLocale = new java.util.Locale("ja", "JP", "JP");
+        Locale locale = localeFactory.createFromLocale(japLocale);
+        Assertions.assertThat(locale.getEntityId()).isEqualTo("ja-JP-JP-#u-ca-japanese");
+        Assertions.assertThat(locale.getLanguage()).isEqualTo("日本語 (日本,JP)");
+        Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("Japanese (Japan,JP)");
+    }
+
+    @Test
+    public void testCreateNonExistentLocale() {
+        Locale nonexistentLocale = localeFactory.createFromCode("fr-CN");
+        assertLocale(nonexistentLocale, "fr-CN", "français (Chine)", "French (China)");
     }
 
     private void assertLocale(Locale locale, String code, String language, String englishLanguage) {

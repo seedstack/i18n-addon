@@ -35,27 +35,10 @@ public interface LocaleFinder {
 
     /**
      * Returns the locale corresponding to the specified locale code.
+     *
      * @param localeCode the specified locale code
      * @return a representation of the requested locale
      */
     LocaleRepresentation findAvailableLocale(String localeCode);
 
-    /**
-     * Returns all the available locales in the ICU library
-     * @return a list of locale representations
-     */
-    List<LocaleRepresentation> findLocalesFullVersion();
-
-    /**
-     * Returns all the available locales in the JVM.
-     * @return a list of locale representations
-     */
-    List<LocaleRepresentation> findLocales();
-
-    /**
-     * Returns the locale corresponding to the locale code
-     * @param localeCode the specified locale code
-     * @return a locale representation
-     */
-    LocaleRepresentation findLocale(String localeCode);
 }

@@ -11,6 +11,7 @@ import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
+import org.seedstack.i18n.rest.internal.I18nPermissions;
 import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.jpa.JpaUnit;
@@ -59,7 +60,7 @@ public class AvailableLocalesResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:read")
+    @RequiresPermissions(I18nPermissions.LOCALE_READ)
     public Response getAvailableLocales() {
         List<LocaleRepresentation> availableLocales = localeFinder.findAvailableLocales();
         if (!availableLocales.isEmpty()) {
@@ -77,7 +78,7 @@ public class AvailableLocalesResource {
     @GET
     @Path("/{localeId}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:read")
+    @RequiresPermissions(I18nPermissions.LOCALE_READ)
     public Response getAvailableLocale(@PathParam("localeId") String localeId) {
         SeedWebCheckUtils.checkIfNotBlank(localeId, LOCALE_SHOULD_NOT_BE_BLANK);
         LocaleRepresentation availableLocale = localeFinder.findAvailableLocale(localeId);
@@ -98,7 +99,7 @@ public class AvailableLocalesResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:write")
+    @RequiresPermissions(I18nPermissions.LOCALE_WRITE)
     public Response addAvailableLocale(LocaleRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
         SeedWebCheckUtils.checkIfNotNull(representation, LOCALE_SHOULD_NOT_BE_BLANK);
         Locale locale = localeRepository.load(representation.getCode());
@@ -125,7 +126,7 @@ public class AvailableLocalesResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:write")
+    @RequiresPermissions(I18nPermissions.LOCALE_WRITE)
     public Response replaceAvailableLocales(List<LocaleRepresentation> representations, @Context UriInfo uriInfo) throws URISyntaxException {
         // Delete the old list of available locales
         localeRepository.clear();
@@ -160,7 +161,7 @@ public class AvailableLocalesResource {
      */
     @DELETE
     @Path("/{locale}")
-    @RequiresPermissions("seed:i18n:locale:delete")
+    @RequiresPermissions(I18nPermissions.LOCALE_DELETE)
     public Response deleteAvailableLocale(@PathParam("locale") String locale) {
         SeedWebCheckUtils.checkIfNotBlank(locale, LOCALE_SHOULD_NOT_BE_BLANK);
         if (locale != null) {
@@ -178,7 +179,7 @@ public class AvailableLocalesResource {
      * @return status code 204 (no content)
      */
     @DELETE
-    @RequiresPermissions("seed:i18n:locale:delete")
+    @RequiresPermissions(I18nPermissions.LOCALE_DELETE)
     public Response deleteAllAvailableLocales() {
         List<Locale> locales = localeRepository.loadAll();
         for (Locale locale : locales) {

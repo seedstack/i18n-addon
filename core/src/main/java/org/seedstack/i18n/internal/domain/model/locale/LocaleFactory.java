@@ -39,4 +39,6 @@ public interface LocaleFactory extends GenericFactory<Locale> {
      * @return the locale
      */
     Locale createFromLanguageAndRegion(String language, String region);
+
+    Locale createFromLocale(java.util.Locale locale);
 }

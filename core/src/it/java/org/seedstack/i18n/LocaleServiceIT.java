@@ -7,15 +7,14 @@
  */
 package org.seedstack.i18n;
 
-import org.seedstack.i18n.LocaleService;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.Logging;
 import org.seedstack.seed.it.SeedITRunner;
-import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 
@@ -24,7 +23,6 @@ import java.util.Set;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- * Date: 05/12/13
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional

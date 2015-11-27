@@ -20,7 +20,6 @@ import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 28/05/2014
  */
 public class I18nCacheProvider implements Provider<LoadingCache<String, Map<String, String>>> {
 

@@ -15,6 +15,8 @@ import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -23,6 +25,8 @@ import java.util.Set;
 /**
  * Locale service implementation.
  */
+@JpaUnit("seed-i18n-domain")
+@Transactional
 public class ICULocaleService implements LocaleService {
 
     private static final String LOCALE_MUST_NOT_BE_NULL = "locale must not be null";
@@ -58,6 +62,16 @@ public class ICULocaleService implements LocaleService {
     }
 
     @Override
+    public Set<String> getSupportedLocales() {
+        Set<String> supportedLocales = new HashSet<String>();
+        java.util.Locale[] locales = java.util.Locale.getAvailableLocales();
+        for (java.util.Locale locale : locales) {
+            supportedLocales.add(localeFactory.createFromLocale(locale).getEntityId());
+        }
+        return supportedLocales;
+    }
+
+    @Override
     public String getDefaultLocale() {
         Locale defaultLocale = localeRepository.getDefaultLocale();
         if (defaultLocale != null) {
@@ -68,27 +82,32 @@ public class ICULocaleService implements LocaleService {
     }
 
     @Override
-    public synchronized void changeDefaultLocaleTo(String locale) {
+    public void changeDefaultLocaleTo(String locale) {
         localeRepository.changeDefaultLocaleTo(locale);
     }
 
     @Override
-    public synchronized void addLocale(String locale) {
-        if (locale == null || locale.equals("")) {
-            throw new IllegalArgumentException(LOCALE_MUST_NOT_BE_NULL);
-        }
+    public void addLocale(String locale) {
+        checkIsNotEmpty(locale);
         if (localeRepository.load(locale) == null) {
             Locale newLocale = localeFactory.createFromCode(locale);
             localeRepository.persist(newLocale);
         }
     }
 
-    @Override
-    public void deleteLocale(String locale) {
+    private void checkIsNotEmpty(String locale) {
         if (locale == null || locale.equals("")) {
             throw new IllegalArgumentException(LOCALE_MUST_NOT_BE_NULL);
         }
-        localeRepository.delete(localeRepository.load(locale));
+    }
+
+    @Override
+    public void deleteLocale(String locale) {
+        checkIsNotEmpty(locale);
+        Locale localeToDelete = localeRepository.load(locale);
+        if (localeToDelete != null) {
+            localeRepository.delete(localeToDelete);
+        }
     }
 
     @Override
