@@ -12,13 +12,13 @@ import org.kametic.specifications.AbstractSpecification;
 import java.util.regex.Pattern;
 
 /**
- * Verifies that the locale code is not null or empty and only contains letters or "-".
+ * Verifies that the locale code is not null or empty and only contains letters or "-" and "#".
  *
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
 public class LocaleCodeSpecification extends AbstractSpecification<String> {
 
-    public static final String LOCALE_CODE_PATTERN = "(?i)[a-z\\-]*";
+    public static final String LOCALE_CODE_PATTERN = "(?i)[a-z\\-#]*";
     public static final String MESSAGE = "The locale should not be null or empty and should only contains letters or \"-\", but \"%s\" was found.";
 
     public static void assertCode(String locale) {

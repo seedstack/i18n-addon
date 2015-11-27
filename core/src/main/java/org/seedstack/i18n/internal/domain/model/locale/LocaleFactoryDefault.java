@@ -43,17 +43,16 @@ public class LocaleFactoryDefault extends BaseFactory<Locale> implements LocaleF
             case 2:
                 locale = new java.util.Locale(localeFragments[0], localeFragments[1]);
                 break;
-            case 3:
+            default:
                 locale = new java.util.Locale(localeFragments[0], localeFragments[1], localeFragments[2]);
                 break;
-            default:
-                throw new IllegalArgumentException("Unrecognized locale format: " + localeCode);
         }
 
         return this.createFromLocale(locale);
     }
 
-    private Locale createFromLocale(java.util.Locale locale) {
+    @Override
+    public Locale createFromLocale(java.util.Locale locale) {
         String normalizedLocaleCode = Locale.formatLocaleCode(locale.toString());
         String nativeLanguageName = locale.getDisplayName(locale);
         String englishLanguageName = locale.getDisplayName(new java.util.Locale(ENGLISH.toString()));

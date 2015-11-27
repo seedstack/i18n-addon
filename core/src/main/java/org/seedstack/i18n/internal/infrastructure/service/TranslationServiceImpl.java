@@ -13,7 +13,9 @@ import org.seedstack.i18n.internal.TranslationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
+import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.Configuration;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -22,6 +24,8 @@ import java.util.Map;
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
+@JpaUnit("seed-i18n-domain")
+@Transactional
 public class TranslationServiceImpl implements TranslationService {
 
     public static final String IS_EMPTY_ERROR_MESSAGE = "The %s can't be null or empty";

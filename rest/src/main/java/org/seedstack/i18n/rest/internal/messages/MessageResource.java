@@ -8,9 +8,6 @@
 package org.seedstack.i18n.rest.internal.messages;
 
 import com.google.common.cache.LoadingCache;
-import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
-import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -25,10 +22,7 @@ import java.util.Map;
  * This REST resource provide method to access all the application message.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 17/04/2014
  */
-@JpaUnit("seed-i18n-domain")
-@Transactional
 @Path("/seed-i18n/messages")
 public class MessageResource {
 
@@ -45,7 +39,6 @@ public class MessageResource {
     @Path("/{locale}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTranslations(@PathParam("locale") String locale) {
-        SeedWebCheckUtils.checkIfNotBlank(locale, "The locale should not be blank");
         Map<String, String> messages = loadingCache.getUnchecked(locale);
         if (messages != null && !messages.isEmpty()) {
 			return Response.ok(messages).build();

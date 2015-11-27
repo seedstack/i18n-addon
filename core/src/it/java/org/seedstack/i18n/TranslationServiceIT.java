@@ -24,7 +24,6 @@ import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- * Date: 05/12/13
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional

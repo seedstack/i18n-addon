@@ -33,9 +33,16 @@ public interface LocaleService {
     /**
      * Returns all the available locales for the application.
      *
-     * @return a set with all the locales or an empty set if no locale is present.
+     * @return a set with all the locales.
      */
     Set<String> getAvailableLocales();
+
+    /**
+     * Returns all the locales supported by the platform.
+     *
+     * @return a set with the supported locales.
+     */
+    Set<String> getSupportedLocales();
 
     /**
      * Returns the application's default locale.
@@ -48,7 +55,7 @@ public interface LocaleService {
      * Returns the closest locale from the given locale which is supported by the application.
      *
      * @param locale The locale to match.
-     * @return The supported locale.
+     * @return The supported locale or null if there is no close locale
      */
     String getClosestLocale(String locale);
 
@@ -67,7 +74,7 @@ public interface LocaleService {
      * </p>
      *
      * @param locale the locale to add.
-     * @throws IllegalArgumentException if the locale is null.
+     * @throws IllegalArgumentException if the locale argument is null.
      */
     void addLocale(String locale);
 
@@ -78,7 +85,7 @@ public interface LocaleService {
      * </p>
      *
      * @param locale the locale to delete.
-     * @throws IllegalArgumentException if the locale is null.
+     * @throws IllegalArgumentException if the locale argument is null.
      */
     void deleteLocale(String locale);
 }

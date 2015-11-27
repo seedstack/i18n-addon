@@ -7,10 +7,9 @@
  */
 package org.seedstack.i18n.rest.internal.locale;
 
+import org.seedstack.i18n.rest.internal.I18nPermissions;
 import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
-import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
-import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -25,26 +24,27 @@ import java.util.List;
  * This REST resource provide access to applications locales.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 26/11/13
  */
-@JpaUnit("seed-i18n-domain")
-@Transactional
 @Path("/seed-i18n/locales")
-public class LocalesResource {
+public class SupportedLocalesResource {
+
+    private final SupportedLocaleFinder supportedLocaleFinder;
 
     @Inject
-    private LocaleFinder localeFinder;
+    public SupportedLocalesResource(SupportedLocaleFinder supportedLocaleFinder) {
+        this.supportedLocaleFinder = supportedLocaleFinder;
+    }
 
     /**
-     * Returns all possible locale.
+     * Returns all the locales supported.
      *
-     * @return status code 200 with list of locale representation
+     * @return status code 200 with the locales or 204 if no locale are supported
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:read")
-    public Response getLocales() {
-        List<LocaleRepresentation> locales = localeFinder.findLocales();
+    @RequiresPermissions(I18nPermissions.LOCALE_READ)
+    public Response getSupportedLocales() {
+        List<LocaleRepresentation> locales = supportedLocaleFinder.findSupportedLocales();
         if (!locales.isEmpty()) {
 			return Response.ok(locales).build();
 		}
@@ -54,16 +54,16 @@ public class LocalesResource {
     /**
      * Returns the requested locale.
      *
-     * @param localeId locale code
-     * @return status code 200 with the locale representation or 404 if not found
+     * @param localeCode locale code
+     * @return status code 200 with the locale or 404 if not found
      */
     @GET
-    @Path("/{localeId}")
+    @Path("/{localeCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:read")
-    public Response getLocale(@PathParam("localeId") String localeId) {
-        SeedWebCheckUtils.checkIfNotNull(localeId, "The locale should not be null");
-        LocaleRepresentation locale = localeFinder.findLocale(localeId);
+    @RequiresPermissions(I18nPermissions.LOCALE_READ)
+    public Response getSupportedLocale(@PathParam("localeCode") String localeCode) {
+        SeedWebCheckUtils.checkIfNotNull(localeCode, "The locale should not be null");
+        LocaleRepresentation locale = supportedLocaleFinder.findSupportedLocale(localeCode);
         if (locale != null) {
 			return Response.ok(locale).build();
 		}

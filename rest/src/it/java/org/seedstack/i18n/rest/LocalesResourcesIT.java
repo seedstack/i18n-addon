@@ -20,8 +20,6 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.seedstack.seed.it.AbstractSeedWebIT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 
@@ -29,26 +27,31 @@ import static com.jayway.restassured.RestAssured.expect;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- * Date: 02/12/13
  */
 public class LocalesResourcesIT extends AbstractSeedWebIT {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocalesResourcesIT.class);
+    private static final String BASE_URL = "seed-i18n";
+    private static final String CODE = "code";
+    private static final String LANGUAGE = "language";
+    private static final String ENGLISH_LANGUAGE = "englishLanguage";
 
-    private static final String ID_FIELD = "code";
+    private JSONObject itLocale;
+    private JSONObject enCALocale;
 
-    private static final String BASE_URL = "seed-i18n/locales";
-
-    private static final String ENGLISH_LANGUAGE_FIELD = "englishLanguage";
-
-    private JSONObject jsonObject;
+    @ArquillianResource
+    private URL baseURL;
 
     @Before
     public void before() throws JSONException {
-        jsonObject = new JSONObject();
-        jsonObject.put("code", "it");
-        jsonObject.put("language", "italiano");
-        jsonObject.put(ENGLISH_LANGUAGE_FIELD, "Italian");
+        itLocale = new JSONObject();
+        itLocale.put(CODE, "it");
+        itLocale.put(LANGUAGE, "italiano");
+        itLocale.put(ENGLISH_LANGUAGE, "Italian");
+
+        enCALocale = new JSONObject();
+        enCALocale.put(CODE, "en-CA");
+        enCALocale.put(LANGUAGE, "English (Canada)");
+        enCALocale.put(ENGLISH_LANGUAGE, "English (Canada)");
     }
 
     @Deployment
@@ -58,30 +61,26 @@ public class LocalesResourcesIT extends AbstractSeedWebIT {
 
     @RunAsClient
     @Test
-    public void get_locales(@ArquillianResource URL baseURL) throws JSONException {
-        //
-        // Get all locales => 200 OK
-        //
-        Response response = expect().statusCode(200).given().auth().basic("admin", "password").
-                header("Accept", "application/json").header("Content-Type", "application/json")
-                .get(baseURL.toString() + BASE_URL);
-
+    public void getSupportedLocales() throws JSONException {
+        Response response = httpGet("/locales");
         JSONArray result = new JSONArray(response.asString());
         Assertions.assertThat(result.length()).isGreaterThan(100);
 
-        LOGGER.info("GET LOCALES, status code: {}", response.getStatusCode());
-
-        //
-        // Get "it" locale => 200 OK
-        //
-        response = expect().statusCode(200).given().auth().basic("admin", "password").
-                header("Accept", "application/json").header("Content-Type", "application/json")
-                .get(baseURL.toString() + BASE_URL + "/it");
-        JSONObject required = new JSONObject(response.asString());
-        Assertions.assertThat(jsonObject.getString(ID_FIELD)).isEqualTo(required.getString(ID_FIELD));
-        Assertions.assertThat(jsonObject.getString(ENGLISH_LANGUAGE_FIELD)).isEqualTo(required.getString(ENGLISH_LANGUAGE_FIELD));
-
-        LOGGER.info("GET LOCALES 'it', status code: {}", response.getStatusCode());
+        response = httpGet("/locales/it");
+        assertEquals(itLocale, new JSONObject(response.asString()));
+        response = httpGet("/locales/en-CA");
+        assertEquals(enCALocale, new JSONObject(response.asString()));
     }
 
+    private void assertEquals(JSONObject source, JSONObject result) throws JSONException {
+        Assertions.assertThat(source.getString(CODE)).isEqualTo(result.getString(CODE));
+        Assertions.assertThat(source.getString(LANGUAGE)).isEqualTo(result.getString(LANGUAGE));
+        Assertions.assertThat(source.getString(ENGLISH_LANGUAGE)).isEqualTo(result.getString(ENGLISH_LANGUAGE));
+    }
+
+    private Response httpGet(String path) {
+        return expect().statusCode(200).given().auth().basic("admin", "password").
+                header("Accept", "application/json").header("Content-Type", "application/json")
+                .get(baseURL.toString() + BASE_URL + path);
+    }
 }
