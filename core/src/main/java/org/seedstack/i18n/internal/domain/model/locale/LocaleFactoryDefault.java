@@ -30,12 +30,10 @@ public class LocaleFactoryDefault extends BaseFactory<Locale> implements LocaleF
 
     @Override
     public Locale createFromCode(String localeCode) {
-        if (!localeCodeSpecification.isSatisfiedBy(localeCode)) {
-            throw new IllegalArgumentException(String.format(LocaleCodeSpecification.MESSAGE, localeCode));
-        }
+        LocaleCodeSpecification.assertCode(localeCode);
+
         String[] localeFragments = localeCode.split("\\-");
         java.util.Locale locale;
-
         switch (localeFragments.length) {
             case 1:
                 locale = new java.util.Locale(localeFragments[0]);

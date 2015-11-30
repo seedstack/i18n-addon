@@ -16,7 +16,6 @@ import java.util.List;
  * Stores application keys and translations.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 20/11/13
  */
 public interface KeyRepository extends GenericRepository<Key, String> {
 
@@ -39,7 +38,7 @@ public interface KeyRepository extends GenericRepository<Key, String> {
      *
      * @param keys keys to persist
      */
-    void persist(List<Key> keys);
+    void persistAll(List<Key> keys);
 
     /**
      * Fast delete of all keys.

@@ -7,11 +7,15 @@
  */
 package org.seedstack.i18n.rest.internal.io;
 
+import com.sun.jersey.core.header.ContentDisposition;
 import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
+import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
+import org.seedstack.i18n.rest.internal.I18nPermissions;
+import org.seedstack.i18n.rest.internal.shared.BadRequestException;
+import org.seedstack.i18n.rest.internal.shared.WebChecks;
 import org.seedstack.io.Parse;
 import org.seedstack.io.Parser;
 import org.seedstack.io.Render;
@@ -37,78 +41,67 @@ import java.util.Map;
  * This REST resource provide an API to import/export CSV file.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 14/04/2014
  */
 @Path("/seed-i18n/keys/file")
 @JpaUnit("seed-i18n-domain")
 @Transactional
 public class IOResource {
 
-    private static final String PRINT_HEADER = "printHeader";
+    private static final Logger LOGGER = LoggerFactory.getLogger(IOResource.class);
     private static final String APPLICATION_CSV = "application/csv";
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
     private static final String ATTACHMENT_FILENAME_I18N_CSV = "attachment; filename=i18n.csv";
+    public static final String LOADED_KEYS_MESSAGE = "Loaded %d keys with their translations";
 
-    @Render("i8nTranslations")
+    @Render(I18nCSVTemplateLoader.I18N_CSV_TEMPLATE)
     private Renderer renderer;
 
-    @Parse("i8nTranslations")
-    private Parser<DataRepresentation> parser;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(IOResource.class);
+    @Parse(I18nCSVTemplateLoader.I18N_CSV_TEMPLATE)
+    private Parser<I18nCSVRepresentation> parser;
 
     @Inject
-    private DataAssembler dataAssembler;
-
+    private FluentAssembler fluentAssembler;
     @Inject
     private KeyRepository keyRepository;
 
-    @Inject
-    private KeyFactory factory;
-
     /**
-     * Import a CSV file or a list of CSV file.
+     * Imports one or more CSV files containing i18n keys with their translations.
      *
      * @param multiPart multipart data
      * @return status code 200, or 400 if the multipart is null
      */
     @POST
     @Consumes("multipart/form-data")
-    @RequiresPermissions("seed:i18n:key:read")
-    public Response uploadTranslations(FormDataMultiPart multiPart) {
-        List<DataRepresentation> translations = new ArrayList<DataRepresentation>();
-        if (multiPart != null) {
-            for (BodyPart bodyPart : multiPart.getBodyParts()) {
-                // Check file extension
-                if (bodyPart.getContentDisposition() == null || !bodyPart.getContentDisposition().getFileName().endsWith(".csv")) {
-                    return Response.status(Response.Status.BAD_REQUEST)
-                            .entity("Incorrect input file").type(MediaType.TEXT_PLAIN_TYPE).build();
-                }
-                translations.addAll(parser.parse(bodyPart.getEntityAs(InputStream.class), DataRepresentation.class));
+    @RequiresPermissions(I18nPermissions.KEY_WRITE)
+    public Response importTranslations(FormDataMultiPart multiPart) {
+        WebChecks.checkIfNotNull(multiPart, "Missing input file");
+
+        int totalKeyImported = 0;
+        for (BodyPart bodyPart : multiPart.getBodyParts()) {
+            if (fileHasCSVExtension(bodyPart)) {
+                throw new BadRequestException("Incorrect file extension. Expected *.csv");
             }
-
-            List<Key> keys = mergeOrCreateKeyWithDto(translations);
-            keyRepository.persist(keys);
-
-            LOGGER.debug("Loaded {} keys with their translations", translations.size());
-        } else {
-            // Check multipart nullity
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Missing input file").type(MediaType.TEXT_PLAIN_TYPE).build();
+            List<Key> keys = readKeysFromFile(bodyPart);
+            keyRepository.persistAll(keys);
+            totalKeyImported += keys.size();
         }
 
-        return Response.ok(String.format("Loaded %d translations", translations.size()), MediaType.TEXT_PLAIN_TYPE).build();
+        String loadedKeysMessage = String.format(LOADED_KEYS_MESSAGE, totalKeyImported);
+        LOGGER.debug(loadedKeysMessage);
+        return Response.ok(loadedKeysMessage, MediaType.TEXT_PLAIN_TYPE).build();
     }
 
-    private List<Key> mergeOrCreateKeyWithDto(List<DataRepresentation> translations) {
-        List<Key> keys = new ArrayList<Key>(translations.size());
-        for (DataRepresentation dataRepresentation : translations) {
-            Key key = keyRepository.load(dataRepresentation.getKey());
-            if (key == null) {
-                key = factory.createKey(dataRepresentation.getKey());
-            }
-            dataAssembler.mergeAggregateWithDto(key, dataRepresentation);
-            keys.add(key);
+    private boolean fileHasCSVExtension(BodyPart bodyPart) {
+        ContentDisposition contentDisposition = bodyPart.getContentDisposition();
+        return contentDisposition == null || !contentDisposition.getFileName().endsWith(".csv");
+    }
+
+    private List<Key> readKeysFromFile(BodyPart bodyPart) {
+        InputStream inputStream = bodyPart.getEntityAs(InputStream.class);
+        List<I18nCSVRepresentation> i18nCSVRepresentations = parser.parse(inputStream, I18nCSVRepresentation.class);
+        List<Key> keys = new ArrayList<Key>();
+        for (I18nCSVRepresentation i18nCSVRepresentation : i18nCSVRepresentations) {
+            keys.add(fluentAssembler.merge(i18nCSVRepresentation).into(Key.class).fromRepository().orFromFactory());
         }
         return keys;
     }
@@ -120,28 +113,31 @@ public class IOResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @RequiresPermissions("seed:i18n:key:read")
-    public Response getTranslations() {
+    @RequiresPermissions(I18nPermissions.KEY_READ)
+    public Response exportTranslations() {
         final List<Key> keys = keyRepository.loadAll();
-        final Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(PRINT_HEADER, true);
 
-        StreamingOutput stream = new StreamingOutput() {
+        return Response.ok(new StreamingOutput() {
+
+            private boolean isFirstLine = true;
+
             @Override
             public void write(OutputStream os) throws IOException {
                 Writer writer = new BufferedWriter(new OutputStreamWriter(os));
                 for (Key key : keys) {
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    renderer.render(baos, key, APPLICATION_CSV, parameters);
-                    writer.write(baos.toString());
-                    // the header will be printed only once
-                    if ((Boolean) parameters.get(PRINT_HEADER)) {
-                        parameters.put(PRINT_HEADER, false);
-                    }
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    renderer.render(byteArrayOutputStream, key, APPLICATION_CSV, printHeader(isFirstLine));
+                    writer.write(byteArrayOutputStream.toString());
+                    isFirstLine = false;
                 }
                 writer.flush();
             }
-        };
-        return Response.ok(stream).header(CONTENT_DISPOSITION, ATTACHMENT_FILENAME_I18N_CSV).build();
+        }).header(CONTENT_DISPOSITION, ATTACHMENT_FILENAME_I18N_CSV).build();
+    }
+
+    private Map<String, Object> printHeader(boolean shouldPrintHeader) {
+        final Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(I18nCSVRenderer.PRINT_HEADER, shouldPrintHeader);
+        return parameters;
     }
 }

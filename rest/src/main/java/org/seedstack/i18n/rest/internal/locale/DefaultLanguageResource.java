@@ -8,7 +8,7 @@
 package org.seedstack.i18n.rest.internal.locale;
 
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
+import org.seedstack.i18n.rest.internal.shared.WebChecks;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
@@ -71,8 +71,8 @@ public class DefaultLanguageResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions("seed:i18n:locale:write")
     public Response changeDefaultLocale(LocaleRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        SeedWebCheckUtils.checkIfNotNull(representation, "The locale should not be null");
-        SeedWebCheckUtils.checkIfNotBlank(representation.getCode(), "The locale code should not be blank");
+        WebChecks.checkIfNotNull(representation, "The locale should not be null");
+        WebChecks.checkIfNotBlank(representation.getCode(), "The locale code should not be blank");
         try {
             localeRepository.changeDefaultLocaleTo(representation.getCode());
         } catch (Exception e) {

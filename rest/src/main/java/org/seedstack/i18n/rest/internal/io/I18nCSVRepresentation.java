@@ -17,9 +17,8 @@ import java.util.Map;
  * Data representation for export.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 24/03/14
  */
-public class DataRepresentation {
+public class I18nCSVRepresentation {
 
     private String key;
 
@@ -28,7 +27,7 @@ public class DataRepresentation {
     /**
      * Default constructor.
      */
-    public DataRepresentation() {
+    public I18nCSVRepresentation() {
     }
 
     /**
@@ -36,7 +35,7 @@ public class DataRepresentation {
      *
      * @return locale code
      */
-    @MatchingFactoryParameter
+    @MatchingFactoryParameter(index = 0)
     @MatchingEntityId
     public String getKey() {
         return key;

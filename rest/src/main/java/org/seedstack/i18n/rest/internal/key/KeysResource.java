@@ -15,7 +15,7 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.shared.BooleanUtils;
-import org.seedstack.i18n.rest.internal.shared.SeedWebCheckUtils;
+import org.seedstack.i18n.rest.internal.shared.WebChecks;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
@@ -116,9 +116,9 @@ public class KeysResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions("seed:i18n:key:write")
     public Response createKey(KeyRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        SeedWebCheckUtils.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
-        SeedWebCheckUtils.checkIfNotBlank(representation.getName(), THE_KEY_SHOULD_CONTAINS_A_NAME);
-        SeedWebCheckUtils.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
+        WebChecks.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
+        WebChecks.checkIfNotBlank(representation.getName(), THE_KEY_SHOULD_CONTAINS_A_NAME);
+        WebChecks.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
 
         Key key = keyRepository.load(representation.getName());
         if (key == null) {
@@ -145,7 +145,7 @@ public class KeysResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions("seed:i18n:key:read")
     public Response getKey(@PathParam(KEY) String name) {
-        SeedWebCheckUtils.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
+        WebChecks.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
         KeyRepresentation key = keyFinder.findKey(name);
         if (key != null) {
             return Response.ok(keyFinder.findKey(name)).build();
@@ -168,9 +168,9 @@ public class KeysResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions("seed:i18n:key:write")
     public Response updateKey(@PathParam(KEY) String name, KeyRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        SeedWebCheckUtils.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
-        SeedWebCheckUtils.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
-        SeedWebCheckUtils.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
+        WebChecks.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
+        WebChecks.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
+        WebChecks.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
 
         Key key = keyRepository.load(name);
         if (key == null) {
@@ -237,7 +237,7 @@ public class KeysResource {
     @Path("/{key}")
     @RequiresPermissions("seed:i18n:key:delete")
     public Response deleteKey(@PathParam(KEY) String name) throws URISyntaxException {
-        SeedWebCheckUtils.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
+        WebChecks.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
         Key key = keyRepository.load(name);
         if (key != null) {
             keyRepository.delete(key);
