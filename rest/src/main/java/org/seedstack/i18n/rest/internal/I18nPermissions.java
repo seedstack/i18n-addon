@@ -15,4 +15,8 @@ public class I18nPermissions {
     public static final String LOCALE_READ = "seed:i18n:locale:read";
     public static final String LOCALE_WRITE = "seed:i18n:locale:write";
     public static final String LOCALE_DELETE = "seed:i18n:locale:delete";
+
+    public static final String KEY_READ = "seed:i18n:key:read";
+    public static final String KEY_WRITE = "seed:i18n:key:write";
+    public static final String KEY_DELETE = "seed:i18n:key:delete";
 }

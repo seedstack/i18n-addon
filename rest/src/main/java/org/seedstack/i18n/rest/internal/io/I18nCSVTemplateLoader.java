@@ -24,22 +24,22 @@ import java.util.Set;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 11/04/2014
  */
-@JpaUnit("seed-i18n-domain")
-@Transactional
-public class DynamicSuperCSVTemplateLoader implements TemplateLoader {
+public class I18nCSVTemplateLoader implements TemplateLoader {
 
-    private static final String I18N_SUPER_CSV = "i18nSuperCSV";
+    public static final String I18N_CSV_TEMPLATE = "i8nTranslations";
+    public static final String KEY = "key";
 
     @Inject
     private LocaleFinder localeFinder;
 
+    @JpaUnit("seed-i18n-domain")
+    @Transactional
     @Override
     public Template load(String name) {
         List<LocaleRepresentation> availableLocales = localeFinder.findAvailableLocales();
         SuperCsvTemplate superCsvTemplate = new SuperCsvTemplate(name);
-        superCsvTemplate.addColumn(new Column("key", "key", new Optional(), new Optional()));
+        superCsvTemplate.addColumn(new Column(KEY, KEY, new Optional(), new Optional()));
         for (LocaleRepresentation availableLocale : availableLocales) {
             superCsvTemplate.addColumn(new Column(availableLocale.getCode(), availableLocale.getCode(), new Optional(), new Optional()));
         }
@@ -48,7 +48,7 @@ public class DynamicSuperCSVTemplateLoader implements TemplateLoader {
 
     @Override
     public Set<String> names() {
-        return Sets.newHashSet("i8nTranslations");
+        return Sets.newHashSet(I18N_CSV_TEMPLATE);
     }
 
     @Override
@@ -58,11 +58,11 @@ public class DynamicSuperCSVTemplateLoader implements TemplateLoader {
 
     @Override
     public String templateRenderer() {
-        return I18N_SUPER_CSV;
+        return I18nCSVRenderer.I18N_RENDERER;
     }
 
     @Override
     public String templateParser() {
-        return I18N_SUPER_CSV;
+        return I18nCSVParser.I18N_PARSER;
     }
 }

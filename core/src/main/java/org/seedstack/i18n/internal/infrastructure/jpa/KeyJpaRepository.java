@@ -20,7 +20,6 @@ import java.util.Map;
  * JPA implementation of key repository.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 13/05/2014
  */
 public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepository {
 
@@ -39,7 +38,7 @@ public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements 
     }
 
     @Override
-    public void persist(List<Key> keys) {
+    public void persistAll(List<Key> keys) {
         for (Key key : keys) {
             persist(key);
         }

@@ -18,13 +18,13 @@ import java.util.Map;
  * Assemble data for export.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 16/04/2014
  */
-public class DataAssembler extends BaseAssembler<Key, DataRepresentation> {
+class DataAssembler extends BaseAssembler<Key, I18nCSVRepresentation> {
 
     @Override
-    protected void doAssembleDtoFromAggregate(DataRepresentation targetDto, Key sourceEntity) {
+    protected void doAssembleDtoFromAggregate(I18nCSVRepresentation targetDto, Key sourceEntity) {
         targetDto.setKey(sourceEntity.getEntityId());
+
         Map<String, String> translations = new HashMap<String, String>();
         for (Map.Entry<String, Translation> entry : sourceEntity.getTranslations().entrySet()) {
             translations.put(entry.getKey(), entry.getValue().getValue());
@@ -33,14 +33,23 @@ public class DataAssembler extends BaseAssembler<Key, DataRepresentation> {
     }
 
     @Override
-    protected void doMergeAggregateWithDto(Key targetEntity, DataRepresentation sourceDto) {
+    protected void doMergeAggregateWithDto(Key targetKey, I18nCSVRepresentation sourceDto) {
         for (Map.Entry<String, String> entry : sourceDto.getValue().entrySet()) {
-            Translation translation = targetEntity.getTranslation(entry.getKey());
-            // Create a translation if it doesn't exist or if the translation has changed
-            // So, if a translation has changed "outdated" and "approx" are passed to false
-            if (translation == null || !translation.getValue().equals(entry.getValue())) {
-                targetEntity.addTranslation(entry.getKey(), entry.getValue());
+            String locale = entry.getKey();
+            String translation = entry.getValue();
+
+            if (shouldUpdateTranslation(targetKey, locale, translation)) {
+                targetKey.addTranslation(locale, translation);
             }
         }
+    }
+
+    private boolean shouldUpdateTranslation(Key targetKey, String locale, String translation) {
+        return !targetKey.isTranslated(locale) || translationHasChanged(targetKey, locale, translation);
+    }
+
+    private boolean translationHasChanged(Key targetKey, String localeCode, String translationValue) {
+        Translation translation = targetKey.getTranslation(localeCode);
+        return !translation.getValue().equals(translationValue);
     }
 }

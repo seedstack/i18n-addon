@@ -94,7 +94,7 @@ public class KeyJpaFinderIT {
         key.addTranslation(FR, "");
         keys.add(key);
 
-        keyRepository.persist(keys);
+        keyRepository.persistAll(keys);
 
     }
 

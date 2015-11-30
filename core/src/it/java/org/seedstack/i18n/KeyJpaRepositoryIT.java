@@ -91,7 +91,7 @@ public class KeyJpaRepositoryIT {
 
         List<Key> keys = Lists.newArrayList(expectedKey, key1, key2);
 
-        keyRepository.persist(keys);
+        keyRepository.persistAll(keys);
 
         List<Key> key = keyRepository.loadAll();
         Assertions.assertThat(key.size()).isEqualTo(3);

@@ -15,9 +15,9 @@ import org.apache.commons.lang.StringUtils;
  * @author pierre.thirouin@ext.mpsa.com
  *         Date: 26/05/2014
  */
-public final class SeedWebCheckUtils {
+public final class WebChecks {
 
-    private SeedWebCheckUtils() {
+    private WebChecks() {
 
     }
 
