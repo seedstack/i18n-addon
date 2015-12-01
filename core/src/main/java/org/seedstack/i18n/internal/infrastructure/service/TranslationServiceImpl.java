@@ -33,7 +33,14 @@ public class TranslationServiceImpl implements TranslationService {
     private final LocalizationService localizationService;
     private final LocaleService localeService;
 
-    @Configuration(value = "org.seedstack.i18n.allow-missing-translation", defaultValue = "false")
+    /**
+     * The allowMissingTranslation field is true by default.
+     * <ul>
+     * <li>When true the missing translation won't appear in the key/translation map.</li>
+     * <li>When false they will appear with the translation [key.name]</li>
+     * </ul>
+     */
+    @Configuration(value = "org.seedstack.i18n.allow-missing-translation", defaultValue = "true")
     private boolean allowMissingTranslation;
 
     /**
@@ -54,7 +61,7 @@ public class TranslationServiceImpl implements TranslationService {
     public Map<String, String> getTranslationsForLocale(String locale) {
         Map<String, String> translations = new HashMap<String, String>();
         for (Key key : keyRepository.loadAll()) {
-            if (allowMissingTranslation || key.isTranslated(locale)) {
+            if (key.isTranslated(locale) || !allowMissingTranslation) {
                 String translation = localizationService.localize(locale, key.getEntityId());
                 translations.put(key.getEntityId(), translation);
             }
