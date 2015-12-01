@@ -7,13 +7,14 @@
  */
 package org.seedstack.i18n.rest.internal.locale;
 
-import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.i18n.rest.internal.shared.WebChecks;
+import org.seedstack.i18n.LocaleService;
+import org.seedstack.i18n.rest.internal.I18nPermissions;
+import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.Logging;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -28,29 +29,34 @@ import java.net.URISyntaxException;
  * This REST resource provide method to access the application default locale.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 26/11/13
  */
-
 @JpaUnit("seed-i18n-domain")
 @Transactional
 @Path("/seed-i18n/default-locale")
 public class DefaultLanguageResource {
 
-    @Inject
-    private LocaleFinder localeFinder;
+    @Logging
+    private Logger logger;
+
+    @Context
+    private UriInfo uriInfo;
+
+    private final LocaleFinder localeFinder;
+    private final LocaleService localeService;
 
     @Inject
-    private LocaleRepository localeRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultLanguageResource.class);
+    public DefaultLanguageResource(LocaleFinder localeFinder, LocaleService localeService) {
+        this.localeFinder = localeFinder;
+        this.localeService = localeService;
+    }
 
     /**
      * @return the default locale.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:read")
-    public Response getDefaultLocales() {
+    @RequiresPermissions(I18nPermissions.LOCALE_READ)
+    public Response getDefaultLocale() {
         LocaleRepresentation defaultLocale = localeFinder.findDefaultLocale();
         if (defaultLocale != null) {
             return Response.ok(defaultLocale).build();
@@ -62,25 +68,24 @@ public class DefaultLanguageResource {
      * Changes the default locale
      *
      * @param representation locale representation
-     * @param uriInfo        uriInfo
      * @return result
      * @throws java.net.URISyntaxException if URI is not valid
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:locale:write")
-    public Response changeDefaultLocale(LocaleRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        WebChecks.checkIfNotNull(representation, "The locale should not be null");
-        WebChecks.checkIfNotBlank(representation.getCode(), "The locale code should not be blank");
+    @RequiresPermissions(I18nPermissions.LOCALE_WRITE)
+    public Response changeDefaultLocale(LocaleRepresentation representation) throws URISyntaxException {
+        WebAssertions.assertNotNull(representation, "The locale should not be null");
+        WebAssertions.assertNotBlank(representation.getCode(), "The locale code should not be blank");
         try {
-            localeRepository.changeDefaultLocaleTo(representation.getCode());
+            localeService.changeDefaultLocaleTo(representation.getCode());
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new URI(uriInfo.getRequestUri() + "/"))
+        return Response.ok(new URI(uriInfo.getRequestUri().toString()))
                 .entity(localeFinder.findDefaultLocale()).build();
     }
 }

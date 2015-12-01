@@ -9,117 +9,73 @@ package org.seedstack.i18n.rest;
 
 import com.jayway.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.seedstack.seed.it.AbstractSeedWebIT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.URL;
-
-import static com.jayway.restassured.RestAssured.expect;
+import org.seedstack.i18n.shared.AbstractI18nRestIT;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author PDC Date: 02/12/13
  */
-public class StatisticResourcesIT extends AbstractSeedWebIT {
+public class StatisticResourcesIT extends AbstractI18nRestIT {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(StatisticResourcesIT.class);
+    private static final String ID_FIELD = "locale";
+    private static final String ENGLISH_LANGUAGE_FIELD = "englishLanguage";
+    private static final String TRANSLATED = "translated";
+    private static final String TO_TRANSLATE = "totranslate";
+    private static final String KEY_TOTAL = "keytotal";
 
-	private static final String ID_FIELD = "locale";
+    private JSONObject jsonObjectEn;
+    private JSONObject jsonObjectFr;
 
-	private static final String BASE_URL = "seed-i18n/statistic";
+    @Before
+    public void before() throws JSONException {
+        jsonObjectEn = new JSONObject();
+        jsonObjectEn.put(ID_FIELD, "en");
+        jsonObjectEn.put(TRANSLATED, 4);
+        jsonObjectEn.put(TO_TRANSLATE, 0);
+        jsonObjectEn.put(KEY_TOTAL, 4);
+        jsonObjectEn.put(ENGLISH_LANGUAGE_FIELD, "English");
 
-	private static final String ENGLISH_LANGUAGE_FIELD = "englishLanguage";
+        jsonObjectFr = new JSONObject();
+        jsonObjectFr.put(ID_FIELD, "fr");
+        jsonObjectFr.put(TRANSLATED, 3);
+        jsonObjectFr.put(TO_TRANSLATE, 1);
+        jsonObjectFr.put(KEY_TOTAL, 4);
+        jsonObjectFr.put(ENGLISH_LANGUAGE_FIELD, "French");
+    }
 
-	private static final String TRANSLATED = "translated";
+    @RunAsClient
+    @Test
+    public void get_statistic() throws JSONException {
+        testStatisticsForAllLocales();
+        testStatisticsForOneLocale();
+    }
 
-	private static final String TOTRANSLATE = "totranslate";
+    private void testStatisticsForAllLocales() throws JSONException {
+        Response response = httpGet("statistic", 200);
+        JSONArray result = new JSONArray(response.asString());
 
-	private static final String KEY_TOTAL = "keytotal";
+        Assertions.assertThat(result.length()).isEqualTo(2);
 
-	private JSONObject jsonObjectEn;
+        for (int i = 0; i < result.length(); i++) {
+            if (result.getJSONObject(i).get(ID_FIELD).equals("en")) {
+                JSONObject jsonObject = result.getJSONObject(i);
+                JSONAssert.assertEquals(jsonObject, jsonObjectEn, true);
+            }
+        }
+    }
 
-	private JSONObject jsonObjectFr;
+    private void testStatisticsForOneLocale() throws JSONException {
+        Response response = httpGet("statistic?selectLang=fr", 200);
 
-	@Before
-	public void before() throws JSONException {
-		jsonObjectEn = new JSONObject();
-		jsonObjectEn.put(ID_FIELD, "en");
-		jsonObjectEn.put(TRANSLATED, 50);
-		jsonObjectEn.put(TOTRANSLATE, 0);
-		jsonObjectEn.put(KEY_TOTAL, 50);
-		jsonObjectEn.put(ENGLISH_LANGUAGE_FIELD, "English");
-
-		jsonObjectFr = new JSONObject();
-		jsonObjectFr.put(ID_FIELD, "fr");
-		jsonObjectFr.put(TRANSLATED, 50);
-		jsonObjectFr.put(TOTRANSLATE, 0);
-		jsonObjectFr.put(KEY_TOTAL, 50);
-		jsonObjectFr.put(ENGLISH_LANGUAGE_FIELD, "French");
-	}
-
-	@Deployment
-	public static WebArchive createDeployment() {
-		return ShrinkWrap.create(WebArchive.class).setWebXML("WEB-INF/web.xml");
-	}
-
-	@RunAsClient
-	@Test
-	public void get_statistic(@ArquillianResource URL baseURL)
-			throws JSONException {
-		// No.1 params get all locales selectLang=""
-		// Get all locales => 200 OK
-		Response response = expect().statusCode(200).given().auth()
-				.basic("admin", "password")
-				.header("Accept", "application/json")
-				.header("Content-Type", "application/json")
-				.get(baseURL.toString() + BASE_URL);
-
-		JSONArray result = new JSONArray(response.asString());
-		Assertions.assertThat(result.length()).isEqualTo(2);
-		for (int i = 0; i < result.length(); i++) {
-			if (result.getJSONObject(i).get(ID_FIELD).equals("en")) {
-				JSONObject jsonObject = result.getJSONObject(i);
-				Assertions.assertThat(jsonObject.get(TRANSLATED)).isEqualTo(
-						jsonObjectEn.get(TRANSLATED));
-				Assertions.assertThat(jsonObject.get(TOTRANSLATE)).isEqualTo(
-						jsonObjectEn.get(TOTRANSLATE));
-				Assertions.assertThat(jsonObject.get(KEY_TOTAL)).isEqualTo(
-						jsonObjectEn.get(KEY_TOTAL));
-				Assertions.assertThat(jsonObject.get(ENGLISH_LANGUAGE_FIELD))
-						.isEqualTo(jsonObjectEn.get(ENGLISH_LANGUAGE_FIELD));
-			}
-
-		}
-
-		// No.2 params select a locale selectLang=fr
-		response = expect().statusCode(200).given().auth()
-				.basic("admin", "password")
-				.header("Accept", "application/json")
-				.header("Content-Type", "application/json")
-				.get(baseURL.toString() + BASE_URL + "?selectLang=fr");
-
-		result = new JSONArray(response.asString());
-		Assertions.assertThat(result.length()).isEqualTo(1);
-		JSONObject jsonObject = result.getJSONObject(0);
-		Assertions.assertThat(jsonObject.get(TRANSLATED)).isEqualTo(
-				jsonObjectFr.get(TRANSLATED));
-		Assertions.assertThat(jsonObject.get(TOTRANSLATE)).isEqualTo(
-				jsonObjectFr.get(TOTRANSLATE));
-		Assertions.assertThat(jsonObject.get(KEY_TOTAL)).isEqualTo(
-				jsonObjectFr.get(KEY_TOTAL));
-		Assertions.assertThat(jsonObject.get(ENGLISH_LANGUAGE_FIELD))
-				.isEqualTo(jsonObjectFr.get(ENGLISH_LANGUAGE_FIELD));
-
-	}
+        JSONArray result = new JSONArray(response.asString());
+        Assertions.assertThat(result.length()).isEqualTo(1);
+        JSONObject jsonObject = result.getJSONObject(0);
+        JSONAssert.assertEquals(jsonObject, jsonObjectFr, true);
+    }
 }

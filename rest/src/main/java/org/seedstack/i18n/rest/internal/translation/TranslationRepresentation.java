@@ -23,7 +23,15 @@ public class TranslationRepresentation {
     
     private boolean missing;
 
-	/**
+    public TranslationRepresentation() {
+    }
+
+    public TranslationRepresentation(String name, String comment) {
+        this.name = name;
+        this.comment = comment;
+    }
+
+    /**
 	 * @return the name
 	 */
 	public String getName() {

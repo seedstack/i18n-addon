@@ -8,7 +8,7 @@
 /*
  * Creation : 1 août 2014
  */
-package org.seedstack.i18n.rest;
+package org.seedstack.i18n.internal.infrastructure.jpa;
 
 import org.seedstack.i18n.rest.internal.locale.LocaleRepresentation;
 import org.seedstack.i18n.rest.internal.statistic.StatisticFinder;

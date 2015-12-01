@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.seedstack.i18n.LocalizationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
-import org.seedstack.i18n.internal.domain.model.key.KeyFactoryDefault;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 
 import static org.mockito.Mockito.mock;
@@ -34,7 +32,6 @@ public class ICULocalizationServiceTest {
     private LocalizationService localizationService;
     private KeyRepository keyRepository;
     private ICULocaleService localeService;
-    private KeyFactory keyFactory = new KeyFactoryDefault();
 
     @Before
     public void before() {
@@ -53,6 +50,12 @@ public class ICULocalizationServiceTest {
         Assertions.assertThat(localizedMessage).isEqualTo(FR_TRANSLATION);
     }
 
+    private void addTranslation(String locale, String value) {
+        Key key1 = new Key(KEY);
+        key1.addTranslation(locale, value);
+        when(keyRepository.load(KEY)).thenReturn(key1);
+    }
+
     @Test
     public void localization_key_not_found() {
         when(keyRepository.load(KEY)).thenReturn(null);
@@ -64,7 +67,7 @@ public class ICULocalizationServiceTest {
 
     @Test
     public void localization_translation_not_found() {
-        when(keyRepository.load(KEY)).thenReturn(keyFactory.createKey(KEY));
+        when(keyRepository.load(KEY)).thenReturn(new Key(KEY));
 
         String localize = localizationService.localize(FR_BE, KEY);
 
@@ -78,12 +81,6 @@ public class ICULocalizationServiceTest {
         String localize = localizationService.localize(FR_BE, KEY, "Bruxelles!");
 
         Assertions.assertThat(localize).isEqualTo("Bonjour Bruxelles!");
-    }
-
-    private void addTranslation(String locale, String value) {
-        Key key1 = keyFactory.createKey(KEY);
-        key1.addTranslation(locale, value);
-        when(keyRepository.load(KEY)).thenReturn(key1);
     }
 
     private void mockLocaleService() {

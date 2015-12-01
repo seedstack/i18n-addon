@@ -1,0 +1,78 @@
+[
+    {
+        "group": "seed-i18n",
+        "name": "key",
+        "items": [
+            {
+                "comment": "i18n",
+                "name": "test.foo",
+                "outdated": false,
+                "translations": [
+                    {
+                        "approximate": false,
+                        "locale": "en",
+                        "outdated": false,
+                        "value": "bar"
+                    }
+                ]
+            },
+            {
+                "comment": "i18n",
+                "name": "test.to.update",
+                "outdated": false,
+                "translations": [
+                    {
+                        "approximate": false,
+                        "locale": "en",
+                        "outdated": false,
+                        "value": "to update"
+                    },
+                    {
+                        "approximate": false,
+                        "locale": "fr",
+                        "outdated": false,
+                        "value": "à mettre à jour"
+                    }
+                ]
+            },
+            {
+                "comment": "i18n",
+                "name": "test.approximate",
+                "outdated": false,
+                "translations": [
+                    {
+                        "approximate": false,
+                        "locale": "en",
+                        "outdated": false,
+                        "value": "approximate"
+                    },
+                    {
+                        "approximate": true,
+                        "locale": "fr",
+                        "outdated": false,
+                        "value": "approx"
+                    }
+                ]
+            },
+            {
+                "comment": "i18n",
+                "name": "test.outdated",
+                "outdated": true,
+                "translations": [
+                    {
+                        "approximate": false,
+                        "locale": "en",
+                        "outdated": false,
+                        "value": "outdated"
+                    },
+                    {
+                        "approximate": false,
+                        "locale": "fr",
+                        "outdated": true,
+                        "value": "pas à jour"
+                    }
+                ]
+            }
+        ]
+    }
+]

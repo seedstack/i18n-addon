@@ -15,7 +15,7 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.I18nPermissions;
 import org.seedstack.i18n.rest.internal.shared.BadRequestException;
-import org.seedstack.i18n.rest.internal.shared.WebChecks;
+import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.io.Parse;
 import org.seedstack.io.Parser;
 import org.seedstack.io.Render;
@@ -74,7 +74,7 @@ public class IOResource {
     @Consumes("multipart/form-data")
     @RequiresPermissions(I18nPermissions.KEY_WRITE)
     public Response importTranslations(FormDataMultiPart multiPart) {
-        WebChecks.checkIfNotNull(multiPart, "Missing input file");
+        WebAssertions.assertNotNull(multiPart, "Missing input file");
 
         int totalKeyImported = 0;
         for (BodyPart bodyPart : multiPart.getBodyParts()) {

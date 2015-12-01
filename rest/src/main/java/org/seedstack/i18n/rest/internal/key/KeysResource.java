@@ -8,14 +8,12 @@
 package org.seedstack.i18n.rest.internal.key;
 
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
-import org.seedstack.business.view.PaginatedView;
+import org.seedstack.business.view.Page;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.rest.internal.shared.BooleanUtils;
-import org.seedstack.i18n.rest.internal.shared.WebChecks;
+import org.seedstack.i18n.rest.internal.I18nPermissions;
+import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
@@ -28,16 +26,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.*;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_MISSING;
 
 /**
  * REST resources exposing keys for administration.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 21/11/13
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
@@ -46,24 +43,24 @@ public class KeysResource {
 
     private static final String PAGE_INDEX = "pageIndex";
     private static final String PAGE_SIZE = "pageSize";
-    private static final String IS_APPROX = "isApprox";
-    private static final String SEARCH_NAME = "searchName";
-    private static final String IS_MISSING = "isMissing";
-    private static final String IS_OUTDATED = "isOutdated";
-    private static final String KEY = "key";
-    private static final String KEY_NAME_SHOULD_NOT_BE_BLANK = "Key name should not be blank";
+
     private static final String THE_KEY_SHOULD_NOT_BE_NULL = "The key should not be null";
     private static final String THE_KEY_SHOULD_CONTAINS_A_NAME = "The key should contains a name.";
     private static final String THE_KEY_SHOULD_CONTAINS_A_LOCALE = "The key should contains a locale.";
 
-    @Inject
-    private KeyFinder keyFinder;
+    private final KeyFinder keyFinder;
+    private final KeyRepository keyRepository;
+    private final KeyFactory factory;
+
+    @Context
+    private UriInfo uriInfo;
 
     @Inject
-    private KeyRepository keyRepository;
-
-    @Inject
-    private KeyFactory factory;
+    public KeysResource(KeyFinder keyFinder, KeyRepository keyRepository, KeyFactory factory) {
+        this.keyFinder = keyFinder;
+        this.keyRepository = keyRepository;
+        this.factory = factory;
+    }
 
     /**
      * Returns a list of filtered keys without their translations.
@@ -74,117 +71,56 @@ public class KeysResource {
      * @param isApprox   filter on approximate default translation
      * @param isOutdated filter on outdated key
      * @param searchName filter on key name
-     * @return keys without translations
+     * @return 200 - keys without translations
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:key:read")
-    public Response getKeys(@QueryParam(PAGE_INDEX) Long pageIndex, @QueryParam(PAGE_SIZE) Integer pageSize,
-                            @QueryParam(IS_MISSING) Boolean isMissing, @QueryParam(IS_APPROX) Boolean isApprox,
-                            @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
-        // Prepare criteria
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(IS_MISSING, BooleanUtils.falseToNull(isMissing));
-        criteria.put(IS_APPROX, BooleanUtils.falseToNull(isApprox));
-        criteria.put(IS_OUTDATED, BooleanUtils.falseToNull(isOutdated));
-        criteria.put(SEARCH_NAME, searchName);
-        Response response = Response.noContent().build();
-        if (pageIndex != null && pageSize != null) {
-            Result<KeyRepresentation> result = keyFinder.findAllKeys(Range.rangeFromPageInfo(pageIndex, pageSize), criteria);
-            PaginatedView<KeyRepresentation> paginatedView = new PaginatedView<KeyRepresentation>(result, pageSize, pageIndex);
-            return Response.ok(paginatedView).build();
-        }
-
-        List<KeyRepresentation> keys = keyFinder.findAllKeys();
-        if (!keyFinder.findAllKeys().isEmpty()) {
-            return Response.ok(keys).build();
-        }
-        return response;
+    @RequiresPermissions(I18nPermissions.KEY_READ)
+    public Response getKeys(@QueryParam(PAGE_INDEX) @DefaultValue("0") long pageIndex,
+                            @QueryParam(PAGE_SIZE) @DefaultValue("10") int pageSize,
+                            @QueryParam(IS_MISSING) Boolean isMissing,
+                            @QueryParam(IS_APPROX) Boolean isApprox,
+                            @QueryParam(IS_OUTDATED) Boolean isOutdated,
+                            @QueryParam(SEARCH_NAME) String searchName) {
+        WebAssertions.assertIf(pageSize > 0, "Page size should be greater than zero.");
+        KeySearchCriteria keySearchCriteria = new KeySearchCriteria(isMissing, isApprox, isOutdated, searchName);
+        Page page = new Page(pageIndex, pageSize);
+        return Response.ok(keyFinder.findKeysWithTheirDefaultTranslation(page, keySearchCriteria)).build();
     }
-
 
     /**
      * Inserts a key with the translation in the default language.
      *
-     * @param representation key representation
-     * @param uriInfo        uri info
-     * @return result
-     * @throws URISyntaxException if the URI is not valid
+     * @param keyRepresentation key representation
+     * @return 201 if the resource is created, 409 if the resource already existed
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:key:write")
-    public Response createKey(KeyRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        WebChecks.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
-        WebChecks.checkIfNotBlank(representation.getName(), THE_KEY_SHOULD_CONTAINS_A_NAME);
-        WebChecks.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
+    @RequiresPermissions(I18nPermissions.KEY_WRITE)
+    public Response createKey(KeyRepresentation keyRepresentation) throws URISyntaxException {
+        WebAssertions.assertNotNull(keyRepresentation, THE_KEY_SHOULD_NOT_BE_NULL);
+        WebAssertions.assertNotBlank(keyRepresentation.getName(), THE_KEY_SHOULD_CONTAINS_A_NAME);
+        WebAssertions.assertNotBlank(keyRepresentation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
 
-        Key key = keyRepository.load(representation.getName());
-        if (key == null) {
-            key = factory.createKey(representation.getName());
-            key.setComment(representation.getComment());
-            key.addTranslation(representation.getDefaultLocale(), representation.getTranslation(), representation.isApprox());
-            keyRepository.persist(key);
-        } else {
-            return Response.status(Response.Status.CONFLICT).build();
-        }
+        assertKeyDoNotAlreadyExists(keyRepresentation);
+
+        Key key = factory.createKey(keyRepresentation.getName());
+        key.setComment(keyRepresentation.getComment());
+        key.addTranslation(keyRepresentation.getDefaultLocale(), keyRepresentation.getTranslation(), keyRepresentation.isApprox());
+        keyRepository.persist(key);
 
         return Response.created(new URI(uriInfo.getRequestUri() + "/" + key.getEntityId()))
-                .entity(keyFinder.findKey(key.getEntityId())).build();
+                .entity(keyFinder.findKeyWithName(key.getEntityId())).build();
     }
 
-    /**
-     * Returns a key with the default translation.
-     *
-     * @param name key identifier
-     * @return translated key
-     */
-    @GET
-    @Path("/{key}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:key:read")
-    public Response getKey(@PathParam(KEY) String name) {
-        WebChecks.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
-        KeyRepresentation key = keyFinder.findKey(name);
+    private void assertKeyDoNotAlreadyExists(KeyRepresentation representation) {
+        Key key = keyRepository.load(representation.getName());
         if (key != null) {
-            return Response.ok(keyFinder.findKey(name)).build();
+            Response response = Response.status(Response.Status.CONFLICT)
+                    .entity(String.format("The key %s already exists.", representation.getName())).build();
+            throw new WebApplicationException(response);
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    /**
-     * Updates a key with the translation in the default language.
-     *
-     * @param name           key name
-     * @param representation key representation
-     * @param uriInfo        URI data
-     * @return key representation
-     * @throws URISyntaxException if the URI is not valid.
-     */
-    @PUT
-    @Path("/{key}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:key:write")
-    public Response updateKey(@PathParam(KEY) String name, KeyRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        WebChecks.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
-        WebChecks.checkIfNotNull(representation, THE_KEY_SHOULD_NOT_BE_NULL);
-        WebChecks.checkIfNotBlank(representation.getDefaultLocale(), THE_KEY_SHOULD_CONTAINS_A_LOCALE);
-
-        Key key = keyRepository.load(name);
-        if (key == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        key.setComment(representation.getComment());
-        key.setOutdated();
-        // Updates the default translation
-        key.addTranslation(representation.getDefaultLocale(), representation.getTranslation(), representation.isApprox());
-
-        keyRepository.save(key);
-
-        return Response.ok(new URI(uriInfo.getRequestUri() + "/" + name)).entity(keyFinder.findKey(name)).build();
     }
 
     /**
@@ -197,54 +133,35 @@ public class KeysResource {
      * @return http status code 200 (ok) with the number of deleted keys
      */
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:key:delete")
+    @Produces("text/plain")
+    @RequiresPermissions(I18nPermissions.KEY_DELETE)
     public Response deleteKeys(@QueryParam(IS_MISSING) Boolean isMissing, @QueryParam(IS_APPROX) Boolean isApprox,
                                @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
-        // Prepare criteria
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(IS_MISSING, BooleanUtils.falseToNull(isMissing));
-        criteria.put(IS_APPROX, BooleanUtils.falseToNull(isApprox));
-        criteria.put(IS_OUTDATED, BooleanUtils.falseToNull(isOutdated));
-        criteria.put(SEARCH_NAME, searchName);
 
-        // When no filter, use the fast delete all
-        if (isMissing == null && isApprox == null && isOutdated == null && StringUtils.isBlank(searchName)) {
-            keyRepository.deleteAll();
+        KeySearchCriteria keySearchCriteria = new KeySearchCriteria(isMissing, isApprox, isOutdated, searchName);
+        long numberOfDeletedKeys;
+        if (shouldDeleteWithoutFilter(keySearchCriteria)) {
+            numberOfDeletedKeys = keyRepository.count();
+            keyRepository.deleteAll(); // If no filter are precised use the "deleteAll()" method which is more optimized
+        } else {
+            numberOfDeletedKeys = deleteFilteredKeys(keySearchCriteria);
         }
-        // Otherwise filter and then delete
-        List<KeyRepresentation> keys = keyFinder.findAllKeys(criteria);
-        List<Key> keysToDelete = new ArrayList<Key>(keys.size());
-        for (KeyRepresentation key : keys) {
-            Key keyToDelete = keyRepository.load(key.getName());
-            if (keyToDelete != null) {
-                keysToDelete.add(keyToDelete);
-            }
-        }
-        keyRepository.delete(keysToDelete);
-
-        return Response.ok(String.format("%d deleted keys", keys.size())).type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok(String.format("%d deleted keys", numberOfDeletedKeys)).build();
     }
 
-    /**
-     * Deletes a key.
-     *
-     * @param name key name
-     * @return http code 204 (no content)
-     * @throws URISyntaxException if the URI is not valid
-     */
-    @DELETE
-    @Path("/{key}")
-    @RequiresPermissions("seed:i18n:key:delete")
-    public Response deleteKey(@PathParam(KEY) String name) throws URISyntaxException {
-        WebChecks.checkIfNotBlank(name, KEY_NAME_SHOULD_NOT_BE_BLANK);
-        Key key = keyRepository.load(name);
-        if (key != null) {
-            keyRepository.delete(key);
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+    private long deleteFilteredKeys(KeySearchCriteria keySearchCriteria) {
+        List<KeyRepresentation> keysToDelete = keyFinder.findKeysWithTheirDefaultTranslation(keySearchCriteria);
+        for (KeyRepresentation key : keysToDelete) {
+            keyRepository.delete(key.getName());
         }
-        return Response.noContent().build();
+        return keysToDelete.size();
+    }
+
+    private boolean shouldDeleteWithoutFilter(KeySearchCriteria criteria) {
+        return criteria.getMissing() == null
+                && criteria.getApprox() == null
+                && criteria.getOutdated() == null
+                && StringUtils.isBlank(criteria.getName());
     }
 
 }

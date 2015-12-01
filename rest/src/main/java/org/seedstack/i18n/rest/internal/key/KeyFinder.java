@@ -9,25 +9,16 @@ package org.seedstack.i18n.rest.internal.key;
 
 
 import org.seedstack.business.finder.Finder;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
+import org.seedstack.business.view.Page;
+import org.seedstack.business.view.PaginatedView;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 21/11/13
  */
 @Finder
 public interface KeyFinder {
-
-    /**
-     * Returns all keys stored in the application
-     *
-     * @return list of key representations.
-     */
-    List<KeyRepresentation> findAllKeys();
 
     /**
      * Returns a key for a specified locale.
@@ -35,16 +26,16 @@ public interface KeyFinder {
      * @param name key name
      * @return a key representation
      */
-    KeyRepresentation findKey(String name);
+    KeyRepresentation findKeyWithName(String name);
 
     /**
      * Returns request ranged result of key representations.
      *
-     * @param range    range to query
-     * @param criteria criteria filters
+     * @param page    the page to query
+     * @param criteria the criteria filters
      * @return paginated key representations
      */
-    Result<KeyRepresentation> findAllKeys(Range range, Map<String, Object> criteria);
+    PaginatedView<KeyRepresentation> findKeysWithTheirDefaultTranslation(Page page, KeySearchCriteria criteria);
 
     /**
      * Finds all keys with criteria.
@@ -52,5 +43,5 @@ public interface KeyFinder {
      * @param criteria criteria
      * @return list of key representation
      */
-    List<KeyRepresentation> findAllKeys(Map<String, Object> criteria);
+    List<KeyRepresentation> findKeysWithTheirDefaultTranslation(KeySearchCriteria criteria);
 }

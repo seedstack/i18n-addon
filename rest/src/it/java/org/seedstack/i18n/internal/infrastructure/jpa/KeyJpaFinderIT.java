@@ -5,42 +5,41 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest;
+package org.seedstack.i18n.internal.infrastructure.jpa;
 
 import org.apache.commons.lang.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
+import org.seedstack.business.view.Page;
+import org.seedstack.business.view.PaginatedView;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.key.KeyFinder;
 import org.seedstack.i18n.rest.internal.key.KeyRepresentation;
+import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This integration test checks key finder methods.
  *
- * @author pierre.thirouin@ext.mpsa.com Date: 15/05/2014
+ * @author pierre.thirouin@ext.mpsa.com
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
 @RunWith(SeedITRunner.class)
 public class KeyJpaFinderIT {
 
-    private static final Range FIRST_RANGE = Range.rangeFromPageInfo(0, 5);
+    private static final Page FIRST_RANGE = new Page(0, 5);
     private static final String COMMENT = "Add...";
     private static final String FR = "fr";
     private static final String EN = "en";
@@ -55,13 +54,10 @@ public class KeyJpaFinderIT {
 
     @Inject
     private KeyFinder keyFinder;
-
     @Inject
     private KeyRepository keyRepository;
-
     @Inject
     private KeyFactory keyFactory;
-
     @Inject
     private LocaleService localeService;
 
@@ -103,15 +99,13 @@ public class KeyJpaFinderIT {
      */
     @Test
     public void get_all() {
-        Map<String, Object> criteria = buildCriteria(null, null, null, null);
-        Result<KeyRepresentation> keyRepresentations = keyFinder.findAllKeys(FIRST_RANGE, criteria);
-        Assertions.assertThat(keyRepresentations.getSize()).isEqualTo(5);
-        KeyRepresentation representation = keyRepresentations.getResult()
-                .iterator().next();
+        KeySearchCriteria criteria = new KeySearchCriteria(null, null, null, null);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
+        Assertions.assertThat(keyRepresentations.getPageSize()).isEqualTo(5);
+        KeyRepresentation representation = keyRepresentations.getView().get(0);
         Assertions.assertThat(representation.getComment()).isEqualTo(COMMENT);
         Assertions.assertThat(representation.getDefaultLocale()).isEqualTo(EN);
-        Assertions.assertThat(representation.getTranslation()).isEqualTo(
-                TRANSLATION_EN);
+        Assertions.assertThat(representation.getTranslation()).isEqualTo(TRANSLATION_EN);
     }
 
     /**
@@ -119,10 +113,10 @@ public class KeyJpaFinderIT {
      */
     @Test
     public void get_missing_default_translation() {
-        Map<String, Object> criteria = buildCriteria(null, null, true, null);
-        Result<KeyRepresentation> keyRepresentations = keyFinder.findAllKeys(FIRST_RANGE, criteria);
-        Assertions.assertThat(keyRepresentations.getSize()).isEqualTo(2);
-        KeyRepresentation representation = keyRepresentations.getResult().get(0);
+        KeySearchCriteria criteria = new KeySearchCriteria(true, null, null, null);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
+        Assertions.assertThat(keyRepresentations.getPageSize()).isEqualTo(2);
+        KeyRepresentation representation = keyRepresentations.getView().get(0);
         Assertions.assertThat(StringUtils.isBlank(representation.getTranslation())).isTrue();
     }
 
@@ -131,12 +125,12 @@ public class KeyJpaFinderIT {
      */
     @Test
     public void get_approx_default_translation() {
-        Map<String, Object> criteria = buildCriteria(null, true, null, null);
-        Result<KeyRepresentation> keyRepresentations = keyFinder.findAllKeys(FIRST_RANGE, criteria);
+        KeySearchCriteria criteria = new KeySearchCriteria(null, true, null, null);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
-        Assertions.assertThat(keyRepresentations.getSize()).isEqualTo(1);
+        Assertions.assertThat(keyRepresentations.getPageSize()).isEqualTo(1);
 
-        KeyRepresentation representation = keyRepresentations.getResult().get(0);
+        KeyRepresentation representation = keyRepresentations.getView().get(0);
         Assertions.assertThat(representation.getDefaultLocale()).isEqualTo(EN);
         Assertions.assertThat(representation.getTranslation()).isEqualTo(TRANSLATION_EN);
     }
@@ -146,12 +140,12 @@ public class KeyJpaFinderIT {
      */
     @Test
     public void get_search_key() {
-        Map<String, Object> criteria = buildCriteria(null, null, null, KEY_DEFAULT);
-        Result<KeyRepresentation> keyRepresentations = keyFinder.findAllKeys(FIRST_RANGE, criteria);
+        KeySearchCriteria criteria = new KeySearchCriteria(null, null, null, KEY_DEFAULT);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
-        Assertions.assertThat(keyRepresentations.getSize()).isEqualTo(1);
+        Assertions.assertThat(keyRepresentations.getPageSize()).isEqualTo(1);
 
-        KeyRepresentation keyRepresentation = keyRepresentations.getResult().get(0);
+        KeyRepresentation keyRepresentation = keyRepresentations.getView().get(0);
         Assertions.assertThat(keyRepresentation.getDefaultLocale()).isEqualTo(EN);
         Assertions.assertThat(keyRepresentation.getTranslation()).isEqualTo(TRANSLATION_EN);
     }
@@ -161,13 +155,13 @@ public class KeyJpaFinderIT {
      */
     @Test
     public void get_outdated_key() {
-        Map<String, Object> criteria = buildCriteria(true, null, null, null);
+        KeySearchCriteria criteria = new KeySearchCriteria(null, null, true, null);
         keyRepository.loadAll();
-        Result<KeyRepresentation> keyRepresentations = keyFinder.findAllKeys(FIRST_RANGE, criteria);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
-        Assertions.assertThat(keyRepresentations.getSize()).isEqualTo(2);
+        Assertions.assertThat(keyRepresentations.getPageSize()).isEqualTo(2);
 
-        KeyRepresentation keyRepresentation = keyRepresentations.getResult().get(0);
+        KeyRepresentation keyRepresentation = keyRepresentations.getView().get(0);
         Assertions.assertThat(keyRepresentation.getDefaultLocale()).isEqualTo(EN);
         Assertions.assertThat(keyRepresentation.getTranslation()).isEqualTo(TRANSLATION_EN);
     }
@@ -184,15 +178,5 @@ public class KeyJpaFinderIT {
         }
         key.addTranslation(FR, TRANSLATION_FR);
         return key;
-    }
-
-    private Map<String, Object> buildCriteria(Boolean isOutdated,
-                                              Boolean isApprox, Boolean isMissing, String searchName) {
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("isOutdated", isOutdated);
-        criteria.put("isApprox", isApprox);
-        criteria.put("isMissing", isMissing);
-        criteria.put("searchName", searchName);
-        return criteria;
     }
 }

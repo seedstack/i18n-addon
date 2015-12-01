@@ -14,9 +14,7 @@ import static java.util.Locale.ENGLISH;
 /**
  * Locale factory implementation.
  */
-public class LocaleFactoryDefault extends BaseFactory<Locale> implements LocaleFactory {
-
-    private LocaleCodeSpecification localeCodeSpecification = new LocaleCodeSpecification();
+class LocaleFactoryDefault extends BaseFactory<Locale> implements LocaleFactory {
 
     @Override
     public Locale createFromLanguage(String language) {

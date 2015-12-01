@@ -14,14 +14,12 @@ import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.CurrencyAmount;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
+import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.LocalizationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
@@ -36,19 +34,13 @@ import java.util.List;
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
-public class ICULocalizationService implements LocalizationService {
+class ICULocalizationService implements LocalizationService {
 
     private final LocaleService localeService;
     private final KeyRepository keyRepository;
 
-    /**
-     * Constructor.
-     *
-     * @param localeService locale service
-     * @param keyRepository key repository
-     */
     @Inject
-    public ICULocalizationService(LocaleService localeService, KeyRepository keyRepository) {
+    ICULocalizationService(LocaleService localeService, KeyRepository keyRepository) {
         this.localeService = localeService;
         this.keyRepository = keyRepository;
     }
@@ -58,27 +50,20 @@ public class ICULocalizationService implements LocalizationService {
         return localize(locale, key, (Object[]) null);
     }
 
-    private ULocale getClosestULocale(String locale) {
-        return new ULocale(localeService.getClosestLocale(locale));
-    }
-
     @Override
-    public String localize(String locale, String key, Object... args) {
-        ULocale closestLocale = getClosestULocale(locale);
-        Key loadedKey = keyRepository.load(key);
+    public String localize(String locale, String keyId, Object... args) {
+        Key key = keyRepository.load(keyId);
 
         String localizedString;
-        if (loadedKey == null) {
-            localizedString = '[' + key + ']';
+        if (key == null) {
+            localizedString = missingTranslationFor(keyId);
         } else {
-
-            // TODO business logic to search in other locales
-            List<ULocale> localeIterator = getParentLocale(closestLocale);
-            Translation translation = getTranslationWithFallBack(loadedKey, localeIterator);
+            ULocale closestLocale = findClosestULocale(locale);
+            Translation translation = findTranslationWithFallBack(key, closestLocale);
 
             if (translation == null) {
-                localizedString = '[' + key + ']';
-            } else if (ArrayUtils.isEmpty(args)) {
+                localizedString = missingTranslationFor(keyId);
+            } else if (args == null || args.length == 0) {
                 localizedString = translation.getValue();
             } else {
                 MessageFormat mf = new MessageFormat(translation.getValue(), closestLocale);
@@ -88,22 +73,29 @@ public class ICULocalizationService implements LocalizationService {
         return localizedString;
     }
 
-    Translation getTranslationWithFallBack(Key loadedKey, List<ULocale> localeIterator) {
-        Translation translation = null;
-        for (ULocale uLocale : localeIterator) {
-            translation = loadedKey.getTranslation(Locale.formatLocaleCode(uLocale.getBaseName())); // TODO fix bug
-            if (translation != null) {
-                break;
-            }
-        }
-        return translation;
+    private String missingTranslationFor(String key) {
+        return '[' + key + ']';
     }
 
-    List<ULocale> getParentLocale(ULocale locale) {
-        List<ULocale> locales = new ArrayList<ULocale>();
+    private ULocale findClosestULocale(String locale) {
+        return new ULocale(localeService.getClosestLocale(locale));
+    }
+
+    private Translation findTranslationWithFallBack(Key key, ULocale uLocale) {
+        List<String> parentLocales = getParentLocalesFor(uLocale);
+        for (String locale : parentLocales) {
+            if (key.isTranslated(locale)) {
+                return key.getTranslation(locale);
+            }
+        }
+        return null;
+    }
+
+    private List<String> getParentLocalesFor(ULocale locale) {
+        List<String> locales = new ArrayList<String>();
         ULocale current = locale;
-        while ( current != null && StringUtils.isNotBlank(current.toString())) {
-            locales.add(current);
+        while (current != null && StringUtils.isNotBlank(current.toString())) {
+            locales.add(current.toLanguageTag());
             current = current.getFallback();
         }
         return locales;
@@ -116,7 +108,7 @@ public class ICULocalizationService implements LocalizationService {
 
     @Override
     public String formatDate(String locale, Date date, String skeleton, String timezone) {
-        ULocale closestLocale = getClosestULocale(locale);
+        ULocale closestLocale = findClosestULocale(locale);
         DateFormat formatter = DateFormat.getPatternInstance(skeleton, closestLocale);
         if (StringUtils.isNotEmpty(timezone)) {
             formatter.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -131,7 +123,7 @@ public class ICULocalizationService implements LocalizationService {
 
     @Override
     public Date parseDate(String locale, String value, String skeleton, String timezone) throws ParseException {
-        ULocale closestLocale = getClosestULocale(locale);
+        ULocale closestLocale = findClosestULocale(locale);
         DateFormat formatter = DateFormat.getPatternInstance(skeleton, closestLocale);
         if (StringUtils.isNotEmpty(timezone)) {
             formatter.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -146,7 +138,7 @@ public class ICULocalizationService implements LocalizationService {
 
     @Override
     public String formatCurrencyAmount(String locale, Number amount, String currencyCode) {
-        ULocale closestLocale = getClosestULocale(locale);
+        ULocale closestLocale = findClosestULocale(locale);
         Currency currency;
         if (StringUtils.isEmpty(currencyCode)) {
             currency = Currency.getInstance(new ULocale(locale));
@@ -166,7 +158,7 @@ public class ICULocalizationService implements LocalizationService {
 
     @Override
     public Number parseCurrencyAmount(String locale, String value, String currencyCode) throws ParseException {
-        ULocale closestLocale = getClosestULocale(locale);
+        ULocale closestLocale = findClosestULocale(locale);
         Currency currency;
         if (StringUtils.isEmpty(currencyCode)) {
             currency = Currency.getInstance(new ULocale(locale));
@@ -180,14 +172,14 @@ public class ICULocalizationService implements LocalizationService {
 
     @Override
     public String formatNumber(String locale, Number number) {
-        ULocale closestLocale = getClosestULocale(locale);
+        ULocale closestLocale = findClosestULocale(locale);
         NumberFormat nf = NumberFormat.getInstance(closestLocale);
         return nf.format(number);
     }
 
     @Override
     public Number parseNumber(String locale, String value) throws ParseException {
-        ULocale closestLocale = getClosestULocale(locale);
+        ULocale closestLocale = findClosestULocale(locale);
         NumberFormat nf = NumberFormat.getInstance(closestLocale);
         return nf.parse(value);
     }

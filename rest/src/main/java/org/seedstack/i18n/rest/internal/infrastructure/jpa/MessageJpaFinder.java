@@ -18,9 +18,8 @@ import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 16/05/2014
  */
-public class MessageJpaFinder implements MessageFinder {
+class MessageJpaFinder implements MessageFinder {
 
     @Inject
     private KeyRepository keyRepository;

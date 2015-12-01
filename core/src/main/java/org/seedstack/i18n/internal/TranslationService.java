@@ -30,13 +30,13 @@ public interface TranslationService {
 
     /**
      * Translates a key for a given locale.
-     *  <p>
-     *  If the locale is the default locale, set the key and all its translations as outdated.
-     *  </p>
+     * <p>
+     * If the locale is the default locale, set the key and all its translations as outdated.
+     * </p>
      *
-     * @param key    the key to translate
-     * @param locale the locale
-     * @param value  the translation
+     * @param key         the key to translate
+     * @param locale      the locale
+     * @param translation the translation
      */
-    void translate(String key, String locale, String value);
+    void translate(String key, String locale, String translation);
 }

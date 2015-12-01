@@ -8,109 +8,53 @@
 package org.seedstack.i18n.rest;
 
 import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
 import org.assertj.core.api.Assertions;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.seedstack.seed.it.AbstractSeedWebIT;
+import org.seedstack.i18n.rest.internal.key.KeyRepresentation;
+import org.seedstack.i18n.rest.internal.translation.TranslationRepresentation;
+import org.seedstack.i18n.rest.internal.translation.TranslationValueRepresentation;
+import org.seedstack.i18n.shared.AbstractI18nRestIT;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import java.net.URL;
 import java.util.UUID;
-
-import static com.jayway.restassured.RestAssured.delete;
-import static com.jayway.restassured.RestAssured.expect;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 02/12/13
  */
-public class TranslationsResourceIT extends AbstractSeedWebIT {
+public class TranslationsResourceIT extends AbstractI18nRestIT {
 
     private static final String EN = "en";
     private static final String FR = "fr";
-    private static final String ID_FIELD = "name";
-    private static final String LOGIN = "admin";
-    private static final String PASSWORD = "password";
-    private static final String APPLICATION_JSON = "application/json";
-    private static final String PATH_PREFIX = "seed-i18n/";
-
-    @ArquillianResource
-    private URL baseURL;
-
 
     private String keyName;
     private JSONObject jsonKey;
     private JSONObject jsonTranslation;
 
-    /**
-     * Initializes the test.
-     *
-     * @throws JSONException if something gets wrong
-     */
     @Before
     public void before() throws JSONException {
         keyName = UUID.randomUUID().toString();
-        // KEY
-        jsonKey = new JSONObject();
-        jsonKey.put(ID_FIELD, keyName);
-        jsonKey.put("defaultLocale", EN);
-        jsonKey.put("comment", "comment");
-        jsonKey.put("translation", "translation");
-        jsonKey.put("missing", false);
 
-        // TRANSLATION
-        JSONObject jsonTranslationEN = new JSONObject();
-        jsonTranslationEN.put("locale", EN);
-        jsonTranslationEN.put("translation", "translation");
-        jsonTranslationEN.put("outdated", false);
-        jsonTranslationEN.put("approx", false);
+        KeyRepresentation keyRepresentation = new KeyRepresentation(keyName, EN, "translation", "comment");
+        jsonKey = new JSONObject(keyRepresentation);
 
-        JSONObject jsonTranslationFR = new JSONObject();
-        jsonTranslationFR.put("locale", FR);
-        jsonTranslationFR.put("translation", "translation");
-        jsonTranslationFR.put("outdated", false);
-        jsonTranslationFR.put("approx", false);
-
-        jsonTranslation = new JSONObject();
-        jsonTranslation.put(ID_FIELD, keyName);
-        jsonTranslation.put("source", jsonTranslationEN);
-        jsonTranslation.put("target", jsonTranslationFR);
-        jsonTranslation.put("missing", false);
+        TranslationRepresentation keyTranslation = new TranslationRepresentation(keyName, "comment");
+        keyTranslation.setSource(new TranslationValueRepresentation(EN, "translation"));
+        keyTranslation.setTarget(new TranslationValueRepresentation(FR, "traduction"));
+        jsonTranslation = new JSONObject(keyTranslation);
     }
 
-    /**
-     * @return WebArchive
-     */
-    @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).setWebXML("WEB-INF/web.xml");
-    }
-
-    /**
-     * Checks POST key, PUT translation and GET translation
-     *
-     * @param baseURL base URL
-     * @throws JSONException is something gets wrong
-     */
     @RunAsClient
     @Test
-    public void get_create_update_translations(@ArquillianResource URL baseURL) throws JSONException {
-        // Create a key
-        httpPost("keys", jsonKey.toString());
+    public void get_create_update_translations() throws JSONException {
+        httpPost("keys", jsonKey.toString(), 201);
 
         try {
-            // Add the fr translation
             httpPut("translations/fr/" + keyName, jsonTranslation.toString());
 
-            // Get the translation
             Response response = httpGet("translations/fr/" + keyName);
 
             // missing value must have been update by the server
@@ -118,7 +62,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
             JSONAssert.assertEquals(jsonTranslation, new JSONObject(response.asString()), false);
 
         } finally {
-            delete(baseURL.toString() + "seed-i18n/keys/" + keyName);
+            httpDelete("keys/" + keyName, 204);
         }
     }
 
@@ -129,14 +73,11 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
      * 3) Update default translation => key become outdated
      * 4) Update en translation => key is still outdated
      * 5) Update fr translation => key is no longer outdated
-     *
-     * @throws JSONException if something gets wrong
      */
     @RunAsClient
     @Test
     public void outdated_scenario() throws JSONException {
-        // Create the key
-        httpPost("keys", jsonKey.toString());
+        httpPost("keys", jsonKey.toString(), 201);
 
         try {
             // Add two outdated translations
@@ -145,7 +86,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
 
             // Update the default translation
             jsonKey.put("translation", "updated translation");
-            httpPut("keys/" + jsonKey.getString(ID_FIELD), jsonKey.toString(), 200);
+            httpPut("keys/" + keyName, jsonKey.toString(), 200);
 
             // The key should remain outdated
             assertOutdatedStatus(true);
@@ -164,7 +105,7 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
 
         } finally {
             // clean the repo
-            delete(baseURL.toString() + "seed-i18n/keys/" + jsonKey.getString(ID_FIELD));
+            httpDelete("keys/" + keyName, 204);
         }
     }
 
@@ -173,10 +114,9 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
      *
      * @param outdated expected value
      * @return true if outdated state of the key corresponding to the outdated param
-     * @throws JSONException
      */
     private Response assertOutdatedStatus(boolean outdated) throws JSONException {
-        Response response = httpGet("keys/" + jsonKey.getString(ID_FIELD));
+        Response response = httpGet("keys/" + keyName);
         JSONObject actual = new JSONObject(response.asString());
         Assertions.assertThat(actual.getBoolean("outdated")).isEqualTo(outdated);
         return response;
@@ -189,7 +129,6 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
      * @param translation translation
      * @param locale      locale
      * @param outdated    outdated
-     * @throws JSONException
      */
     private void sendTranslationUpdate(String translation, String locale, boolean outdated) throws JSONException {
         JSONObject jsonTranslationValueObject = new JSONObject();
@@ -200,65 +139,6 @@ public class TranslationsResourceIT extends AbstractSeedWebIT {
         jsonTranslation.put("target", jsonTranslationValueObject);
 
         // Translate in english
-        httpPut("translations/" + locale + "/" + jsonKey.getString(ID_FIELD), jsonTranslation.toString());
-    }
-
-    /**
-     * Gets the resource at the path and expect a 200 status code.
-     *
-     * @param path the resource URI
-     * @return the http response
-     */
-    private Response httpGet(String path) throws JSONException {
-        return httpGet(path, 200);
-    }
-
-    /**
-     * Gets the resource at the path and expect the given status code.
-     *
-     * @param path the resource URI
-     * @return the http response
-     */
-    private Response httpGet(String path, int statusCode) throws JSONException {
-        return httpRequest(statusCode).get(baseURL.toString() + PATH_PREFIX + path);
-    }
-
-    /**
-     * Posts the body to the given path and expect a 200 status code.
-     *
-     * @param path the resource URI
-     * @param body the resource representation
-     * @return the http response
-     */
-    private Response httpPost(String path, String body) {
-        return httpRequest(201).body(body).post(baseURL.toString() + PATH_PREFIX + path);
-    }
-
-    /**
-     * Puts the body to the given path and expect a 200 status code.
-     *
-     * @param path the resource URI
-     * @param body the resource representation
-     * @return the http response
-     */
-    private Response httpPut(String path, String body) throws JSONException {
-        return httpPut(path, body, 204);
-    }
-
-    /**
-     * Puts the body to the given path and expect a 200 status code.
-     *
-     * @param path the resource URI
-     * @param body the resource representation
-     * @return the http response
-     */
-    private Response httpPut(String path, String body, int status) throws JSONException {
-        return httpRequest(status).body(body).put(baseURL.toString() + PATH_PREFIX + path);
-    }
-
-
-    private RequestSpecification httpRequest(int statusCode) {
-        return expect().statusCode(statusCode).given().auth().basic(LOGIN, PASSWORD).
-                header("Accept", APPLICATION_JSON).header("Content-Type", APPLICATION_JSON);
+        httpPut("translations/" + locale + "/" + keyName, jsonTranslation.toString());
     }
 }

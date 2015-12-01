@@ -7,25 +7,24 @@
  */
 package org.seedstack.i18n.rest.internal.translation;
 
+import org.seedstack.business.view.Page;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.rest.internal.shared.WebChecks;
-import org.seedstack.i18n.rest.internal.shared.BooleanUtils;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
-import org.seedstack.business.view.PaginatedView;
+import org.seedstack.i18n.rest.internal.I18nPermissions;
+import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
+import org.seedstack.i18n.rest.internal.shared.NotFoundException;
+import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
-import org.seedstack.seed.transaction.Propagation;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.*;
 
 /**
  * This REST resource provide access to translations.
@@ -33,21 +32,12 @@ import java.util.Map;
  * @author pierre.thirouin@ext.mpsa.com
  */
 @JpaUnit("seed-i18n-domain")
-@Transactional(propagation = Propagation.REQUIRES_NEW)
-@Path("/seed-i18n/translations")
+@Transactional
+@Path("/seed-i18n/translations/{locale}")
 public class TranslationsResource {
 
-    private static final String LOCALE = "locale";
     private static final String PAGE_INDEX = "pageIndex";
     private static final String PAGE_SIZE = "pageSize";
-    private static final String IS_APPROX = "isApprox";
-    private static final String IS_MISSING = "isMissing";
-    private static final String IS_OUTDATED = "isOutdated";
-    private static final String SEARCH_NAME = "searchName";
-    private static final String THE_LOCALE_SHOULD_NOT_BE_BLANK = "The locale should not be blank";
-    private static final String THE_TRANSLATION_SHOULD_NOT_BE_NULL = "The translation should not be null";
-    private static final String THE_TRANSLATION_TARGET_SHOULD_NOT_BE_NULL = "The translation target should not be null";
-    private static final String THE_KEY_SHOULD_NOT_BE_BLANK = "The key should not be blank";
 
     @Inject
     private TranslationFinder translationFinder;
@@ -55,10 +45,12 @@ public class TranslationsResource {
     @Inject
     private KeyRepository keyRepository;
 
+    @PathParam(LOCALE)
+    private String locale;
+
     /**
      * Returns filtered translation with pagination.
      *
-     * @param locale     locale identifier
      * @param pageIndex  page index
      * @param pageSize   page size
      * @param isMissing  filter indicator on missing translation
@@ -68,30 +60,18 @@ public class TranslationsResource {
      * @return status code 200 with filtered translations or 204 if no translation
      */
     @GET
-    @Path("/{locale}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:translation:read")
-    public Response getTranslations(@PathParam(LOCALE) String locale, @QueryParam(PAGE_INDEX) Long pageIndex, @QueryParam(PAGE_SIZE) Integer pageSize,
+    @RequiresPermissions(I18nPermissions.TRANSLATION_READ)
+    public Response getTranslations(@QueryParam(PAGE_INDEX) Long pageIndex, @QueryParam(PAGE_SIZE) Integer pageSize,
                                     @QueryParam(IS_MISSING) Boolean isMissing, @QueryParam(IS_APPROX) Boolean isApprox,
                                     @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
-        WebChecks.checkIfNotBlank(locale, THE_LOCALE_SHOULD_NOT_BE_BLANK);
 
-        // Prepare criteria
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(IS_MISSING, BooleanUtils.falseToNull(isMissing));
-        criteria.put(IS_APPROX, BooleanUtils.falseToNull(isApprox));
-        criteria.put(IS_OUTDATED, BooleanUtils.falseToNull(isOutdated));
-        criteria.put(SEARCH_NAME, searchName);
-        criteria.put(LOCALE, locale);
         Response response = Response.noContent().build();
 
         if (pageIndex != null && pageSize != null) {
-            // If pagination
-            Result<TranslationRepresentation> result = translationFinder.findAllTranslations(Range.rangeFromPageInfo(pageIndex, pageSize), criteria);
-            PaginatedView<TranslationRepresentation> paginatedView = new PaginatedView<TranslationRepresentation>(result, pageSize, pageIndex);
-            response = Response.ok(paginatedView).build();
+            KeySearchCriteria criteria = new KeySearchCriteria(isMissing, isApprox, isOutdated, searchName, locale);
+            response = Response.ok(translationFinder.findAllTranslations(new Page(pageIndex, pageSize), criteria)).build();
         } else {
-            // Otherwise
             List<TranslationRepresentation> translations = translationFinder.findTranslations(locale);
             if (!translations.isEmpty()) {
                 response = Response.ok(translations).build();
@@ -103,51 +83,45 @@ public class TranslationsResource {
     /**
      * Returns a translation for specified key and locale.
      *
-     * @param locale locale identifier
      * @param key    key name
      * @return status code 200 with a translation or 404 if not found
      */
     @GET
-    @Path("/{locale}/{key}")
+    @Path("/{key}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:translation:read")
-    public Response getTranslation(@PathParam(LOCALE) String locale, @PathParam("key") String key) {
-        WebChecks.checkIfNotBlank(locale, THE_LOCALE_SHOULD_NOT_BE_BLANK);
-        WebChecks.checkIfNotBlank(key, THE_KEY_SHOULD_NOT_BE_BLANK);
+    @RequiresPermissions(I18nPermissions.TRANSLATION_READ)
+    public TranslationRepresentation getTranslation(@PathParam("key") String key) {
         TranslationRepresentation translation = translationFinder.findTranslation(locale, key);
-        if (translation != null) {
-            return Response.ok(translation).build();
+        if (translation == null) {
+            throw new NotFoundException("No translation for key: " + key + " and locale: " + locale);
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return translation;
     }
 
     /**
      * Update translation for the given locale.
      *
-     * @param representation translation representation
-     * @param locale         locale identifier
      * @param keyName        key name
+     * @param representation translation representation
      * @return status code 204 (no content) or 404 (not found) if key or target translation is null.
      */
     @PUT
-    @Path("/{locale}/{key}")
+    @Path("/{key}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresPermissions("seed:i18n:translation:write")
-    public Response updateTranslation(TranslationRepresentation representation, @PathParam(LOCALE) String locale,
-                              @PathParam("key") String keyName) {
-        WebChecks.checkIfNotBlank(locale, THE_LOCALE_SHOULD_NOT_BE_BLANK);
-        WebChecks.checkIfNotNull(representation, THE_TRANSLATION_SHOULD_NOT_BE_NULL);
-        WebChecks.checkIfNotNull(representation.getTarget(), THE_TRANSLATION_TARGET_SHOULD_NOT_BE_NULL);
+    @RequiresPermissions(I18nPermissions.TRANSLATION_WRITE)
+    public Response updateTranslation(@PathParam("key") String keyName, TranslationRepresentation representation) {
+        WebAssertions.assertNotNull(representation, "The translation should not be null");
+        TranslationValueRepresentation translationToUpdate = representation.getTarget();
+        WebAssertions.assertNotNull(translationToUpdate, "The translation target should not be null");
 
         Key key = keyRepository.load(keyName);
-
-        if (key != null) {
-            key.addTranslation(locale, representation.getTarget().getTranslation(), representation.getTarget().isApprox());
-            keyRepository.save(key);
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        if (key == null) {
+            throw new NotFoundException("The key is not found");
         }
+
+        key.addTranslation(locale, translationToUpdate.getTranslation(), translationToUpdate.isApprox());
+        keyRepository.save(key);
 
         return Response.noContent().build();
     }

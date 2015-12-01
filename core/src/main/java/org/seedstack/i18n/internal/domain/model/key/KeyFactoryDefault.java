@@ -12,6 +12,10 @@ import org.seedstack.business.domain.BaseFactory;
 /**
  * Key factory implementation.
  *
+ * <p>
+ *     REQUIRED BY THE {@link org.seedstack.business.assembler.FluentAssembler} DSL.
+ * </p>
+ *
  * @author pierre.thirouin@ext.mpsa.com
  */
 public class KeyFactoryDefault extends BaseFactory<Key> implements KeyFactory {

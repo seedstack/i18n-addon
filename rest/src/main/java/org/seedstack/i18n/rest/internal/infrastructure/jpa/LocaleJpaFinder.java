@@ -7,7 +7,6 @@
  */
 package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
-import com.ibm.icu.util.ULocale;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.internal.locale.LocaleAssembler;
@@ -22,11 +21,10 @@ import java.util.List;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 26/11/13
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
-public class LocaleJpaFinder implements LocaleFinder {
+class LocaleJpaFinder implements LocaleFinder {
 
     @Inject
     private LocaleRepository localeRepository;

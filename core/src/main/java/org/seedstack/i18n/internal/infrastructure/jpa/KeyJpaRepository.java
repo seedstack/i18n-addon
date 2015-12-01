@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepository {
+class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepository {
 
     @Inject
     private LoadingCache<String, Map<String, String>> loadingCache;
