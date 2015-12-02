@@ -87,7 +87,7 @@ public class TranslationServiceImplTest {
     }
 
     @Test
-    public void testLocalizationWithMissingTranslations() {
+    public void testLocalizationAllowMissingTranslations() {
         new Expectations() {
             {
                 Key key1 = new Key(KEY1);
@@ -101,6 +101,7 @@ public class TranslationServiceImplTest {
                 result = FR_BE_TRANSLATION;
             }
         };
+        Deencapsulation.setField(underTest, "allowMissingTranslation", true);
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
@@ -109,7 +110,7 @@ public class TranslationServiceImplTest {
     }
 
     @Test
-    public void testLocalizationWithAllowMissingTranslations() {
+    public void testLocalizationDoNotAllowMissingTranslations() {
         new Expectations() {
             {
                 Key key1 = new Key(KEY1);
@@ -123,16 +124,16 @@ public class TranslationServiceImplTest {
                 result = FR_BE_TRANSLATION;
 
                 localizationService.localize(FR_BE, KEY2);
-                result = FR_BE_TRANSLATION;
+                result = "[key2]";
             }
         };
-        Deencapsulation.setField(underTest, "allowMissingTranslation", true);
+        Deencapsulation.setField(underTest, "allowMissingTranslation", false);
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
         Assertions.assertThat(translationsForLocale).hasSize(2);
         Assertions.assertThat(translationsForLocale).containsEntry(KEY1, FR_BE_TRANSLATION);
-        Assertions.assertThat(translationsForLocale).containsEntry(KEY2, FR_BE_TRANSLATION);
+        Assertions.assertThat(translationsForLocale).containsEntry(KEY2, "[key2]");
     }
 
     @Test
