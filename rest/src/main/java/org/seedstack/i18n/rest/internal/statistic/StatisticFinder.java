@@ -27,6 +27,6 @@ public interface StatisticFinder {
 	 *            list of statistic results
 	 */
 	void findStatisticRepresentation(LocaleRepresentation localeRepresentation,
-			List<StatisticRepresentation> listResult);
+			List<StatisticRepresentation> listResult); // TODO WTF
 
 }

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
-public class TranslationServiceImpl implements TranslationService {
+class TranslationServiceImpl implements TranslationService {
 
     public static final String IS_EMPTY_ERROR_MESSAGE = "The %s can't be null or empty";
     private final KeyRepository keyRepository;
@@ -70,7 +70,7 @@ public class TranslationServiceImpl implements TranslationService {
     }
 
     @Override
-    public void translate(String keyName, String locale, String value) {
+    public void translate(String keyName, String locale, String translation) {
         if (isEmpty(keyName)) {
             throw new IllegalArgumentException(String.format(IS_EMPTY_ERROR_MESSAGE, "key name"));
         }
@@ -79,10 +79,10 @@ public class TranslationServiceImpl implements TranslationService {
         }
 
         Key key = keyRepository.load(keyName);
-        if (isEmpty(value)) {
+        if (isEmpty(translation)) {
             key.removeTranslation(locale);
         } else {
-            updateTranslation(locale, value, key);
+            updateTranslation(locale, translation, key);
         }
     }
 

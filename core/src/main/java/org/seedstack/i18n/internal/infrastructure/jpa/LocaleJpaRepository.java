@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
-public class LocaleJpaRepository extends BaseJpaRepository<Locale, String> implements LocaleRepository {
+class LocaleJpaRepository extends BaseJpaRepository<Locale, String> implements LocaleRepository {
 
     @Override
     public List<Locale> loadAll() {

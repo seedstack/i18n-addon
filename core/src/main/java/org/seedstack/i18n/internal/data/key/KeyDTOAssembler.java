@@ -29,11 +29,16 @@ public class KeyDTOAssembler extends BaseAssembler<Key, KeyDTO> {
     @Override
     protected void doMergeAggregateWithDto(Key targetEntity, KeyDTO sourceDto) {
         targetEntity.setComment(sourceDto.getComment());
+        for (TranslationDTO translation : sourceDto.getTranslations()) {
+            targetEntity.addTranslation(translation.getLocale(), translation.getValue(), translation.isApproximate());
+        }
         if (sourceDto.isOutdated()) {
             targetEntity.setOutdated();
         }
         for (TranslationDTO translation : sourceDto.getTranslations()) {
-            targetEntity.addTranslation(translation.getLocale(), translation.getValue(), translation.isApproximate());
+            if (!translation.isOutdated()) {
+                targetEntity.addTranslation(translation.getLocale(), translation.getValue(), translation.isApproximate());
+            }
         }
     }
 }

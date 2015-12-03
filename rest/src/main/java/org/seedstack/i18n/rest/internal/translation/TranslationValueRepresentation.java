@@ -23,6 +23,14 @@ public class TranslationValueRepresentation {
 
     private boolean approx;
 
+    public TranslationValueRepresentation() {
+    }
+
+    public TranslationValueRepresentation(String locale, String translation) {
+        this.locale = locale;
+        this.translation = translation;
+    }
+
     /**
      * Gets the translation locale.
      *

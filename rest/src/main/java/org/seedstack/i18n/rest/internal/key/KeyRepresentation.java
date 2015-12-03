@@ -11,23 +11,26 @@ package org.seedstack.i18n.rest.internal.key;
  * Key representation containing all key metadata and the default translation.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 21/11/13
  */
 public class KeyRepresentation {
 
     private String name;
-
     private String comment;
-
     private String translation;
-
     private String defaultLocale;
-
     private boolean missing;
-
     private boolean approx;
-
     private boolean outdated;
+
+    public KeyRepresentation() {
+    }
+
+    public KeyRepresentation(String name, String defaultLocale, String translation, String comment) {
+        this.name = name;
+        this.comment = comment;
+        this.translation = translation;
+        this.defaultLocale = defaultLocale;
+    }
 
     /**
      * Indicates whether the translation for the default locale is approximate or not.

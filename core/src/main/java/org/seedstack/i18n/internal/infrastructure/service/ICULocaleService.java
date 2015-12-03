@@ -27,7 +27,7 @@ import java.util.Set;
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
-public class ICULocaleService implements LocaleService {
+class ICULocaleService implements LocaleService {
 
     private static final String LOCALE_MUST_NOT_BE_NULL = "locale must not be null";
 
@@ -35,12 +35,6 @@ public class ICULocaleService implements LocaleService {
 
     private LocaleFactory localeFactory;
 
-    /**
-     * Constructor.
-     *
-     * @param localeRepository locale repository
-     * @param localeFactory    locale factory
-     */
     @Inject
     public ICULocaleService(LocaleRepository localeRepository, LocaleFactory localeFactory) {
         this.localeRepository = localeRepository;

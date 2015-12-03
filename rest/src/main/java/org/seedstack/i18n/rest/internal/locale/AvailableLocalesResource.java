@@ -12,7 +12,7 @@ import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.internal.I18nPermissions;
-import org.seedstack.i18n.rest.internal.shared.WebChecks;
+import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
@@ -80,7 +80,7 @@ public class AvailableLocalesResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.LOCALE_READ)
     public Response getAvailableLocale(@PathParam("localeId") String localeId) {
-        WebChecks.checkIfNotBlank(localeId, LOCALE_SHOULD_NOT_BE_BLANK);
+        WebAssertions.assertNotBlank(localeId, LOCALE_SHOULD_NOT_BE_BLANK);
         LocaleRepresentation availableLocale = localeFinder.findAvailableLocale(localeId);
         if (availableLocale != null) {
             return Response.ok(availableLocale).build();
@@ -101,7 +101,7 @@ public class AvailableLocalesResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.LOCALE_WRITE)
     public Response addAvailableLocale(LocaleRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
-        WebChecks.checkIfNotNull(representation, LOCALE_SHOULD_NOT_BE_BLANK);
+        WebAssertions.assertNotNull(representation, LOCALE_SHOULD_NOT_BE_BLANK);
         Locale locale = localeRepository.load(representation.getCode());
         Locale result;
         if (locale == null) {
@@ -163,7 +163,7 @@ public class AvailableLocalesResource {
     @Path("/{locale}")
     @RequiresPermissions(I18nPermissions.LOCALE_DELETE)
     public Response deleteAvailableLocale(@PathParam("locale") String locale) {
-        WebChecks.checkIfNotBlank(locale, LOCALE_SHOULD_NOT_BE_BLANK);
+        WebAssertions.assertNotBlank(locale, LOCALE_SHOULD_NOT_BE_BLANK);
         if (locale != null) {
             localeRepository.delete(localeRepository.load(locale));
         } else {

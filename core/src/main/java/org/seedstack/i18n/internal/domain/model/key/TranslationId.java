@@ -16,7 +16,6 @@ import javax.persistence.Embeddable;
  * {@link Translation} embedded id, composed of {@link Key} and locale identifier.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 13/05/2014
  */
 @Embeddable
 public class TranslationId extends BaseValueObject {
@@ -27,18 +26,9 @@ public class TranslationId extends BaseValueObject {
 
     private String locale;
 
-    /**
-     * Default constructor.
-     */
     protected TranslationId() {
     }
 
-    /**
-     * Constructor.
-     *
-     * @param key    key entity
-     * @param locale translation locale
-     */
     protected TranslationId(String key, String locale) {
         this.key = key;
         this.locale = locale;
@@ -54,15 +44,6 @@ public class TranslationId extends BaseValueObject {
     }
 
     /**
-     * Sets the key entity id.
-     *
-     * @param key entityId
-     */
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    /**
      * Returns the translation locale.
      *
      * @return locale
@@ -71,12 +52,4 @@ public class TranslationId extends BaseValueObject {
         return locale;
     }
 
-    /**
-     * Sets the translation locale.
-     *
-     * @param locale translation locale
-     */
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
 }

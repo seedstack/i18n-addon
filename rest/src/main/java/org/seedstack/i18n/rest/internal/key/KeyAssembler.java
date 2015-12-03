@@ -17,7 +17,6 @@ import org.seedstack.business.assembler.BaseAssembler;
  * Assembles a Key representation with key metadata and default translation.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 15/05/2014
  */
 public class KeyAssembler extends BaseAssembler<Key, KeyRepresentation> {
 

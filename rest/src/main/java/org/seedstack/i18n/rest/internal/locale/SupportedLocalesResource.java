@@ -8,7 +8,7 @@
 package org.seedstack.i18n.rest.internal.locale;
 
 import org.seedstack.i18n.rest.internal.I18nPermissions;
-import org.seedstack.i18n.rest.internal.shared.WebChecks;
+import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.seed.security.RequiresPermissions;
 
 import javax.inject.Inject;
@@ -62,7 +62,7 @@ public class SupportedLocalesResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.LOCALE_READ)
     public Response getSupportedLocale(@PathParam("localeCode") String localeCode) {
-        WebChecks.checkIfNotNull(localeCode, "The locale should not be null");
+        WebAssertions.assertNotNull(localeCode, "The locale should not be null");
         LocaleRepresentation locale = supportedLocaleFinder.findSupportedLocale(localeCode);
         if (locale != null) {
 			return Response.ok(locale).build();

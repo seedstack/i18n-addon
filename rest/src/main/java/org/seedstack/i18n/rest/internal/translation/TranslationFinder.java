@@ -9,15 +9,14 @@ package org.seedstack.i18n.rest.internal.translation;
 
 
 import org.seedstack.business.finder.Finder;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
+import org.seedstack.business.view.Page;
+import org.seedstack.business.view.PaginatedView;
+import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 26/11/13
  */
 @Finder
 public interface TranslationFinder {
@@ -39,13 +38,12 @@ public interface TranslationFinder {
     TranslationRepresentation findTranslation(String localeId, String keyId);
 
     /**
-     *
      * Returns request ranged result of translation representations.
      *
-     * @param range    range to query
+     * @param page     the page to query
      * @param criteria criteria filters
      * @return paginated keys
      */
-    Result<TranslationRepresentation> findAllTranslations(Range range, Map<String, Object> criteria);
+    PaginatedView<TranslationRepresentation> findAllTranslations(Page page, KeySearchCriteria criteria);
 
 }

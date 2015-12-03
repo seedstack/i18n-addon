@@ -19,4 +19,8 @@ public class I18nPermissions {
     public static final String KEY_READ = "seed:i18n:key:read";
     public static final String KEY_WRITE = "seed:i18n:key:write";
     public static final String KEY_DELETE = "seed:i18n:key:delete";
+
+    public static final String TRANSLATION_READ = "seed:i18n:translation:read";
+    public static final String TRANSLATION_WRITE = "seed:i18n:translation:write";
+    public static final String TRANSLATION_DELETE = "seed:i18n:translation:delete";
 }

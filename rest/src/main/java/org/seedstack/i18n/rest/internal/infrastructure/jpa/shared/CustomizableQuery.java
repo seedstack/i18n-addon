@@ -5,16 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest;
+package org.seedstack.i18n.rest.internal.infrastructure.jpa.shared;
+
+import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 
 /**
- * @author Pierre Thirouin <pierre.thirouin@ext.mpsa.com>
- *         15/10/2014
+ * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public class JsonConverter {
-
-    public static void main(String[] args) {
-
-    }
-
+public interface CustomizableQuery {
+    void withCriteria(KeySearchCriteria criteria);
 }

@@ -10,6 +10,8 @@ package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.messages.MessageFinder;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -18,9 +20,10 @@ import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 16/05/2014
  */
-public class MessageJpaFinder implements MessageFinder {
+@JpaUnit("seed-i18n-domain")
+@Transactional
+class MessageJpaFinder implements MessageFinder {
 
     @Inject
     private KeyRepository keyRepository;
