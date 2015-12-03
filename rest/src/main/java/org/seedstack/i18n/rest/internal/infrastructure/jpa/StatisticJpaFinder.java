@@ -16,6 +16,8 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.internal.locale.LocaleRepresentation;
 import org.seedstack.i18n.rest.internal.statistic.StatisticFinder;
 import org.seedstack.i18n.rest.internal.statistic.StatisticRepresentation;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -23,6 +25,8 @@ import java.util.List;
 /**
  * @author PDC Date: 29/07/14
  */
+@JpaUnit("seed-i18n-domain")
+@Transactional
 class StatisticJpaFinder implements StatisticFinder {
 
 	@Inject

@@ -19,6 +19,8 @@ import org.seedstack.i18n.rest.internal.key.KeyFinder;
 import org.seedstack.i18n.rest.internal.key.KeyRepresentation;
 import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.jpa.BaseJpaRangeFinder;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -31,6 +33,8 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
+@JpaUnit("seed-i18n-domain")
+@Transactional
 class KeyJpaFinder extends BaseJpaRangeFinder<KeyRepresentation> implements KeyFinder {
 
     private final EntityManager entityManager;

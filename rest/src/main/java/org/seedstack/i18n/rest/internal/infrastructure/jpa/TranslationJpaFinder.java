@@ -19,7 +19,9 @@ import org.seedstack.i18n.rest.internal.translation.TranslationAssembler;
 import org.seedstack.i18n.rest.internal.translation.TranslationFinder;
 import org.seedstack.i18n.rest.internal.translation.TranslationRepresentation;
 import org.seedstack.jpa.BaseJpaRangeFinder;
+import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.core.utils.SeedCheckUtils;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -33,6 +35,8 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
+@JpaUnit("seed-i18n-domain")
+@Transactional
 class TranslationJpaFinder extends BaseJpaRangeFinder<TranslationRepresentation> implements TranslationFinder {
 
     private final KeyRepository keyRepository;
@@ -100,11 +104,7 @@ class TranslationJpaFinder extends BaseJpaRangeFinder<TranslationRepresentation>
     @Override
     protected long computeFullRequestSize(Map<String, Object> criteria) {
         KeysQuery queryBuilder = new KeysQuery(entityManager);
-
-        KeySearchCriteria keySearchCriteria = KeySearchCriteria.fromMap(criteria);
-        keySearchCriteria.setLocale(localeService.getDefaultLocale());
-
-        queryBuilder.count().withCriteria(keySearchCriteria);
+        queryBuilder.count().withCriteria(KeySearchCriteria.fromMap(criteria));
         return queryBuilder.getResult();
     }
 }

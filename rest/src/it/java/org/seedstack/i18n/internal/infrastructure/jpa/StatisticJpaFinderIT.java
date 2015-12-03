@@ -10,15 +10,12 @@
  */
 package org.seedstack.i18n.internal.infrastructure.jpa;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.seedstack.i18n.rest.internal.locale.LocaleRepresentation;
 import org.seedstack.i18n.rest.internal.statistic.StatisticFinder;
 import org.seedstack.i18n.rest.internal.statistic.StatisticRepresentation;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.seedstack.seed.it.SeedITRunner;
-import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -26,28 +23,18 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@JpaUnit("seed-i18n-domain")
-@Transactional
 @RunWith(SeedITRunner.class)
 public class StatisticJpaFinderIT {
 
 	@Inject
-	StatisticFinder statisticFinder;
-
-	@Before
-	public void setUp() {
-
-	}
+	private StatisticFinder statisticFinder;
 
 	@Test
 	public void testFindStatisticRepresentation() {
 		LocaleRepresentation localeRepresentation = new LocaleRepresentation();
 		localeRepresentation.setCode("fr");
 		List<StatisticRepresentation> listResult = new ArrayList<StatisticRepresentation>();
-		statisticFinder.findStatisticRepresentation(localeRepresentation,
-				listResult);
-		assertThat(listResult.size()).isEqualTo(1);
-
+		statisticFinder.findStatisticRepresentation(localeRepresentation, listResult);
+		assertThat(listResult).hasSize(1);
 	}
-
 }
