@@ -20,10 +20,6 @@
 
     <artifactId>i18n-rest</artifactId>
 
-    <properties>
-        <compatibility.artifactId>i18n-function-rest</compatibility.artifactId>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.seedstack.addons.i18n</groupId>
@@ -74,7 +70,6 @@
         </dependency>
 
         <!-- TESTS -->
-
         <dependency>
             <groupId>org.seedstack.poms</groupId>
             <artifactId>arquillian-composite</artifactId>

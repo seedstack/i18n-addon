@@ -19,10 +19,6 @@
 
     <artifactId>i18n-specs</artifactId>
 
-    <properties>
-        <compatibility.artifactId>i18n-function-specs</compatibility.artifactId>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.seedstack.business</groupId>

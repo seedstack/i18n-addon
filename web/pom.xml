@@ -20,10 +20,6 @@
 
     <artifactId>i18n-web</artifactId>
 
-    <properties>
-        <compatibility.artifactId>i18n-function-web</compatibility.artifactId>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.seedstack.addons.i18n</groupId>

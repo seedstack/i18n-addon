@@ -31,7 +31,7 @@
         <jpa.version>2.1.0</jpa.version>
         <hibernate.version>5.0.1.Final</hibernate.version>
 
-        <compatibility.skip>true</compatibility.skip>
+        <compatibility.version>2.1.0</compatibility.version>
     </properties>
 
     <modules>
