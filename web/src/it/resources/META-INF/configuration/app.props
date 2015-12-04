@@ -16,13 +16,11 @@ core.application-name = SEED i18n web
 realms = ConfigurationRealm
 
 [org.seedstack.seed.security.users]
-jane = password, SEED.TRANSLATOR
-john = password, SEED.DEVELOPER
-admin = password, SEED.TRANSLATOR, SEED.DEVELOPER
+demo = demo, DEMO
 
 [org.seedstack.seed.security.roles]
-seed-i18n.reader = SEED.DEVELOPER
-seed-i18n.translator = SEED.TRANSLATOR
+seed-i18n.reader = DEMO
+seed-i18n.translator = DEMO
 
 [org.seedstack.seed.security.urls]
 /** = authcBasic
