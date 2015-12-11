@@ -13,10 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.Logging;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.util.Set;
@@ -32,15 +30,11 @@ public class LocaleServiceIT {
     @Inject
     public LocaleService localeService;
 
-    @Logging
-    private Logger logger;
-
     @Test
     public void manage_default_locale() {
         String locale = "zh";
         // Add a new locale
         localeService.addLocale(locale);
-        logger.info("ADD {} LOCALE", locale);
 
         boolean isAvailable = localeService.isAvailable(locale);
         Assertions.assertThat(isAvailable).isEqualTo(true);
@@ -50,7 +44,6 @@ public class LocaleServiceIT {
 
         // Set the locale as default locale
         localeService.changeDefaultLocaleTo(locale);
-        logger.info("CHANGE DEFAULT LOCALE TO {}", locale);
 
         // Check if default locale has changed
         String defaultLocale = localeService.getDefaultLocale();
@@ -58,7 +51,6 @@ public class LocaleServiceIT {
 
         // Delete the locale
         localeService.deleteLocale(locale);
-        logger.info("DELETE DEFAULT LOCALE", locale);
 
         // Check that the locale has been deleted
         isAvailable = localeService.isAvailable(locale);
@@ -67,11 +59,10 @@ public class LocaleServiceIT {
         // Check if default locale has changed to default
         defaultLocale = localeService.getDefaultLocale();
         Assertions.assertThat(defaultLocale).isNull();
-        logger.info("DEFAULT LOCALE IS NOW {}", defaultLocale);
     }
 
     @Test
-    public void muliple_locales() {
+    public void multiple_locales() {
         localeService.addLocale("en");
         localeService.addLocale("en-US");
         localeService.addLocale("en-GB");

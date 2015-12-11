@@ -16,10 +16,8 @@ import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.DataManager;
-import org.seedstack.seed.Logging;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
@@ -46,9 +44,6 @@ public class ExportDataIT {
     @Inject
     private KeyRepository keyRepository;
 
-    @Logging
-    private Logger logger;
-
     @Before
     public void setUp() {
         Key key1 = keyFactory.createKey(KEY_NAME);
@@ -62,12 +57,10 @@ public class ExportDataIT {
         // Export
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         dataManager.exportData(outputStream, "seed-i18n");
-        logger.info(new String(outputStream.toByteArray()));
 
         // Remove data
         keyRepository.delete(keyRepository.load(KEY_NAME));
-        Key deletedKey = keyRepository.load(KEY_NAME);
-        Assertions.assertThat(deletedKey).isNull();
+
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         dataManager.importData(inputStream, null, null, true);
 

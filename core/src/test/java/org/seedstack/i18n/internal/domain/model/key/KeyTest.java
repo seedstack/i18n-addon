@@ -40,6 +40,21 @@ public class KeyTest {
         Assertions.assertThat(key.getComment()).isEqualTo("Indicates the number ninety");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testKeyAddTranslationWithInvalidLocale() {
+        new Key(KEY).addTranslation(INVALID_LOCALE, FR_TRANSLATION);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTranslationCantBeNull() {
+        new Key(KEY).addTranslation(FR, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testLocaleCantBeNull() {
+        new Key(KEY).addTranslation(null, FR_TRANSLATION);
+    }
+
     @Test
     public void testKeyAddTranslation() {
         Key key = new Key(KEY);
@@ -63,11 +78,6 @@ public class KeyTest {
         Translation initialTranslation = key.addTranslation(FR, FR_TRANSLATION);
         Translation newTranslation = key.addTranslation(FR, FR_BE_TRANSLATION);
         Assertions.assertThat(initialTranslation).isEqualTo(newTranslation);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testKeyAddTranslationWithInvalidLocale() {
-        new Key(KEY).addTranslation(INVALID_LOCALE, FR_TRANSLATION);
     }
 
     @Test

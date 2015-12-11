@@ -5,8 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest.internal.io;
+package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
+import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
 import org.seedstack.io.spi.AbstractTemplateParser;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
 import org.slf4j.Logger;
@@ -26,17 +27,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.seedstack.i18n.rest.internal.io.I18nCSVTemplateLoader.KEY;
+import static org.seedstack.i18n.rest.internal.infrastructure.csv.I18nCSVTemplateLoader.KEY;
 
 /**
  * Custom parser for SuperCSV which allow to parse i18n files (containing dynamic columns).
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-@Named(I18nCSVParser.I18N_PARSER)
-class I18nCSVParser extends AbstractTemplateParser<SuperCsvTemplate, I18nCSVRepresentation> {
+@Named(CSVParser.I18N_PARSER)
+class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, I18nCSVRepresentation> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(I18nCSVParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSVParser.class);
     public static final String I18N_PARSER = "i18nSuperCSV";
 
     @Override

@@ -88,7 +88,6 @@ public class KeyJpaFinderIT {
 
         Key key = keyFactory.createKey(KEY_WITH_MISSING_TRANSLATION);
         key.addTranslation(FR, TRANSLATION_FR);
-        key.addTranslation(FR, "");
         keys.add(key);
 
         keyRepository.persistAll(keys);
