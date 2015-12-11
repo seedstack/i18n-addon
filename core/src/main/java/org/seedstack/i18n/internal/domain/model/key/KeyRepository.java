@@ -38,6 +38,7 @@ public interface KeyRepository extends GenericRepository<Key, String> {
      *
      * @param keys keys to persist
      */
+    @Deprecated
     void persistAll(List<Key> keys);
 
     /**

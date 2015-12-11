@@ -47,6 +47,7 @@ class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepo
 
     @Override
     public void deleteAll() {
+        // TODO this request is intended to be faster that delete(List<Key>) so don't use a loop !
         for (Key key : loadAll()) {
             entityManager.remove(key);
         }

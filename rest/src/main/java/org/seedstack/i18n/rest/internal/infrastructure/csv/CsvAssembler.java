@@ -5,11 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest.internal.io;
+package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
 import org.seedstack.business.assembler.BaseAssembler;
+import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-class DataAssembler extends BaseAssembler<Key, I18nCSVRepresentation> {
+class CsvAssembler extends BaseAssembler<Key, I18nCSVRepresentation> {
 
     @Override
     protected void doAssembleDtoFromAggregate(I18nCSVRepresentation targetDto, Key sourceEntity) {
@@ -34,22 +35,28 @@ class DataAssembler extends BaseAssembler<Key, I18nCSVRepresentation> {
 
     @Override
     protected void doMergeAggregateWithDto(Key targetKey, I18nCSVRepresentation sourceDto) {
-        for (Map.Entry<String, String> entry : sourceDto.getValue().entrySet()) {
-            String locale = entry.getKey();
-            String translation = entry.getValue();
+        if (sourceDto.getValue() != null) {
+            for (Map.Entry<String, String> entry : sourceDto.getValue().entrySet()) {
+                String locale = entry.getKey();
+                String translation = entry.getValue();
 
-            if (shouldUpdateTranslation(targetKey, locale, translation)) {
-                targetKey.addTranslation(locale, translation);
+                if (shouldUpdateTranslation(targetKey, locale, translation)) {
+                    targetKey.addTranslation(locale, translation);
+                }
             }
         }
     }
 
     private boolean shouldUpdateTranslation(Key targetKey, String locale, String translation) {
-        return !targetKey.isTranslated(locale) || translationHasChanged(targetKey, locale, translation);
+        return isNotBlank(translation) && translationHasChanged(targetKey, locale, translation);
+    }
+
+    private boolean isNotBlank(String translation) {
+        return translation != null && !translation.trim().equals("");
     }
 
     private boolean translationHasChanged(Key targetKey, String localeCode, String translationValue) {
         Translation translation = targetKey.getTranslation(localeCode);
-        return !translation.getValue().equals(translationValue);
+        return translation == null || !translation.getValue().equals(translationValue);
     }
 }

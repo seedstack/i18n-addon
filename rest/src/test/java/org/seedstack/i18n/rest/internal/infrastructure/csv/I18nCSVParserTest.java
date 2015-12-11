@@ -5,10 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest.internal.io;
+package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +22,7 @@ public class I18nCSVParserTest {
 
     private static final String FILE_CONTENT = "key;en;fr\nkey1;t9nEn;t9nFr\nkey2;t9nEn;t9nFr\n";
     private final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(FILE_CONTENT.getBytes());
-    private I18nCSVParser underTest = new I18nCSVParser();
+    private CSVParser underTest = new CSVParser();
 
     @Test(expected = NullPointerException.class)
     public void testNullInputStream() throws Exception {

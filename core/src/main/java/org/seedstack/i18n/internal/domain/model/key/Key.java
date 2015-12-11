@@ -85,6 +85,9 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      */
     public Translation addTranslation(String locale, String value, boolean isApproximate) {
         LocaleCodeSpecification.assertCode(locale);
+        if (value == null || value.trim().equals("")) {
+            throw new IllegalArgumentException("The translation can't be blank");
+        }
 
         // If exists, get the translation for the given locale
         Translation translation = this.translations.get(locale);
