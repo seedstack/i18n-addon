@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.internal;
+package org.seedstack.i18n.internal.infrastructure.jpa;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

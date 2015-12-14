@@ -7,7 +7,9 @@
  */
 package org.seedstack.i18n.rest.internal.messages;
 
-import com.google.common.cache.LoadingCache;
+import org.apache.commons.lang.StringUtils;
+import org.seedstack.i18n.LocaleService;
+import org.seedstack.i18n.internal.domain.service.TranslationService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -16,6 +18,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,7 +30,10 @@ import java.util.Map;
 public class MessageResource {
 
     @Inject
-    private LoadingCache<String, Map<String, String>> loadingCache;
+    private TranslationService messageService;
+
+    @Inject
+    private LocaleService localeService;
 
     /**
      * Returns a map of key, translation for the given locale.
@@ -39,11 +45,20 @@ public class MessageResource {
     @Path("/{locale}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTranslations(@PathParam("locale") String locale) {
-        Map<String, String> messages = loadingCache.getUnchecked(locale);
-        if (messages != null && !messages.isEmpty()) {
+        Map<String, String> messages = getMessages(locale);
+        if (!messages.isEmpty()) {
 			return Response.ok(messages).build();
 		}
         return Response.ok("{}").build();
+    }
+
+    public Map<String, String> getMessages(String locale) {
+        // If the default locale is not available, then the application is not configured
+        if (StringUtils.isNotBlank(localeService.getDefaultLocale())) {
+            return messageService.getTranslationsForLocale(locale);
+        } else {
+            return new HashMap<String, String>();
+        }
     }
 
 }

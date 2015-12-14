@@ -19,7 +19,7 @@ import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.assembler.dsl.MergeAggregateWithRepositoryThenFactoryProvider;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
+import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 import org.seedstack.io.Parser;
 
 import java.io.ByteArrayInputStream;
@@ -36,7 +36,7 @@ public class CSVImportServiceTest {
     private CSVImportService csvImportService;
 
     @Mocked
-    private Parser<I18nCSVRepresentation> parser;
+    private Parser<CSVRepresentation> parser;
     @Mocked
     private KeyRepository keyRepository;
     @Mocked
@@ -61,7 +61,7 @@ public class CSVImportServiceTest {
     private void givenEmptyStream() {
         new Expectations() {
             {
-                parser.parse(inputStream, I18nCSVRepresentation.class);
+                parser.parse(inputStream, CSVRepresentation.class);
                 result = Lists.newArrayList();
             }
         };
@@ -74,10 +74,10 @@ public class CSVImportServiceTest {
         Assertions.assertThat(importedKeys).isEqualTo(1);
     }
 
-    private void givenParsedKeys(final I18nCSVRepresentation... representations) {
+    private void givenParsedKeys(final CSVRepresentation... representations) {
         new Expectations() {
             {
-                parser.parse(inputStream, I18nCSVRepresentation.class);
+                parser.parse(inputStream, CSVRepresentation.class);
                 result = Lists.newArrayList(representations);
 
                 mergeAggregate.orFromFactory();
@@ -88,8 +88,8 @@ public class CSVImportServiceTest {
 
     @Test
     public void testImportedKeyWasPersisted() {
-        I18nCSVRepresentation key1 = KeyBuilder.key("translation").with("fr", "tranduction").build();
-        I18nCSVRepresentation key2 = KeyBuilder.key("translation").with("fr", "tranduction").build();
+        CSVRepresentation key1 = KeyBuilder.key("translation").with("fr", "tranduction").build();
+        CSVRepresentation key2 = KeyBuilder.key("translation").with("fr", "tranduction").build();
         givenParsedKeys(key1, key2);
 
         thenKeyWasPersisted(2);
@@ -108,11 +108,11 @@ public class CSVImportServiceTest {
 
     static class KeyBuilder {
 
-        private I18nCSVRepresentation i18nCSVRepresentation;
+        private CSVRepresentation CSVRepresentation;
 
         public KeyBuilder(String key) {
-            this.i18nCSVRepresentation = new I18nCSVRepresentation();
-            this.i18nCSVRepresentation.setKey(key);
+            this.CSVRepresentation = new CSVRepresentation();
+            this.CSVRepresentation.setKey(key);
         }
 
         public static KeyBuilder key(String key) {
@@ -120,17 +120,17 @@ public class CSVImportServiceTest {
         }
 
         public KeyBuilder with(String locale, String translation) {
-            Map<String, String> translationsByLocale = this.i18nCSVRepresentation.getValue();
+            Map<String, String> translationsByLocale = this.CSVRepresentation.getValue();
             if (translationsByLocale == null) {
                 translationsByLocale = new HashMap<String, String>();
             }
             translationsByLocale.put(locale, translation);
-            this.i18nCSVRepresentation.setValue(translationsByLocale);
+            this.CSVRepresentation.setValue(translationsByLocale);
             return this;
         }
 
-        public I18nCSVRepresentation build() {
-            return i18nCSVRepresentation;
+        public CSVRepresentation build() {
+            return CSVRepresentation;
         }
     }
 }

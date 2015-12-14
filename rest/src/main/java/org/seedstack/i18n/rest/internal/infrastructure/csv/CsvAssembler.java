@@ -10,7 +10,7 @@ package org.seedstack.i18n.rest.internal.infrastructure.csv;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
 import org.seedstack.business.assembler.BaseAssembler;
-import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
+import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +20,10 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-class CsvAssembler extends BaseAssembler<Key, I18nCSVRepresentation> {
+class CSVAssembler extends BaseAssembler<Key, CSVRepresentation> {
 
     @Override
-    protected void doAssembleDtoFromAggregate(I18nCSVRepresentation targetDto, Key sourceEntity) {
+    protected void doAssembleDtoFromAggregate(CSVRepresentation targetDto, Key sourceEntity) {
         targetDto.setKey(sourceEntity.getEntityId());
 
         Map<String, String> translations = new HashMap<String, String>();
@@ -34,7 +34,7 @@ class CsvAssembler extends BaseAssembler<Key, I18nCSVRepresentation> {
     }
 
     @Override
-    protected void doMergeAggregateWithDto(Key targetKey, I18nCSVRepresentation sourceDto) {
+    protected void doMergeAggregateWithDto(Key targetKey, CSVRepresentation sourceDto) {
         if (sourceDto.getValue() != null) {
             for (Map.Entry<String, String> entry : sourceDto.getValue().entrySet()) {
                 String locale = entry.getKey();

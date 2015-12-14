@@ -7,11 +7,9 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import mockit.Deencapsulation;
-import mockit.Expectations;
-import mockit.Mocked;
-import mockit.Tested;
+import mockit.*;
 import mockit.integration.junit4.JMockit;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -31,17 +29,15 @@ import static org.junit.Assert.fail;
 @RunWith(JMockit.class)
 public class TranslationServiceImplTest {
 
-    private static final String KEY1 = "key1";
-    private static final String KEY2 = "key2";
-    private static final String FR = "fr";
-    private static final String FR_BE = "fr-BE";
     public static final String FR_TRANSLATION = "quatre-vingt-dix";
     public static final String FR_BE_TRANSLATION = "Nonante";
-
+    private static final String FR_BE = "fr-BE";
+    private static final String FR = "fr";
+    private static final String KEY = "key";
+    private static final String KEY1 = "key1";
+    private static final String KEY2 = "key2";
     @Tested
     private TranslationServiceImpl underTest;
-    @Mocked
-    private ICULocalizationService localizationService;
     @Mocked
     private LocaleService localeService;
     @Mocked
@@ -49,11 +45,49 @@ public class TranslationServiceImplTest {
 
     @Before
     public void before() {
-        underTest = new TranslationServiceImpl(keyRepository, localizationService, localeService);
+        underTest = new TranslationServiceImpl(keyRepository, localeService);
     }
 
     @Test
-    public void localizationWithoutKeyDoNotReturnNull() {
+    public void testGetTranslationWithFallback() {
+        addKeys(addTranslation(KEY, FR, FR_TRANSLATION));
+
+        Optional<String> localizedMessage = underTest.getTranslationWithFallback(FR_BE, KEY);
+
+        Assertions.assertThat(localizedMessage.isPresent()).isTrue();
+        Assertions.assertThat(localizedMessage.get()).isEqualTo(FR_TRANSLATION);
+    }
+
+    private Key addTranslation(final String keyName, String locale, String value) {
+        final Key key = new Key(keyName);
+        key.addTranslation(locale, value);
+        new NonStrictExpectations() {
+            {
+                keyRepository.load(keyName);
+                result = key;
+            }
+        };
+        return key;
+    }
+
+    private void addKeys(final Key... keys) {
+        new NonStrictExpectations() {
+            {
+                keyRepository.loadAll();
+                result = Lists.newArrayList(keys);
+            }
+        };
+    }
+
+    @Test
+    public void testGetTranslationWithMissingKey() {
+        Optional<String> localizedMessage = underTest.getTranslationWithFallback(FR_BE, KEY);
+
+        Assertions.assertThat(localizedMessage.isPresent()).isFalse();
+    }
+
+    @Test
+    public void getTranslationsNeverReturnNull() {
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
         Assertions.assertThat(translationsForLocale).isNotNull();
@@ -61,46 +95,34 @@ public class TranslationServiceImplTest {
     }
 
     @Test
-    public void testLocalization() {
-        new Expectations() {
-            {
-                Key key1 = new Key(KEY1);
-                Key key2 = new Key(KEY2);
-                key1.addTranslation(FR_BE, FR_BE_TRANSLATION);
-                key2.addTranslation(FR_BE, FR_BE_TRANSLATION);
-
-                keyRepository.loadAll();
-                result = Lists.newArrayList(key1, key2);
-
-                localizationService.localize(FR_BE, KEY1);
-                result = FR_TRANSLATION;
-                localizationService.localize(FR_BE, KEY2);
-                result = FR_TRANSLATION;
-            }
-        };
+    public void testGetTranslations() {
+        addKeys(
+                addTranslation(KEY1, FR_BE, FR_BE_TRANSLATION),
+                addTranslation(KEY2, FR_BE, FR_BE_TRANSLATION)
+        );
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
         Assertions.assertThat(translationsForLocale).hasSize(2);
-        Assertions.assertThat(translationsForLocale).containsEntry(KEY1, FR_TRANSLATION);
-        Assertions.assertThat(translationsForLocale).containsEntry(KEY2, FR_TRANSLATION);
+        Assertions.assertThat(translationsForLocale).containsEntry(KEY1, FR_BE_TRANSLATION);
+        Assertions.assertThat(translationsForLocale).containsEntry(KEY2, FR_BE_TRANSLATION);
     }
 
     @Test
-    public void testLocalizationAllowMissingTranslations() {
-        new Expectations() {
-            {
-                Key key1 = new Key(KEY1);
-                Key key2 = new Key(KEY2);
-                key1.addTranslation(FR_BE, FR_BE_TRANSLATION);
+    public void testGetTranslationsWithFallBack() {
+        addKeys(addTranslation(KEY1, FR, FR_TRANSLATION));
 
-                keyRepository.loadAll();
-                result = Lists.newArrayList(key1, key2);
+        Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
-                localizationService.localize(FR_BE, KEY1);
-                result = FR_BE_TRANSLATION;
-            }
-        };
+        Assertions.assertThat(translationsForLocale).containsEntry(KEY1, FR_TRANSLATION);
+    }
+
+    @Test
+    public void testGetTranslationsAllowMissingTranslations() {
+        addKeys(
+                addTranslation(KEY1, FR_BE, FR_BE_TRANSLATION),
+                new Key(KEY2)
+        );
         Deencapsulation.setField(underTest, "allowMissingTranslation", true);
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
@@ -110,23 +132,11 @@ public class TranslationServiceImplTest {
     }
 
     @Test
-    public void testLocalizationDoNotAllowMissingTranslations() {
-        new Expectations() {
-            {
-                Key key1 = new Key(KEY1);
-                Key key2 = new Key(KEY2);
-                key1.addTranslation(FR_BE, FR_BE_TRANSLATION);
-
-                keyRepository.loadAll();
-                result = Lists.newArrayList(key1, key2);
-
-                localizationService.localize(FR_BE, KEY1);
-                result = FR_BE_TRANSLATION;
-
-                localizationService.localize(FR_BE, KEY2);
-                result = "[key2]";
-            }
-        };
+    public void testGetTranslationsDoNotAllowMissingTranslations() {
+        addKeys(
+                addTranslation(KEY1, FR_BE, FR_BE_TRANSLATION),
+                new Key(KEY2)
+        );
         Deencapsulation.setField(underTest, "allowMissingTranslation", false);
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
@@ -141,11 +151,16 @@ public class TranslationServiceImplTest {
         try {
             underTest.translate(null, "foo", "bar");
             fail();
-        } catch (IllegalArgumentException e) { /**/ }
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The key name can't be null or empty");
+        }
+
         try {
             underTest.translate("foo", null, "bar");
             fail();
-        } catch (IllegalArgumentException e) { /**/ }
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The locale can't be null or empty");
+        }
 
         underTest.translate("foo", "bar", null); // accepts null for translation
     }
@@ -155,11 +170,16 @@ public class TranslationServiceImplTest {
         try {
             underTest.translate("", "foo", "bar");
             fail();
-        } catch (IllegalArgumentException e) { /**/ }
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The key name can't be null or empty");
+        }
+
         try {
             underTest.translate("foo", "", "bar");
             fail();
-        } catch (IllegalArgumentException e) { /**/ }
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The locale can't be null or empty");
+        }
 
         underTest.translate("foo", "bar", ""); // accepts empty for translation
     }
@@ -180,14 +200,10 @@ public class TranslationServiceImplTest {
 
     @Test
     public void testUpdateDefaultLocaleTranslation() {
-        final Key key = new Key(KEY1);
-        key.addTranslation(FR_BE, FR_BE_TRANSLATION);
+        Key key = addTranslation(KEY1, FR_BE, FR_BE_TRANSLATION);
 
         new Expectations() {
             {
-                keyRepository.load(KEY1);
-                result = key;
-
                 localeService.getDefaultLocale();
                 result = FR;
             }

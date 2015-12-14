@@ -7,6 +7,7 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
+import com.google.common.base.Optional;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.text.NumberFormat;
@@ -17,17 +18,13 @@ import com.ibm.icu.util.ULocale;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.LocalizationService;
-import org.seedstack.i18n.internal.domain.model.key.Key;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.internal.domain.model.key.Translation;
+import org.seedstack.i18n.internal.domain.service.TranslationService;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Localization service implementation based on ICU.
@@ -37,12 +34,12 @@ import java.util.List;
 class ICULocalizationService implements LocalizationService {
 
     private final LocaleService localeService;
-    private final KeyRepository keyRepository;
+    private final TranslationService translationService;
 
     @Inject
-    ICULocalizationService(LocaleService localeService, KeyRepository keyRepository) {
+    ICULocalizationService(LocaleService localeService, TranslationService translationService) {
         this.localeService = localeService;
-        this.keyRepository = keyRepository;
+        this.translationService = translationService;
     }
 
     @Override
@@ -51,54 +48,25 @@ class ICULocalizationService implements LocalizationService {
     }
 
     @Override
-    public String localize(String locale, String keyId, Object... args) {
-        Key key = keyRepository.load(keyId);
-
-        String localizedString;
-        if (key == null) {
-            localizedString = missingTranslationFor(keyId);
+    public String localize(String locale, String keyName, Object... args) {
+        Optional<String> translation = translationService.getTranslationWithFallback(locale, keyName);
+        if (translation.isPresent()) {
+            return formatTranslation(locale, translation.get(), args);
         } else {
-            ULocale closestLocale = findClosestULocale(locale);
-            Translation translation = findTranslationWithFallBack(key, closestLocale);
-
-            if (translation == null) {
-                localizedString = missingTranslationFor(keyId);
-            } else if (args == null || args.length == 0) {
-                localizedString = translation.getValue();
-            } else {
-                MessageFormat mf = new MessageFormat(translation.getValue(), closestLocale);
-                localizedString = mf.format(args);
-            }
+            return '[' + keyName + ']';
         }
-        return localizedString;
     }
 
-    private String missingTranslationFor(String key) {
-        return '[' + key + ']';
+    private String formatTranslation(String locale, String translation, Object[] args) {
+        if (args == null || args.length == 0) {
+            return translation;
+        } else {
+            return new MessageFormat(translation, findClosestULocale(locale)).format(args);
+        }
     }
 
     private ULocale findClosestULocale(String locale) {
         return new ULocale(localeService.getClosestLocale(locale));
-    }
-
-    private Translation findTranslationWithFallBack(Key key, ULocale uLocale) {
-        List<String> parentLocales = getParentLocalesFor(uLocale);
-        for (String locale : parentLocales) {
-            if (key.isTranslated(locale)) {
-                return key.getTranslation(locale);
-            }
-        }
-        return null;
-    }
-
-    private List<String> getParentLocalesFor(ULocale locale) {
-        List<String> locales = new ArrayList<String>();
-        ULocale current = locale;
-        while (current != null && StringUtils.isNotBlank(current.toString())) {
-            locales.add(current.toLanguageTag());
-            current = current.getFallback();
-        }
-        return locales;
     }
 
     @Override

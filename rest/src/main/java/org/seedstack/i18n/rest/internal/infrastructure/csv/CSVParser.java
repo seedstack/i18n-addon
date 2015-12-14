@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
-import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
+import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 import org.seedstack.io.spi.AbstractTemplateParser;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
 import org.slf4j.Logger;
@@ -35,20 +35,20 @@ import static org.seedstack.i18n.rest.internal.infrastructure.csv.I18nCSVTemplat
  * @author pierre.thirouin@ext.mpsa.com
  */
 @Named(CSVParser.I18N_PARSER)
-class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, I18nCSVRepresentation> {
+class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, CSVRepresentation> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CSVParser.class);
     public static final String I18N_PARSER = "i18nSuperCSV";
 
     @Override
-    public List<I18nCSVRepresentation> parse(InputStream inputStream, Class<I18nCSVRepresentation> clazz) {
+    public List<CSVRepresentation> parse(InputStream inputStream, Class<CSVRepresentation> clazz) {
         if (inputStream == null || clazz == null) {
             throw new NullPointerException();
         }
 
         ICsvMapReader mapReader = null;
         InputStreamReader inputStreamReader = null;
-        List<I18nCSVRepresentation> i18nCSVRepresentations = new ArrayList<I18nCSVRepresentation>();
+        List<CSVRepresentation> CSVRepresentations = new ArrayList<CSVRepresentation>();
 
         try {
             inputStreamReader = new InputStreamReader(inputStream, template.getCharsetName());
@@ -56,7 +56,7 @@ class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, I18nCSVRepresen
 
             String[] headers = mapReader.getHeader(true);
             if (fileIsNotEmpty(headers)) {
-                i18nCSVRepresentations = parseLines(mapReader, headers);
+                CSVRepresentations = parseLines(mapReader, headers);
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
@@ -65,23 +65,23 @@ class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, I18nCSVRepresen
             closeQuietly(mapReader);
         }
 
-        return i18nCSVRepresentations;
+        return CSVRepresentations;
     }
 
     private boolean fileIsNotEmpty(String[] headers) {
         return headers != null && headers.length > 0;
     }
 
-    private List<I18nCSVRepresentation> parseLines(ICsvMapReader mapReader, String[] headers) throws IOException {
-        List<I18nCSVRepresentation> i18nCSVRepresentations = new ArrayList<I18nCSVRepresentation>();
+    private List<CSVRepresentation> parseLines(ICsvMapReader mapReader, String[] headers) throws IOException {
+        List<CSVRepresentation> CSVRepresentations = new ArrayList<CSVRepresentation>();
         final CellProcessor[] processors = getCellProcessorPerColumn(headers);
 
         Map<String, Object> beanMap;
         while ((beanMap = mapReader.read(headers, processors)) != null) {
-            I18nCSVRepresentation i18nCSVRepresentation = convertToRepresentation(beanMap);
-            i18nCSVRepresentations.add(i18nCSVRepresentation);
+            CSVRepresentation CSVRepresentation = convertToRepresentation(beanMap);
+            CSVRepresentations.add(CSVRepresentation);
         }
-        return i18nCSVRepresentations;
+        return CSVRepresentations;
     }
 
     private CellProcessor[] getCellProcessorPerColumn(String[] headers) {
@@ -92,8 +92,8 @@ class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, I18nCSVRepresen
         return processors;
     }
 
-    private I18nCSVRepresentation convertToRepresentation(Map<String, Object> beanMap) {
-        I18nCSVRepresentation representation = new I18nCSVRepresentation();
+    private CSVRepresentation convertToRepresentation(Map<String, Object> beanMap) {
+        CSVRepresentation representation = new CSVRepresentation();
         representation.setKey(parseKey(beanMap));
         representation.setValue(parseTranslations(beanMap));
         return representation;

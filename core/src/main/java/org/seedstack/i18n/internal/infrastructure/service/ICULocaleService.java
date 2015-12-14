@@ -32,7 +32,6 @@ class ICULocaleService implements LocaleService {
     private static final String LOCALE_MUST_NOT_BE_NULL = "locale must not be null";
 
     private LocaleRepository localeRepository;
-
     private LocaleFactory localeFactory;
 
     @Inject
@@ -115,11 +114,11 @@ class ICULocaleService implements LocaleService {
     }
 
     private ULocale getClosestULocale(String locale) {
-        String defaultLocale = getDefaultLocale();
-
         if (isAvailable(locale)) {
             return new ULocale(locale);
         }
+
+        String defaultLocale = getDefaultLocale();
         LocalePriorityList.Builder builder = null;
         if (defaultLocale != null) {
             builder = LocalePriorityList.add(defaultLocale);

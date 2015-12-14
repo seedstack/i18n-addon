@@ -9,9 +9,10 @@ package org.seedstack.i18n;
 
 import org.assertj.core.api.Assertions;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.i18n.internal.TranslationService;
+import org.seedstack.i18n.internal.domain.service.TranslationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
@@ -30,37 +31,54 @@ import java.util.Map;
 @RunWith(SeedITRunner.class)
 public class TranslationServiceIT {
 
+    public static final String EN = "en";
     public static final String EN_US = "en-US";
 
     @Inject
     private KeyRepository repository;
-
     @Inject
     private KeyFactory keyFactory;
-
     @Inject
     private TranslationService translationService;
-
     @Inject
     private LocaleService localeService;
 
-    @Test
-    public void translation_scenario() {
+    @Before
+    public void setUp() throws Exception {
         localeService.addLocale(EN_US);
-
-        createKeyWithTranslation("name1", EN_US, "my translation");
-        createKeyWithTranslation("name2", EN_US, "my second translation");
-
-        // Get all translations for a locale
-        Map<String, String> requestedTranslations = translationService.getTranslationsForLocale(EN_US);
-        Assertions.assertThat(requestedTranslations.size()).isEqualTo(2);
     }
 
-    private void createKeyWithTranslation(String keyName, String locale, String translation) {
-        Key key = keyFactory.createKey(keyName);
-        key.setComment("comment");
-        key.addTranslation(locale, translation);
+    @Test
+    public void testGetEmptyWhenNoTranslations() {
+        Map<String, String> translations = translationService.getTranslationsForLocale(EN_US);
 
+        Assertions.assertThat(translations).isNotNull();
+        Assertions.assertThat(translations).isEmpty();
+    }
+
+    @Test
+    public void testGetAllTheTranslationForALocale() {
+        givenTheTranslatedKey("name1", EN_US, "my translation");
+        givenTheTranslatedKey("name2", EN_US, "my second translation");
+
+        Map<String, String> translations = translationService.getTranslationsForLocale(EN_US);
+
+        Assertions.assertThat(translations.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void testGetTranslationsWithFallback() {
+        givenTheTranslatedKey("name1", EN, "my translation");
+        givenTheTranslatedKey("name2", EN_US, "my second translation");
+
+        Map<String, String> translations = translationService.getTranslationsForLocale(EN_US);
+
+        Assertions.assertThat(translations.size()).isEqualTo(2);
+    }
+
+    private void givenTheTranslatedKey(String keyName, String locale, String translation) {
+        Key key = keyFactory.createKey(keyName);
+        key.addTranslation(locale, translation);
         repository.persist(key);
     }
 
@@ -69,5 +87,6 @@ public class TranslationServiceIT {
         for (String locale : localeService.getAvailableLocales()) {
             localeService.deleteLocale(locale);
         }
+        repository.deleteAll();
     }
 }
