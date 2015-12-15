@@ -5,13 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n;
+package org.seedstack.i18n.infrastructure.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.service.TranslationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
@@ -35,7 +36,7 @@ public class TranslationServiceIT {
     public static final String EN_US = "en-US";
 
     @Inject
-    private KeyRepository repository;
+    private KeyRepository keyRepository;
     @Inject
     private KeyFactory keyFactory;
     @Inject
@@ -68,8 +69,8 @@ public class TranslationServiceIT {
 
     @Test
     public void testGetTranslationsWithFallback() {
-        givenTheTranslatedKey("name1", EN, "my translation");
-        givenTheTranslatedKey("name2", EN_US, "my second translation");
+        givenTheTranslatedKey("name3", EN, "my translation");
+        givenTheTranslatedKey("name4", EN_US, "my second translation");
 
         Map<String, String> translations = translationService.getTranslationsForLocale(EN_US);
 
@@ -79,7 +80,7 @@ public class TranslationServiceIT {
     private void givenTheTranslatedKey(String keyName, String locale, String translation) {
         Key key = keyFactory.createKey(keyName);
         key.addTranslation(locale, translation);
-        repository.persist(key);
+        keyRepository.save(key);
     }
 
     @After
@@ -87,6 +88,6 @@ public class TranslationServiceIT {
         for (String locale : localeService.getAvailableLocales()) {
             localeService.deleteLocale(locale);
         }
-        repository.deleteAll();
+        keyRepository.deleteAll();
     }
 }

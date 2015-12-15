@@ -34,14 +34,6 @@ public interface KeyRepository extends GenericRepository<Key, String> {
     Long count();
 
     /**
-     * Saves all the given keys. It uses staging to reduce IO calls. Should be used for massive update.
-     *
-     * @param keys keys to persist
-     */
-    @Deprecated
-    void persistAll(List<Key> keys);
-
-    /**
      * Fast delete of all keys.
      */
     void deleteAll();

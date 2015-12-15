@@ -46,6 +46,7 @@ public class KeyJpaFinderIT {
     private static final String EN = "en";
     private static final String TRANSLATION_EN = "Add...";
     private static final String TRANSLATION_FR = "translationFr";
+
     public static final String KEY_OUTDATED = "key_key_outdated";
     public static final String KEY_DEFAULT = "key_default";
     public static final String KEY_TLN_APPROX = "key_tln_approx";
@@ -67,10 +68,7 @@ public class KeyJpaFinderIT {
      */
     @Before
     public void setUp() {
-        // Define the application locales
-        localeService.addLocale(FR);
-        localeService.addLocale(EN);
-        localeService.changeDefaultLocaleTo(EN);
+        defineApplicationLocale();
 
         // Clean the database
         keyRepository.deleteAll();
@@ -90,7 +88,15 @@ public class KeyJpaFinderIT {
         key.addTranslation(FR, TRANSLATION_FR);
         keys.add(key);
 
-        keyRepository.persistAll(keys);
+        for (Key keyToPersist : keys) {
+            keyRepository.save(keyToPersist);
+        }
+    }
+
+    private void defineApplicationLocale() {
+        localeService.addLocale(FR);
+        localeService.addLocale(EN);
+        localeService.changeDefaultLocaleTo(EN);
     }
 
     @Test
@@ -164,7 +170,6 @@ public class KeyJpaFinderIT {
     private Key createKey(String name, boolean approx, boolean outdated, boolean missing) {
         Key key = keyFactory.createKey(name);
         key.setComment(COMMENT);
-
         if (!missing) {
             key.addTranslation(EN, TRANSLATION_EN, approx);
         }
