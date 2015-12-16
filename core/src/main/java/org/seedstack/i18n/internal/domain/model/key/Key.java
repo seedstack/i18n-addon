@@ -27,30 +27,23 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     private static final long serialVersionUID = -2498537747032788365L;
 
     @Id
+    @Column(name = "ID")
     private String entityId;
 
-    /**
-     * Describes the key.
-     */
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "OUTDATED")
     private boolean outdated;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "SEED_I18N_KEY_TRANS")
-    private Map<String, Translation> translations = new HashMap<String, Translation>();
+    @MapKey
+    private Map<TranslationId, Translation> translations = new HashMap<TranslationId, Translation>();
 
-    /**
-     * Default constructor.
-     */
     protected Key() {
     }
 
-    /**
-     * Constructor.
-     *
-     * @param name key name
-     */
     public Key(String name) {
         this.entityId = name;
     }
@@ -85,20 +78,24 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      */
     public Translation addTranslation(String locale, String value, boolean isApproximate) {
         LocaleCodeSpecification.assertCode(locale);
-        if (value == null || value.trim().equals("")) {
+        if (isBlank(value)) {
             throw new IllegalArgumentException("The translation can't be blank");
         }
+        Translation translation = createOrUpdateTranslation(locale, value, isApproximate);
+        checkOutdatedStatus();
+        return translation;
+    }
 
-        // If exists, get the translation for the given locale
-        Translation translation = this.translations.get(locale);
-        if (translation == null) {
-            translation = new Translation(new TranslationId(entityId, locale), this, value);
-        } else {
+    private Translation createOrUpdateTranslation(String locale, String value, boolean isApproximate) {
+        Translation translation;
+        if (isTranslated(locale)) {
+            translation = this.translations.get(new TranslationId(entityId, locale));
             translation.updateValue(value);
+        } else {
+            translation = new Translation(new TranslationId(entityId, locale), value);
         }
         translation.setApproximate(isApproximate);
-        translations.put(locale, translation);
-        checkOutdatedStatus();
+        translations.put(new TranslationId(entityId, locale), translation);
         return translation;
     }
 
@@ -128,7 +125,7 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
 
         Translation translation = getTranslation(locale);
         if (translation != null) {
-            this.getTranslations().remove(locale);
+            this.translations.remove(translation.getEntityId());
         }
     }
 
@@ -172,9 +169,9 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     }
 
     private void addTranslation(Map<String, Translation> translations, Key key, String locale) {
-        Translation source = this.translations.get(locale);
+        Translation source = this.translations.get(new TranslationId(entityId, locale));
         if (source == null) {
-            source = new Translation(new TranslationId(key.entityId, locale), key, "");
+            source = new Translation(new TranslationId(key.entityId, locale), "");
         }
         translations.put(locale, source);
     }
@@ -237,7 +234,9 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @param translations translations set
      */
     public void setTranslations(Map<String, Translation> translations) {
-        this.translations = translations;
+        for (Map.Entry<String, Translation> translationEntry : translations.entrySet()) {
+            this.translations.put(new TranslationId(entityId, translationEntry.getKey()), translationEntry.getValue());
+        }
     }
 
     /**
@@ -246,11 +245,19 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @return the translations
      */
     public Map<String, Translation> getTranslations() {
-        return translations;
+        Map<String, Translation> map = new HashMap<String, Translation>();
+        for (Map.Entry<TranslationId, Translation> translationEntry : translations.entrySet()) {
+            map.put(translationEntry.getKey().getLocale(), translationEntry.getValue());
+        }
+        return map;
     }
 
     public boolean isTranslated(String locale) {
-        return translations.get(locale) != null;
+        return translations.get(new TranslationId(entityId, locale)) != null;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().equals("");
     }
 }
 

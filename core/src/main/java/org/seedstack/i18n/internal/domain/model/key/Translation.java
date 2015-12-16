@@ -21,36 +21,30 @@ import javax.persistence.*;
 @Entity
 @Table(name="SEED_I18N_TRANSLATION")
 public class Translation extends BaseEntity<TranslationId> {
+
     @EmbeddedId
     private TranslationId entityId;
-    @ManyToOne
-    @MapsId("key")
-    private Key key;
+
+    @Column(name = "TRANSLATION")
     private String value;
+
+    @Column(name = "OUTDATED")
     private boolean outdated;
+
+    @Column(name = "APPROXIMATE")
     private boolean approximate;
 
     protected Translation() {
     }
 
-    protected Translation(TranslationId translationId, Key key, String value) {
+    protected Translation(TranslationId translationId, String value) {
         this.entityId = translationId;
-        this.key = key;
         this.value = value;
     }
 
     @Override
     public TranslationId getEntityId() {
         return entityId;
-    }
-
-    /**
-     * Returns the translation key.
-     *
-     * @return translation key
-     */
-    public Key getKey() {
-        return key;
     }
 
     /**

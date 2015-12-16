@@ -10,6 +10,7 @@ package org.seedstack.i18n.internal.domain.model.locale;
 
 import org.seedstack.business.domain.BaseAggregateRoot;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -31,21 +32,25 @@ public class Locale extends BaseAggregateRoot<String> implements Serializable {
      * Example: en-US, fr-FR
      */
     @Id
+    @Column(name = "CODE")
     private String code;
 
     /**
      * Language name in their own language
      */
+    @Column(name = "LANGUAGE")
     private String language;
 
     /**
      * Language name in english
      */
+    @Column(name = "ENGLISH_LANGUAGE")
     private String englishLanguage;
 
     /**
      * Indicate if the locale is the locale by default.
      */
+    @Column(name = "DEFAULT_LOCALE")
     private boolean defaultLocale;
 
     /**

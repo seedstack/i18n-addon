@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-public class I18nCSVRepresentation {
+public class CSVRepresentation {
 
     private String key;
 
@@ -27,7 +27,7 @@ public class I18nCSVRepresentation {
     /**
      * Default constructor.
      */
-    public I18nCSVRepresentation() {
+    public CSVRepresentation() {
     }
 
     /**

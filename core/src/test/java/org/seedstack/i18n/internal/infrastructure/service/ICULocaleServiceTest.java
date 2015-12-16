@@ -46,13 +46,13 @@ public class ICULocaleServiceTest {
     private Locale locale;
 
     @Test
-    public void isAvailableAcceptsNull() {
+    public void testLocaleIsAvailableAcceptsNull() {
         boolean frIsAvailable = localeService.isAvailable(null);
         Assertions.assertThat(frIsAvailable).isFalse();
     }
 
     @Test
-    public void testIsAvailable() {
+    public void testLocaleIsNotAvailable() {
         new Expectations() {
             {
                 localeRepository.load(FR);
@@ -63,7 +63,7 @@ public class ICULocaleServiceTest {
     }
 
     @Test
-    public void testIsNotAvailable() {
+    public void testLocaleIsAvailable() {
         new Expectations() {
             {
                 localeRepository.load(FR);
@@ -78,9 +78,6 @@ public class ICULocaleServiceTest {
         new Expectations() {
             {
                 localeRepository.load(FR_BE);
-                result = locale;
-
-                localeRepository.getDefaultLocale();
                 result = locale;
             }
         };

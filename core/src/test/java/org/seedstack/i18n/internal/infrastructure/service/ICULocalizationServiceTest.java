@@ -13,13 +13,12 @@ import org.junit.Test;
 import org.seedstack.i18n.LocalizationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
+import org.seedstack.i18n.internal.domain.service.TranslationService;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit test on ICUBasedLocalizationService.
- *
  * @author pierre.thirouin@ext.mpsa.com
  */
 public class ICULocalizationServiceTest {
@@ -38,7 +37,8 @@ public class ICULocalizationServiceTest {
         localeService = mock(ICULocaleService.class);
         mockLocaleService();
         keyRepository = mock(KeyRepository.class);
-        localizationService = new ICULocalizationService(localeService, keyRepository);
+        TranslationService translationService = new TranslationServiceImpl(keyRepository, localeService);
+        localizationService = new ICULocalizationService(localeService, translationService);
     }
 
     @Test

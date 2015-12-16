@@ -10,7 +10,7 @@ package org.seedstack.i18n.rest.internal.infrastructure.csv;
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
+import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 import org.seedstack.i18n.rest.internal.io.ImportService;
 import org.seedstack.io.Parse;
 import org.seedstack.io.Parser;
@@ -27,7 +27,7 @@ import java.util.List;
 public class CSVImportService implements ImportService {
 
     @Parse(I18nCSVTemplateLoader.I18N_CSV_TEMPLATE)
-    private Parser<I18nCSVRepresentation> parser;
+    private Parser<CSVRepresentation> parser;
 
     private FluentAssembler fluentAssembler;
     private KeyRepository keyRepository;
@@ -45,7 +45,7 @@ public class CSVImportService implements ImportService {
      * @param keyRepository   the key repository
      * @param parser          the CSV parser
      */
-    CSVImportService(FluentAssembler fluentAssembler, KeyRepository keyRepository, Parser<I18nCSVRepresentation> parser) {
+    CSVImportService(FluentAssembler fluentAssembler, KeyRepository keyRepository, Parser<CSVRepresentation> parser) {
         this.fluentAssembler = fluentAssembler;
         this.keyRepository = keyRepository;
         this.parser = parser;
@@ -55,11 +55,11 @@ public class CSVImportService implements ImportService {
     @Transactional
     @Override
     public int importKeysWithTranslations(InputStream inputStream) {
-        List<I18nCSVRepresentation> i18nCSVRepresentations = parser.parse(inputStream, I18nCSVRepresentation.class);
-        for (I18nCSVRepresentation dto : i18nCSVRepresentations) {
+        List<CSVRepresentation> CSVRepresentations = parser.parse(inputStream, CSVRepresentation.class);
+        for (CSVRepresentation dto : CSVRepresentations) {
             Key key = fluentAssembler.merge(dto).into(Key.class).fromRepository().orFromFactory();
             keyRepository.persist(key);
         }
-        return i18nCSVRepresentations.size();
+        return CSVRepresentations.size();
     }
 }

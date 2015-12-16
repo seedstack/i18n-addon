@@ -5,8 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.internal;
+package org.seedstack.i18n.internal.domain.service;
 
+import com.google.common.base.Optional;
 import org.seedstack.business.Service;
 
 import java.util.Map;
@@ -19,6 +20,15 @@ import java.util.Map;
  */
 @Service
 public interface TranslationService {
+
+    /**
+     * Get the translation of key in the given locale or its closest parent locale.
+     *
+     * @param locale the locale
+     * @param key    the key to translate
+     * @return the translation found or absent
+     */
+    Optional<String> getTranslationWithFallback(String locale, String key);
 
     /**
      * Returns all the keys and their translations for the specified locale.

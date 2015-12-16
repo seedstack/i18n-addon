@@ -26,14 +26,13 @@ public class TranslationTest {
     @Before
     public void before() {
         key = new Key(KEY);
-        underTest = new Translation(new TranslationId(KEY, FR), key, FR_TRANSLATION);
+        underTest = new Translation(new TranslationId(KEY, FR), FR_TRANSLATION);
     }
 
     @Test
     public void testMinimalTranslation() {
         Assertions.assertThat(underTest.getEntityId().getKey()).isEqualTo(KEY);
         Assertions.assertThat(underTest.getEntityId().getLocale()).isEqualTo(FR);
-        Assertions.assertThat(underTest.getKey()).isEqualTo(key);
         Assertions.assertThat(underTest.getValue()).isEqualTo(FR_TRANSLATION);
         Assertions.assertThat(underTest.isApproximate()).isFalse();
         Assertions.assertThat(underTest.isOutdated()).isFalse();

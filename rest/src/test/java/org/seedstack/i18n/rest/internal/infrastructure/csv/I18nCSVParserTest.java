@@ -9,7 +9,7 @@ package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
+import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
 
 import java.io.ByteArrayInputStream;
@@ -26,7 +26,7 @@ public class I18nCSVParserTest {
 
     @Test(expected = NullPointerException.class)
     public void testNullInputStream() throws Exception {
-        underTest.parse(null, I18nCSVRepresentation.class);
+        underTest.parse(null, CSVRepresentation.class);
     }
 
     @Test(expected = NullPointerException.class)
@@ -38,14 +38,14 @@ public class I18nCSVParserTest {
     public void parseSuccessfully() {
         underTest.setTemplate(new SuperCsvTemplate("name"));
 
-        List<I18nCSVRepresentation> i18nCSVRepresentations = underTest.parse(byteArrayInputStream, I18nCSVRepresentation.class);
+        List<CSVRepresentation> CSVRepresentations = underTest.parse(byteArrayInputStream, CSVRepresentation.class);
 
-        Assertions.assertThat(i18nCSVRepresentations.size()).isEqualTo(2);
-        I18nCSVRepresentation i18nCSVRepresentation = i18nCSVRepresentations.iterator().next();
-        Assertions.assertThat(i18nCSVRepresentation.getKey()).isEqualTo("key1");
-        Assertions.assertThat(i18nCSVRepresentation.getValue().size()).isEqualTo(2);
-        Assertions.assertThat(i18nCSVRepresentation.getValue().get("en")).isEqualTo("t9nEn");
-        Assertions.assertThat(i18nCSVRepresentation.getValue().get("fr")).isEqualTo("t9nFr");
+        Assertions.assertThat(CSVRepresentations.size()).isEqualTo(2);
+        CSVRepresentation CSVRepresentation = CSVRepresentations.iterator().next();
+        Assertions.assertThat(CSVRepresentation.getKey()).isEqualTo("key1");
+        Assertions.assertThat(CSVRepresentation.getValue().size()).isEqualTo(2);
+        Assertions.assertThat(CSVRepresentation.getValue().get("en")).isEqualTo("t9nEn");
+        Assertions.assertThat(CSVRepresentation.getValue().get("fr")).isEqualTo("t9nFr");
     }
 
     @Test
@@ -55,13 +55,13 @@ public class I18nCSVParserTest {
 
         underTest.setTemplate(new SuperCsvTemplate("name"));
 
-        List<I18nCSVRepresentation> i18nCSVRepresentations = underTest.parse(byteArrayInputStream, I18nCSVRepresentation.class);
+        List<CSVRepresentation> CSVRepresentations = underTest.parse(byteArrayInputStream, CSVRepresentation.class);
 
-        Assertions.assertThat(i18nCSVRepresentations.size()).isEqualTo(2);
-        I18nCSVRepresentation i18nCSVRepresentation = i18nCSVRepresentations.get(0);
-        Assertions.assertThat(i18nCSVRepresentation.getKey()).isEqualTo("key1");
-        Assertions.assertThat(i18nCSVRepresentation.getValue().size()).isEqualTo(2);
-        Assertions.assertThat(i18nCSVRepresentation.getValue().get("en")).isNull();
-        Assertions.assertThat(i18nCSVRepresentation.getValue().get("fr")).isEqualTo("t9nFr");
+        Assertions.assertThat(CSVRepresentations.size()).isEqualTo(2);
+        CSVRepresentation CSVRepresentation = CSVRepresentations.get(0);
+        Assertions.assertThat(CSVRepresentation.getKey()).isEqualTo("key1");
+        Assertions.assertThat(CSVRepresentation.getValue().size()).isEqualTo(2);
+        Assertions.assertThat(CSVRepresentation.getValue().get("en")).isNull();
+        Assertions.assertThat(CSVRepresentation.getValue().get("fr")).isEqualTo("t9nFr");
     }
 }

@@ -34,6 +34,7 @@ jdbc.datasources=ds
 [org.seedstack.jdbc.datasource.ds]
 driver=org.hsqldb.jdbcDriver
 url = jdbc:hsqldb:mem:testdb
+#url = jdbc:hsqldb:hsql://localhost/xdb
 user = sa
 password =
 

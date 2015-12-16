@@ -10,6 +10,7 @@ package org.seedstack.i18n.internal.domain.model.key;
 
 import org.seedstack.business.domain.BaseValueObject;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
@@ -22,8 +23,11 @@ public class TranslationId extends BaseValueObject {
 
     private static final long serialVersionUID = 2487221653197332337L;
 
+
+    @Column(name = "KEY_ID")
     private String key;
 
+    @Column(name = "LOCALE")
     private String locale;
 
     protected TranslationId() {

@@ -11,6 +11,8 @@ import com.google.common.cache.LoadingCache;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.BaseJpaRepository;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepository {
+public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepository {
 
     @Inject
     private LoadingCache<String, Map<String, String>> loadingCache;
@@ -29,28 +31,19 @@ class KeyJpaRepository extends BaseJpaRepository<Key, String> implements KeyRepo
     @SuppressWarnings("unchecked")
     @Override
     public List<Key> loadAll() {
-        return entityManager.createQuery("SELECT k FROM Key k").getResultList();
+        return entityManager.createQuery("SELECT k FROM org.seedstack.i18n.internal.domain.model.key.Key k")
+                .getResultList();
     }
 
     @Override
     public Long count() {
-        return (Long) entityManager.createQuery("SELECT count(*) FROM Key k").getSingleResult();
-    }
-
-    @Override
-    public void persistAll(List<Key> keys) {
-        for (Key key : keys) {
-            persist(key);
-        }
-        invalidCache();
+        return (Long) entityManager.createQuery("SELECT COUNT(k) FROM org.seedstack.i18n.internal.domain.model.key.Key k")
+                .getSingleResult();
     }
 
     @Override
     public void deleteAll() {
-        // TODO this request is intended to be faster that delete(List<Key>) so don't use a loop !
-        for (Key key : loadAll()) {
-            entityManager.remove(key);
-        }
+        entityManager.createQuery("DELETE FROM org.seedstack.i18n.internal.domain.model.key.Key").executeUpdate();
         invalidCache();
     }
 

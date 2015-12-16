@@ -5,11 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.internal;
+package org.seedstack.i18n.internal.infrastructure.jpa;
 
 import com.google.common.cache.CacheLoader;
 import org.seedstack.i18n.LocaleService;
 import org.apache.commons.lang.StringUtils;
+import org.seedstack.i18n.internal.domain.service.TranslationService;
 import org.seedstack.seed.core.utils.SeedCheckUtils;
 
 import javax.inject.Inject;

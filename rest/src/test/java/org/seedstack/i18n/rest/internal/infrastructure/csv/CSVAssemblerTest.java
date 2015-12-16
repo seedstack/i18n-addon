@@ -11,27 +11,27 @@ import org.junit.Before;
 import org.junit.Test;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.rest.internal.infrastructure.csv.CSVImportServiceTest.KeyBuilder;
-import org.seedstack.i18n.rest.internal.io.I18nCSVRepresentation;
+import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public class CsvAssemblerTest {
+public class CSVAssemblerTest {
 
-    private CsvAssembler underTest;
+    private CSVAssembler underTest;
     private Key key;
 
     @Before
     public void setUp() throws Exception {
-        underTest = new CsvAssembler();
+        underTest = new CSVAssembler();
         key = new Key("foo");
     }
 
     @Test
     public void testMergeWithEmptyRepresentation() {
-        I18nCSVRepresentation emptyRepresentation = new I18nCSVRepresentation();
+        CSVRepresentation emptyRepresentation = new CSVRepresentation();
 
         underTest.mergeAggregateWithDto(key, emptyRepresentation);
 
@@ -46,7 +46,7 @@ public class CsvAssemblerTest {
 
     @Test
     public void testMergeWithTranslation() {
-        I18nCSVRepresentation representation = KeyBuilder.key("foo")
+        CSVRepresentation representation = KeyBuilder.key("foo")
                 .with("en", "translation").with("fr", "traduction").build();
 
         underTest.mergeAggregateWithDto(key, representation);
@@ -59,7 +59,7 @@ public class CsvAssemblerTest {
 
     @Test
     public void testMergeIgnoreMissingTranslations() {
-        I18nCSVRepresentation representation = KeyBuilder.key("foo")
+        CSVRepresentation representation = KeyBuilder.key("foo")
                 .with("en", "").with("fr", null).build();
 
         underTest.mergeAggregateWithDto(key, representation);
@@ -71,7 +71,7 @@ public class CsvAssemblerTest {
     @Test
     public void testMergeUpdateTranslation() {
         key.addTranslation("en", "translation");
-        I18nCSVRepresentation representation = KeyBuilder.key("foo")
+        CSVRepresentation representation = KeyBuilder.key("foo")
                 .with("en", "newTranslation").build();
 
         underTest.mergeAggregateWithDto(key, representation);
@@ -81,7 +81,7 @@ public class CsvAssemblerTest {
 
     @Test
     public void testAssemble() throws Exception {
-        I18nCSVRepresentation representation = underTest.assembleDtoFromAggregate(key);
+        CSVRepresentation representation = underTest.assembleDtoFromAggregate(key);
 
         assertThat(representation.getKey()).isEqualTo("foo");
         assertThat(representation.getValue()).isNotNull();
@@ -93,7 +93,7 @@ public class CsvAssemblerTest {
         key.addTranslation("en", "translation");
         key.addTranslation("fr", "traduction");
 
-        I18nCSVRepresentation representation = underTest.assembleDtoFromAggregate(key);
+        CSVRepresentation representation = underTest.assembleDtoFromAggregate(key);
 
         assertThat(representation.getValue()).containsEntry("en", "translation");
         assertThat(representation.getValue()).containsEntry("fr", "traduction");
