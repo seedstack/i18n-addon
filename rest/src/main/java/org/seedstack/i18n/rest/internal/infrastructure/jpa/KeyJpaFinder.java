@@ -14,17 +14,13 @@ import org.seedstack.business.view.PaginatedView;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
-import org.seedstack.i18n.rest.internal.key.KeyAssembler;
-import org.seedstack.i18n.rest.internal.key.KeyFinder;
-import org.seedstack.i18n.rest.internal.key.KeyRepresentation;
-import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
+import org.seedstack.i18n.rest.internal.key.*;
 import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,43 +61,27 @@ class KeyJpaFinder extends BaseJpaRangeFinder<KeyRepresentation> implements KeyF
     @Override
     protected List<KeyRepresentation> computeResultList(Range range, Map<String, Object> criteria) {
         KeysQuery queryBuilder = new KeysQuery(entityManager);
-
-        KeySearchCriteria keySearchCriteria = KeySearchCriteria.fromMap(criteria);
-        keySearchCriteria.setLocale(localeService.getDefaultLocale());
-
-        queryBuilder.select().withCriteria(keySearchCriteria);
-
+        queryBuilder.select().withCriteria(getKeySearchCriteria(criteria));
         List<Key> keys = queryBuilder.getResultList(range);
-        return assembleRepresentationsFromEntities(keys);
+        return keyAssembler.assemble(keys);
     }
 
-    private List<KeyRepresentation> assembleRepresentationsFromEntities(List<Key> keys) {
-        List<KeyRepresentation> keyRepresentations = new ArrayList<KeyRepresentation>(keys.size());
-        String defaultLocale = localeService.getDefaultLocale();
-        for (Key key : keys) {
-            keyRepresentations.add(keyAssembler.assembleDtoFromAggregate(key.subKey(defaultLocale)));
-        }
-        return keyRepresentations;
+    private KeySearchCriteria getKeySearchCriteria(Map<String, Object> criteria) {
+        KeySearchCriteria keySearchCriteria = KeySearchCriteria.fromMap(criteria);
+        keySearchCriteria.setLocale(localeService.getDefaultLocale());
+        return keySearchCriteria;
     }
 
     @Override
     protected long computeFullRequestSize(Map<String, Object> criteria) {
         KeysQuery queryBuilder = new KeysQuery(entityManager);
-
-        KeySearchCriteria keySearchCriteria = KeySearchCriteria.fromMap(criteria);
-        keySearchCriteria.setLocale(localeService.getDefaultLocale());
-
-        queryBuilder.count().withCriteria(keySearchCriteria);
+        queryBuilder.count().withCriteria(getKeySearchCriteria(criteria));
         return queryBuilder.getResult();
     }
 
     @Override
     public KeyRepresentation findKeyWithName(String name) {
         Key key = keyRepository.load(name);
-        if (key != null) {
-            return keyAssembler.assembleDtoFromAggregate(key.subKey(localeService.getDefaultLocale()));
-        } else {
-            return null;
-        }
+        return key != null ? keyAssembler.assemble(key) : null;
     }
 }

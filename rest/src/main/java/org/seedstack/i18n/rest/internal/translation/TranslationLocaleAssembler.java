@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.rest.internal.key;
+package org.seedstack.i18n.rest.internal.translation;
 
 import org.seedstack.business.Service;
 import org.seedstack.i18n.internal.domain.model.key.Key;
@@ -16,9 +16,9 @@ import java.util.List;
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
 @Service
-public interface KeyAssembler {
+public interface TranslationLocaleAssembler {
 
-    KeyRepresentation assemble(Key key);
+    TranslationRepresentation assemble(Key key, String locale);
 
-    List<KeyRepresentation> assemble(List<Key> key);
+    List<TranslationRepresentation> assemble(List<Key> key, String locale);
 }

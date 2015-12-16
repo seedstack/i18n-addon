@@ -68,7 +68,7 @@ public class KeyJpaFinderIT {
      */
     @Before
     public void setUp() {
-        defineApplicationLocale();
+        defineApplicationLocales();
 
         // Clean the database
         keyRepository.deleteAll();
@@ -93,7 +93,7 @@ public class KeyJpaFinderIT {
         }
     }
 
-    private void defineApplicationLocale() {
+    private void defineApplicationLocales() {
         localeService.addLocale(FR);
         localeService.addLocale(EN);
         localeService.changeDefaultLocaleTo(EN);

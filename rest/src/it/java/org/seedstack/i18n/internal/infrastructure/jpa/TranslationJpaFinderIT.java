@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seedstack.business.view.Page;
 import org.seedstack.business.view.PaginatedView;
-import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.i18n.rest.internal.translation.TranslationFinder;
 import org.seedstack.i18n.rest.internal.translation.TranslationRepresentation;
@@ -32,8 +31,6 @@ public class TranslationJpaFinderIT {
 
     @Inject
     private TranslationFinder translationFinder;
-    @Inject
-    private KeyRepository keyRepository;
 
     @Test
     public void testMissingTranslations() {
