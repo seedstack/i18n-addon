@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public class KeyAssemblerImpl implements KeyAssembler {
+class KeyAssemblerImpl implements KeyAssembler {
 
     private LocaleService localeService;
 

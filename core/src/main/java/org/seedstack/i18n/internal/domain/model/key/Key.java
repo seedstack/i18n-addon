@@ -130,53 +130,6 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     }
 
     /**
-     * Returns a sub aggregate key with only two translations.
-     *
-     * @param sourceLocale source locale
-     * @param targetLocale target locale
-     * @return Key
-     */
-    public Key subKey(String sourceLocale, String targetLocale) {
-        Key subKey = new Key(entityId);
-        subKey.setComment(description);
-        if (outdated) {
-            subKey.setOutdated();
-        }
-        Map<String, Translation> subTranslations = new HashMap<String, Translation>();
-        addTranslation(subTranslations, subKey, sourceLocale);
-        addTranslation(subTranslations, subKey, targetLocale);
-        subKey.setTranslations(subTranslations);
-        return subKey;
-    }
-
-
-    /**
-     * Returns a sub aggregate key with just the default translation.
-     *
-     * @param defaultLocale source locale
-     * @return Key
-     */
-    public Key subKey(String defaultLocale) {
-        Key subKey = new Key(entityId);
-        subKey.setComment(description);
-        if (outdated) {
-            subKey.setOutdated();
-        }
-        Map<String, Translation> subTranslations = new HashMap<String, Translation>();
-        addTranslation(subTranslations, subKey, defaultLocale);
-        subKey.setTranslations(subTranslations);
-        return subKey;
-    }
-
-    private void addTranslation(Map<String, Translation> translations, Key key, String locale) {
-        Translation source = this.translations.get(new TranslationId(entityId, locale));
-        if (source == null) {
-            source = new Translation(new TranslationId(key.entityId, locale), "");
-        }
-        translations.put(locale, source);
-    }
-
-    /**
      * Checks if the key has outdated translations and then update the outdated status of the key.
      */
     public void checkOutdatedStatus() {

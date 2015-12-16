@@ -11,21 +11,18 @@ import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.Page;
 import org.seedstack.business.view.PaginatedView;
-import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
-import org.seedstack.i18n.rest.internal.translation.TranslationAssembler;
 import org.seedstack.i18n.rest.internal.translation.TranslationFinder;
+import org.seedstack.i18n.rest.internal.translation.TranslationLocaleAssembler;
 import org.seedstack.i18n.rest.internal.translation.TranslationRepresentation;
 import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.core.utils.SeedCheckUtils;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,39 +37,25 @@ import java.util.Map;
 class TranslationJpaFinder extends BaseJpaRangeFinder<TranslationRepresentation> implements TranslationFinder {
 
     private final KeyRepository keyRepository;
-    private final LocaleService localeService;
-    private final TranslationAssembler translationAssembler;
+    private final TranslationLocaleAssembler translationLocaleAssembler;
     private final EntityManager entityManager;
 
     @Inject
-    public TranslationJpaFinder(KeyRepository keyRepository, LocaleService localeService, TranslationAssembler translationAssembler, EntityManager entityManager) {
+    public TranslationJpaFinder(KeyRepository keyRepository, TranslationLocaleAssembler translationLocaleAssembler, EntityManager entityManager) {
         this.keyRepository = keyRepository;
-        this.localeService = localeService;
-        this.translationAssembler = translationAssembler;
+        this.translationLocaleAssembler = translationLocaleAssembler;
         this.entityManager = entityManager;
     }
 
     @Override
     public List<TranslationRepresentation> findTranslations(String localeId) {
-        List<Key> keys = keyRepository.loadAll();
-        List<TranslationRepresentation> translationRepresentations = new ArrayList<TranslationRepresentation>(keys.size());
-        String defaultLocale = localeService.getDefaultLocale();
-        for (Key key : keys) {
-            translationRepresentations.add(translationAssembler.assembleDtoFromAggregate(key.subKey(defaultLocale, localeId)));
-        }
-
-        return translationRepresentations;
+        return translationLocaleAssembler.assemble(keyRepository.loadAll(), localeId);
     }
 
     @Override
     public TranslationRepresentation findTranslation(String localeId, String keyId) {
         Key key = keyRepository.load(keyId);
-        String defaultLocale = localeService.getDefaultLocale();
-        SeedCheckUtils.checkIfNotNull(defaultLocale);
-        if (key != null) {
-            return translationAssembler.assembleDtoFromAggregate(key.subKey(defaultLocale, localeId));
-        }
-        return null;
+        return key != null ? translationLocaleAssembler.assemble(key, localeId) : null;
     }
 
     @Override
@@ -88,17 +71,7 @@ class TranslationJpaFinder extends BaseJpaRangeFinder<TranslationRepresentation>
         KeySearchCriteria keySearchCriteria = KeySearchCriteria.fromMap(criteria);
         queryBuilder.select().withCriteria(keySearchCriteria);
         List<Key> keys = queryBuilder.getResultList(range);
-        return assembleRepresentations(keySearchCriteria, keys);
-    }
-
-    private List<TranslationRepresentation> assembleRepresentations(KeySearchCriteria keySearchCriteria, List<Key> keys) {
-        List<TranslationRepresentation> translationRepresentations = new ArrayList<TranslationRepresentation>(keys.size());
-        String defaultLocale = localeService.getDefaultLocale();
-        for (Key key : keys) {
-            Key subKey = key.subKey(defaultLocale, keySearchCriteria.getLocale());
-            translationRepresentations.add(translationAssembler.assembleDtoFromAggregate(subKey));
-        }
-        return translationRepresentations;
+        return translationLocaleAssembler.assemble(keys, keySearchCriteria.getLocale());
     }
 
     @Override
