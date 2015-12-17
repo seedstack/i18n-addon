@@ -10,6 +10,8 @@ package org.seedstack.i18n.internal.domain.model.key;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
+
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
@@ -40,19 +42,36 @@ public class KeyTest {
         Assertions.assertThat(key.getComment()).isEqualTo("Indicates the number ninety");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testKeyAddTranslationWithInvalidLocale() {
-        new Key(KEY).addTranslation(INVALID_LOCALE, FR_TRANSLATION);
+        try {
+            new Key(KEY).addTranslation(INVALID_LOCALE, FR_TRANSLATION);
+            fail();
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The locale should not be null or empty" +
+                    " and should only contains letters or \"-\", but \"fr_FR\" was found.");
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testTranslationCantBeNull() {
-        new Key(KEY).addTranslation(FR, null);
+        try {
+            new Key(KEY).addTranslation(FR, null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The translation can't be blank");
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testLocaleCantBeNull() {
-        new Key(KEY).addTranslation(null, FR_TRANSLATION);
+        try {
+            new Key(KEY).addTranslation(null, FR_TRANSLATION);
+            fail();
+        } catch (IllegalArgumentException e) {
+            Assertions.assertThat(e).hasMessage("The locale should not be null or empty" +
+                    " and should only contains letters or \"-\", but \"null\" was found.");
+        }
     }
 
     @Test
