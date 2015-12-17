@@ -8,6 +8,7 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
+import org.seedstack.business.assembler.AssemblerTypes;
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
@@ -72,7 +73,7 @@ public class LocaleDataImporter implements DataImporter<LocaleDTO> {
         }
         for (LocaleDTO localeDTO : staging) {
             Locale newLocale = localeFactory.createFromCode(localeDTO.getCode());
-            fluentAssembler.merge(localeDTO).into(newLocale);
+            fluentAssembler.merge(localeDTO).with(AssemblerTypes.MODEL_MAPPER).into(newLocale);
             localeRepository.save(newLocale);
         }
         LOGGER.info("Import of i18n locales completed");

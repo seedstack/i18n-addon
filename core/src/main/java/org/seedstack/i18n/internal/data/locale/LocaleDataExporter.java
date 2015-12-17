@@ -8,6 +8,7 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
+import org.seedstack.business.assembler.AssemblerTypes;
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.seed.DataExporter;
@@ -35,6 +36,6 @@ public class LocaleDataExporter implements DataExporter<LocaleDTO> {
 
     @Override
     public Iterator<LocaleDTO> exportData() {
-        return fluentAssembler.assemble(localeRepository.loadAll()).to(LocaleDTO.class).iterator();
+        return fluentAssembler.assemble(localeRepository.loadAll()).with(AssemblerTypes.MODEL_MAPPER).to(LocaleDTO.class).iterator();
     }
 }

@@ -8,13 +8,15 @@
 package org.seedstack.i18n.internal.data.locale;
 
 
+import org.seedstack.business.assembler.DtoOf;
 import org.seedstack.business.assembler.MatchingEntityId;
 import org.seedstack.business.assembler.MatchingFactoryParameter;
+import org.seedstack.i18n.internal.domain.model.locale.Locale;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 20/03/14
  */
+@DtoOf(Locale.class)
 public class LocaleDTO {
 
     private static final int PARAM_0 = 0;
@@ -31,6 +33,11 @@ public class LocaleDTO {
     @MatchingFactoryParameter(index= PARAM_0)
     public String getCode() {
         return code;
+    }
+
+    // Let it for ModelMapper
+    public void setEntityId(String code) {
+        this.code = code;
     }
 
     public void setCode(String code) {
