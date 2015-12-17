@@ -182,17 +182,6 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     }
 
     /**
-     * Sets the translations.
-     *
-     * @param translations translations set
-     */
-    public void setTranslations(Map<String, Translation> translations) {
-        for (Map.Entry<String, Translation> translationEntry : translations.entrySet()) {
-            this.translations.put(new TranslationId(entityId, translationEntry.getKey()), translationEntry.getValue());
-        }
-    }
-
-    /**
      * Returns the translation set.
      *
      * @return the translations
