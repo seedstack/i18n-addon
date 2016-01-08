@@ -13,6 +13,7 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.I18nPermissions;
+import org.seedstack.i18n.rest.internal.shared.AlreadyExistException;
 import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
@@ -107,19 +108,24 @@ public class KeysResource {
 
         Key key = factory.createKey(keyRepresentation.getName());
         key.setComment(keyRepresentation.getComment());
-        key.addTranslation(keyRepresentation.getDefaultLocale(), keyRepresentation.getTranslation(), keyRepresentation.isApprox());
+        addDefaultTranslation(keyRepresentation, key);
         keyRepository.persist(key);
 
         return Response.created(new URI(uriInfo.getRequestUri() + "/" + key.getEntityId()))
                 .entity(keyFinder.findKeyWithName(key.getEntityId())).build();
     }
 
+    private void addDefaultTranslation(KeyRepresentation keyRepresentation, Key key) {
+        String defaultLocale = keyRepresentation.getDefaultLocale();
+        String translation = keyRepresentation.getTranslation();
+        boolean approx = keyRepresentation.isApprox();
+        key.addTranslation(defaultLocale, translation, approx);
+    }
+
     private void assertKeyDoNotAlreadyExists(KeyRepresentation representation) {
         Key key = keyRepository.load(representation.getName());
         if (key != null) {
-            Response response = Response.status(Response.Status.CONFLICT)
-                    .entity(String.format("The key %s already exists.", representation.getName())).build();
-            throw new WebApplicationException(response);
+            throw new AlreadyExistException();
         }
     }
 

@@ -21,6 +21,10 @@ public class AlreadyExistException extends WebApplicationException {
 
     private static final long serialVersionUID = -4568375759076851959L;
 
+    public AlreadyExistException() {
+        super(Response.status(Response.Status.CONFLICT).build());
+    }
+
     /**
      * AlreadyExistException constructor.
      *
