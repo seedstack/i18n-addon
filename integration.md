@@ -19,7 +19,7 @@ You just need add the the function JPA unit (`seed-i18n-domain`) to the global l
 [org.seedstack.seed]
 persistence.jpa.units = seed-i18n-domain, ...
 
-[org.seedstack.seed.persistence.jpa.unit.seed-i18n-domain]
+[org.seedstack.jpa.unit.seed-i18n-domain]
 datasource = my-datasource
 ```
 
