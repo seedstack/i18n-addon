@@ -15,10 +15,7 @@ menu:
 The i18n function provides backend services and a Web UI to manage application locales and translations. To add the
 i18n function to your project, add the following dependency to your Web module pom:
 
-    <dependency>
-        <groupId>org.seedstack.addons</groupId>
-        <artifactId>i18n-web</artifactId>
-    </dependency>
+{{< dependency g="org.seedstack.addons.i18n" a="i18n-web" >}}
 
 # Locales
 
