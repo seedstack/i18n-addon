@@ -1,6 +1,7 @@
 ---
 title: "User interface"
 addon: "Internationalization"
+repo: "https://github.com/seedstack/i18n-addon"
 menu:
     InternationalizationAddon:
         weight: 30
@@ -52,7 +53,7 @@ Keys are shown along with state squares which can have the following values:
 
 * 'D': 'Done', the key is correct and ready to use
 * 'M': 'Missing', the key is missing a default translation
-*  'A': 'Approximate', the key translation has been marked as approximate (meaning it is a fuzzy, sloppy translation)
+* 'A': 'Approximate', the key translation has been marked as approximate (meaning it is a fuzzy, sloppy translation)
 and need a netter formulation.
 * 'O': 'Outdated', the key translations are outdated. For instance if you have translate the key in different languages
 but then you have change the default translation the key will be outdated, meaning you'll need to translate again to 

@@ -1,6 +1,7 @@
 ---
 title: "Integration"
 addon: "Internationalization"
+repo: "https://github.com/seedstack/i18n-addon"
 menu:
     InternationalizationAddon:
         weight: 20
@@ -12,7 +13,7 @@ the function roles to yours. This section description how to do it and some othe
 # Persistence
 
 The i18n function uses JPA as its persistence mechanism. No `persistence.xml` file is provided, as it expects your
-application to be configured with [automatically generated persistence information](/docs/seed/manual/persistence/jpa/#without-persistence-xml).
+application to be configured with [automatically generated persistence information](/addons/jpa/#without-persistence-xml).
 You just need add the the function JPA unit (`seed-i18n-domain`) to the global list of JPA units and specify its datasource:
 
 ```ini
@@ -22,8 +23,6 @@ persistence.jpa.units = seed-i18n-domain, ...
 [org.seedstack.jpa.unit.seed-i18n-domain]
 datasource = my-datasource
 ```
-
-# specify additional properties if needed
 
 # Security
 
@@ -75,5 +74,5 @@ configuration as follow:
 
 User interface provides import/export functionality to export keys and translations for all available locales.
 But to backup/restore all data with their metadata (e.g. default locale or outdated indicator) the function provides
-[shell](#!/seed-doc/shell) commands. To use it, enable the Shell support. Then, use the `core:export` or `core:import`
-commands (cf. [Core data documentation](#!/seed-doc/core/data)).
+[shell](/docs/seed/manual/operations/#shell) commands. To use it, enable the Shell support. Then, use the `core:export` or `core:import`
+commands (cf. [Core data documentation](/docs/seed/manual/more/#data-import-export)).

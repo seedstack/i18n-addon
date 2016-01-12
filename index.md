@@ -23,7 +23,7 @@ The i18n function stores application available locales and default locale. Avail
 the application is translated, i.e. available to users. The default locale is the "native language" of the application.
 This locale will be used as starting locale for translations.
 
-Locales can be managed with i18n administration interface or programmatically with the `LocaleService`.
+Locales can be managed with i18n administration interface or programatically with the `LocaleService`.
 
 # Localization
 
