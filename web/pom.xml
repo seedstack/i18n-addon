@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
+    Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,25 +37,25 @@
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web</artifactId>
-            <version>${seed.version}</version>
+            <version>${w20-bridge.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-dataviz</artifactId>
-            <version>${seed.version}</version>
+            <version>${w20-bridge.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-bootstrap-3</artifactId>
-            <version>${seed.version}</version>
+            <version>${w20-bridge.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-business-theme</artifactId>
-            <version>${seed.version}</version>
+            <version>${w20-bridge.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
