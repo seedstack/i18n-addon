@@ -1,8 +1,11 @@
 # Version 2.2.0 (2016-01-21)
 
-* ...
+* [chg] Moved translations of i18n itself to its frontend as static files
+* [chg] Vastly better performance on first load and in subsequent uses
+* [brk] Simplified database mapping, no longer compatible with tables of previous versions.
+* [fix] CSV import will no longer add null translations (no more NPE on import)
 
-# Version 2.1.1 (2015-12-02)
+# Version 2.1.1 (2015-12-04)
 
 * [brk] The locale codes are now store with the standard format, e.g. es-AR (and no more es_AR).
 * [fix] CSV file import
