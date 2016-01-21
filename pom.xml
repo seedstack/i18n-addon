@@ -32,6 +32,8 @@
         <hibernate.version>5.0.1.Final</hibernate.version>
 
         <compatibility.version>2.1.0</compatibility.version>
+
+        <bintray.package>i18n-addon</bintray.package>
     </properties>
 
     <modules>
