@@ -116,7 +116,7 @@ The i18n addon stores application available locales and default locale. Availabl
 the application is translated, i.e. available to users. The default locale is the "native language" of the application.
 This locale will be used as starting locale for translations.
 
-Locales can be managed with i18n administration interface or programatically with the `LocaleService`.
+Locales can be managed with i18n administration interface or programatically with the {{< java "org.seedstack.i18n.LocaleService" >}}.
 
 ```java
 @Inject
@@ -125,14 +125,14 @@ private LocaleService localeService;
 
 ## Localization
 
-Localization is provided by the `LocalizationService` which allows to localize date, number, string and currency.
+Localization is provided by the {{< java "org.seedstack.i18n.LocalizationService" >}} which allows to localize date, number, string and currency.
 
 ```java
 @Inject
 private LocalizationService localizationService;
 ```
 
-The `LocalizationService` allows to translate i18n keys in different locales using the `localize(String, String)` method.
+The {{< java "org.seedstack.i18n.LocalizationService" >}} allows to translate i18n keys in different locales using the `localize(String, String)` method.
 This method will fallback on the parent locale if the required locale is not present.
 
 ```java
