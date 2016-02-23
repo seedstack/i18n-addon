@@ -1,12 +1,24 @@
 ---
-title: "Overview"
-addon: "Internationalization"
+title: "Basics"
+name: "Internationalization (i18n)"
 repo: "https://github.com/seedstack/i18n-addon"
 author: "SeedStack"
 description: "Provides backend services and a Web UI to manage application locales and translations."
 min-version: "15.11+"
 backend: true
 frontend: "responsive"
+weight: -1
+tags:
+    - "i18n"
+    - "locale"
+    - "date"
+    - "time"
+    - "format"
+    - "localization"
+    - "internationalization"
+    - "culture"
+zones:
+    - Addons
 menu:
     InternationalizationAddon:
         weight: 10
