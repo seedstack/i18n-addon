@@ -27,13 +27,6 @@ public interface KeyRepository extends GenericRepository<Key, String> {
     List<Key> loadAll();
 
     /**
-     * Get the number of key.
-     *
-     * @return key count
-     */
-    Long count();
-
-    /**
      * Fast delete of all keys.
      */
     void deleteAll();

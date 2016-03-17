@@ -25,13 +25,6 @@ public interface LocaleRepository extends GenericRepository<Locale, String> {
     List<Locale> loadAll();
 
     /**
-     * Get the number of available locale.
-     *
-     * @return locale count
-     */
-    Long count();
-
-    /**
      * @return default locale
      */
     Locale getDefaultLocale();

@@ -8,15 +8,15 @@
 package org.seedstack.i18n.rest.internal.io;
 
 import com.google.common.collect.Lists;
-import com.sun.jersey.core.header.ContentDisposition;
-import com.sun.jersey.multipart.BodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.NonStrictExpectations;
 import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import org.assertj.core.api.Assertions;
+import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.ContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;

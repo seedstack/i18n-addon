@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class I18nCSVTemplateLoader implements TemplateLoader {
 
-    public static final String I18N_CSV_TEMPLATE = "i8nTranslations";
+    public static final String I18N_CSV_TEMPLATE = "i18nTranslations";
     public static final String KEY = "key";
 
     @Inject

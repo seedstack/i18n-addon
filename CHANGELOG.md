@@ -1,3 +1,7 @@
+# Version 2.2.1 (?)
+
+* [chg] Requires Jersey 2
+
 # Version 2.2.0 (2016-01-21)
 
 * [chg] Moved translations of i18n itself to its frontend as static files
