@@ -11,8 +11,6 @@ import com.google.common.cache.LoadingCache;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.BaseJpaRepository;
-import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -31,19 +29,13 @@ public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements 
     @SuppressWarnings("unchecked")
     @Override
     public List<Key> loadAll() {
-        return entityManager.createQuery("SELECT k FROM org.seedstack.i18n.internal.domain.model.key.Key k")
+        return getEntityManager().createQuery("SELECT k FROM org.seedstack.i18n.internal.domain.model.key.Key k")
                 .getResultList();
     }
 
     @Override
-    public Long count() {
-        return (Long) entityManager.createQuery("SELECT COUNT(k) FROM org.seedstack.i18n.internal.domain.model.key.Key k")
-                .getSingleResult();
-    }
-
-    @Override
     public void deleteAll() {
-        entityManager.createQuery("DELETE FROM org.seedstack.i18n.internal.domain.model.key.Key").executeUpdate();
+        getEntityManager().createQuery("DELETE FROM org.seedstack.i18n.internal.domain.model.key.Key").executeUpdate();
         invalidCache();
     }
 
@@ -56,21 +48,33 @@ public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements 
     }
 
     @Override
-    public void doDelete(Key key) {
-        super.doDelete(key);
+    public void clear() {
+        super.clear();
         invalidCache();
     }
 
     @Override
-    public void doPersist(Key entity) {
-        super.doPersist(entity);
+    public void delete(String id) {
+        super.delete(id);
         invalidCache();
     }
 
     @Override
-    public Key doSave(Key entity) {
+    public void delete(Key aggregate) {
+        super.delete(aggregate);
         invalidCache();
-        return super.doSave(entity);
+    }
+
+    @Override
+    public void persist(Key aggregate) {
+        super.persist(aggregate);
+        invalidCache();
+    }
+
+    @Override
+    public Key save(Key aggregate) {
+        invalidCache();
+        return super.save(aggregate);
     }
 
     private void invalidCache() {

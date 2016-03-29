@@ -7,6 +7,7 @@
  */
 package org.seedstack.i18n.shared;
 
+import com.jayway.restassured.builder.MultiPartSpecBuilder;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -63,7 +64,7 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @return the http response
      */
     protected Response httpGet(String path, int statusCode) throws JSONException {
-        return httpRequest(statusCode).get(baseURL.toString() + PATH_PREFIX + path);
+        return httpRequest(statusCode, null).get(baseURL.toString() + PATH_PREFIX + path);
     }
 
     /**
@@ -74,7 +75,24 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @return the http response
      */
     protected Response httpPost(String path, String body, int status) {
-        return httpRequest(status).body(body).post(baseURL.toString() + PATH_PREFIX + path);
+        return httpRequest(status, null).body(body).post(baseURL.toString() + PATH_PREFIX + path);
+    }
+
+    /**
+     * Posts the given CSV as multipart form data to the given path and expect a 200 status code.
+     *
+     * @param path    the resource URI
+     * @param csvBody the resource representation
+     * @return the http response
+     */
+    protected Response httpPostCSV(String path, String csvBody, int status) {
+        MultiPartSpecBuilder multipart = new MultiPartSpecBuilder(csvBody.getBytes());
+        multipart.mimeType("multipart/form-data");
+        multipart.fileName("file.csv");
+        return httpRequest(status, "multipart/form-data")
+                .multiPart(multipart.build())
+                .header("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=")
+                .post(baseURL.toString() + PATH_PREFIX + path);
     }
 
     /**
@@ -96,7 +114,7 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @return the http response
      */
     protected Response httpPut(String path, String body, int status) throws JSONException {
-        return httpRequest(status).body(body).put(baseURL.toString() + PATH_PREFIX + path);
+        return httpRequest(status, null).body(body).put(baseURL.toString() + PATH_PREFIX + path);
     }
 
     /**
@@ -106,12 +124,12 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @return the http response
      */
     protected Response httpDelete(String path, int status) throws JSONException {
-        return httpRequest(status).delete(baseURL.toString() + PATH_PREFIX + path);
+        return httpRequest(status, null).delete(baseURL.toString() + PATH_PREFIX + path);
     }
 
 
-    protected RequestSpecification httpRequest(int statusCode) {
+    protected RequestSpecification httpRequest(int statusCode, String contentType) {
         return expect().statusCode(statusCode).given().auth().basic(LOGIN, PASSWORD).
-                header("Accept", APPLICATION_JSON).header("Content-Type", APPLICATION_JSON);
+                header("Accept", APPLICATION_JSON).header("Content-Type", contentType == null ? APPLICATION_JSON : contentType);
     }
 }

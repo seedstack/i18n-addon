@@ -7,6 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
+import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.Page;
@@ -17,7 +18,6 @@ import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.i18n.rest.internal.translation.TranslationFinder;
 import org.seedstack.i18n.rest.internal.translation.TranslationLocaleAssembler;
 import org.seedstack.i18n.rest.internal.translation.TranslationRepresentation;
-import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @JpaUnit("seed-i18n-domain")
 @Transactional
-class TranslationJpaFinder extends BaseJpaRangeFinder<TranslationRepresentation> implements TranslationFinder {
+class TranslationJpaFinder extends BaseRangeFinder<TranslationRepresentation, Map<String, Object>> implements TranslationFinder {
 
     private final KeyRepository keyRepository;
     private final TranslationLocaleAssembler translationLocaleAssembler;

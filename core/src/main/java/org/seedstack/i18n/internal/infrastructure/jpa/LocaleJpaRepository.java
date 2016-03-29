@@ -24,24 +24,19 @@ class LocaleJpaRepository extends BaseJpaRepository<Locale, String> implements L
 
     @Override
     public List<Locale> loadAll() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Locale> q = cb.createQuery(Locale.class);
-        return entityManager.createQuery(q.select(q.from(Locale.class))).getResultList();
-    }
-
-    @Override
-    public Long count() {
-        return (Long) entityManager.createQuery("SELECT count(*) FROM Locale k").getSingleResult();
+        return getEntityManager().createQuery(q.select(q.from(Locale.class))).getResultList();
     }
 
     @Override
     public Locale getDefaultLocale() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Locale> query = criteriaBuilder.createQuery(Locale.class);
         Root<Locale> localeRoot = query.from(Locale.class);
         query.where(criteriaBuilder.equal(localeRoot.get("defaultLocale"), true));
         try {
-            return entityManager.createQuery(query.select(localeRoot)).getSingleResult();
+            return getEntityManager().createQuery(query.select(localeRoot)).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
@@ -73,7 +68,7 @@ class LocaleJpaRepository extends BaseJpaRepository<Locale, String> implements L
 
     @Override
     public void clear() {
-        entityManager.createQuery("DELETE FROM Locale k");
+        getEntityManager().createQuery("DELETE FROM Locale k");
     }
 
 }

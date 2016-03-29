@@ -7,12 +7,13 @@
  */
 package org.seedstack.i18n.rest.internal.io;
 
-import com.sun.jersey.core.header.ContentDisposition;
-import com.sun.jersey.multipart.BodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.ContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.I18nPermissions;
+import org.seedstack.i18n.rest.internal.infrastructure.csv.I18nCSVTemplateLoader;
 import org.seedstack.i18n.rest.internal.shared.BadRequestException;
 import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.io.Render;
@@ -24,11 +25,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +60,7 @@ public class IOResource {
     public static final String ATTACHMENT_FILENAME_I18N_CSV = "attachment; filename=i18n.csv";
     public static final String LOADED_KEYS_MESSAGE = "Loaded %d keys with their translations";
 
-    @Render("i8nTranslations")
+    @Render(I18nCSVTemplateLoader.I18N_CSV_TEMPLATE)
     private Renderer renderer;
 
     @Inject
@@ -89,7 +100,7 @@ public class IOResource {
 
     private boolean fileHasCSVExtension(BodyPart bodyPart) {
         ContentDisposition contentDisposition = bodyPart.getContentDisposition();
-        return contentDisposition != null && contentDisposition.getFileName().endsWith(".csv");
+        return contentDisposition != null && contentDisposition.getFileName() != null && contentDisposition.getFileName().endsWith(".csv");
     }
 
     /**
