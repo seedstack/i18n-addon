@@ -38,12 +38,12 @@ and the security.
 ## Persistence
 
 The i18n addon uses JPA to store its data. No `persistence.xml` file is provided, as it expects your
-application to be configured with [automatically generated persistence information](/addons/jpa/#without-persistence-xml).
+application to be configured with [automatically generated persistence information](/addons/jpa).
 You just need add the JPA unit (`seed-i18n-domain`) to the global list of JPA units and specify its datasource:
 
 ```ini
-[org.seedstack.seed]
-persistence.jpa.units = seed-i18n-domain, ...
+[org.seedstack]
+jpa.units = seed-i18n-domain, ...
 
 [org.seedstack.jpa.unit.seed-i18n-domain]
 datasource = my-datasource
