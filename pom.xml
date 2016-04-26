@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>2.4.0-SNAPSHOT</version>
+        <version>2.4.0</version>
     </parent>
 
     <groupId>org.seedstack.addons.i18n</groupId>
@@ -23,9 +23,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <poms.version>2.4.0-SNAPSHOT</poms.version>
-        <seed.version>2.3.0-SNAPSHOT</seed.version>
-        <business.version>2.3.0-SNAPSHOT</business.version>
+        <poms.version>2.4.0</poms.version>
+        <seed.version>2.3.0</seed.version>
+        <business.version>2.3.0</business.version>
         <io.version>2.1.1-SNAPSHOT</io.version>
         <w20-bridge.version>2.3.0-SNAPSHOT</w20-bridge.version>
         <jpa.version>2.1.3-SNAPSHOT</jpa.version>

@@ -1,5 +1,6 @@
-# Version 2.2.1 (?)
+# Version 2.2.1 (2016-04-26)
 
+* [chg] Updated for SeedStack 16.4
 * [chg] Requires Jersey 2
 
 # Version 2.2.0 (2016-01-21)
