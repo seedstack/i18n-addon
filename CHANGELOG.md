@@ -1,7 +1,8 @@
-# Version 2.2.1 (2016-04-26)
+# Version 2.2.1 (2016-04-28)
 
-* [chg] Updated for SeedStack 16.4
-* [chg] Requires Jersey 2
+* [new] Configuration property `org.seedstack.i18n.translation-fallback` enables translation fallback to default language (disabled by default).
+* [chg] Updated for SeedStack 16.4.
+* [brk] Requires Jersey 2.
 
 # Version 2.2.0 (2016-01-21)
 
