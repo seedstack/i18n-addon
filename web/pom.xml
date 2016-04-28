@@ -26,6 +26,16 @@
             <artifactId>i18n-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web-bootstrap-3</artifactId>
+            <version>${w20-bridge.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web-dataviz</artifactId>
+            <version>${w20-bridge.version}</version>
+        </dependency>
 
         <!-- TEST -->
         <dependency>
@@ -37,18 +47,6 @@
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web</artifactId>
-            <version>${w20-bridge.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.addons.w20</groupId>
-            <artifactId>w20-bridge-web-dataviz</artifactId>
-            <version>${w20-bridge.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.addons.w20</groupId>
-            <artifactId>w20-bridge-web-bootstrap-3</artifactId>
             <version>${w20-bridge.version}</version>
             <scope>test</scope>
         </dependency>
