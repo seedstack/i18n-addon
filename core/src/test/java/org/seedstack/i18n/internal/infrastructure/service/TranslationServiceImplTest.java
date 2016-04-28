@@ -9,7 +9,11 @@ package org.seedstack.i18n.internal.infrastructure.service;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import mockit.*;
+import mockit.Deencapsulation;
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.NonStrictExpectations;
+import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -31,6 +35,8 @@ public class TranslationServiceImplTest {
 
     public static final String FR_TRANSLATION = "quatre-vingt-dix";
     public static final String FR_BE_TRANSLATION = "Nonante";
+    public static final String EN_TRANSLATION = "ninety";
+    private static final String EN = "en";
     private static final String FR_BE = "fr-BE";
     private static final String FR = "fr";
     private static final String KEY = "key";
@@ -115,6 +121,23 @@ public class TranslationServiceImplTest {
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
         Assertions.assertThat(translationsForLocale).containsEntry(KEY1, FR_TRANSLATION);
+    }
+
+    @Test
+    public void testGetTranslationsWithFallBackToDefault() {
+        addKeys(addTranslation(KEY1, EN, EN_TRANSLATION));
+        Deencapsulation.setField(underTest, "translationFallback", true);
+
+        new Expectations() {
+            {
+                localeService.getDefaultLocale();
+                result = EN;
+            }
+        };
+
+        Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
+
+        Assertions.assertThat(translationsForLocale).containsEntry(KEY1, EN_TRANSLATION);
     }
 
     @Test

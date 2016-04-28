@@ -38,10 +38,17 @@ class TranslationServiceImpl implements TranslationService {
     private final LocaleService localeService;
 
     /**
+     * The translationFallback field is false by default. When true it enables a fallback to the default
+     * language when no translation is found after walking the locale hierarchy.
+     */
+    @Configuration(value = "org.seedstack.i18n.translation-fallback", defaultValue = "false")
+    private boolean translationFallback;
+
+    /**
      * The allowMissingTranslation field is true by default.
      * <ul>
-     *   <li>When true the missing translation won't appear in the key/translation map.</li>
-     *   <li>When false they will appear with the translation [key.name]</li>
+     * <li>When true the missing translation won't appear in the key/translation map.</li>
+     * <li>When false they will appear with the translation [key.name]</li>
      * </ul>
      */
     @Configuration(value = "org.seedstack.i18n.allow-missing-translation", defaultValue = "true")
@@ -65,6 +72,14 @@ class TranslationServiceImpl implements TranslationService {
                 return Optional.of(key.getTranslation(parentLocale).getValue());
             }
         }
+
+        if (translationFallback) {
+            String defaultLocale = localeService.getDefaultLocale();
+            if (key.isTranslated(defaultLocale)) {
+                return Optional.of(key.getTranslation(defaultLocale).getValue());
+            }
+        }
+
         return Optional.absent();
     }
 
