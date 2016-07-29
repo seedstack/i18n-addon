@@ -1,3 +1,7 @@
+# Version 2.2.2 (2016-07-29)
+
+* [chg] Frontend updated to [2.1.4](https://github.com/seedstack/w20-i18n-addon/releases/tag/v2.1.4)
+
 # Version 2.2.1 (2016-04-28)
 
 * [new] Configuration property `org.seedstack.i18n.translation-fallback` enables translation fallback to default language (disabled by default).
