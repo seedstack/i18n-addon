@@ -70,7 +70,7 @@ class TranslationLocaleAssemblerImpl implements TranslationLocaleAssembler{
 
     @Override
     public List<TranslationRepresentation> assemble(List<Key> keys, String locale) {
-        List<TranslationRepresentation> representations = new ArrayList<TranslationRepresentation>();
+        List<TranslationRepresentation> representations = new ArrayList<>();
         for (Key key : keys) {
             representations.add(assemble(key, locale));
         }

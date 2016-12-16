@@ -122,7 +122,7 @@ public class CSVImportServiceTest {
         public KeyBuilder with(String locale, String translation) {
             Map<String, String> translationsByLocale = this.CSVRepresentation.getValue();
             if (translationsByLocale == null) {
-                translationsByLocale = new HashMap<String, String>();
+                translationsByLocale = new HashMap<>();
             }
             translationsByLocale.put(locale, translation);
             this.CSVRepresentation.setValue(translationsByLocale);

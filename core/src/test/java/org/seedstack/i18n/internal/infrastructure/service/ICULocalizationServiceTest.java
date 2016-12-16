@@ -10,6 +10,8 @@ package org.seedstack.i18n.internal.infrastructure.service;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocalizationService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
@@ -38,6 +40,7 @@ public class ICULocalizationServiceTest {
         mockLocaleService();
         keyRepository = mock(KeyRepository.class);
         TranslationService translationService = new TranslationServiceImpl(keyRepository, localeService);
+        Whitebox.setInternalState(translationService, "i18nConfig", new I18nConfig());
         localizationService = new ICULocalizationService(localeService, translationService);
     }
 

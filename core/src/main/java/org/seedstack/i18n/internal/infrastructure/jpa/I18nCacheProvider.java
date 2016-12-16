@@ -12,8 +12,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.apache.commons.configuration.Configuration;
-import org.seedstack.seed.Application;
+import org.seedstack.i18n.I18nConfig;
+import org.seedstack.seed.Configuration;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -22,27 +22,18 @@ import java.util.Map;
  * @author pierre.thirouin@ext.mpsa.com
  */
 public class I18nCacheProvider implements Provider<LoadingCache<String, Map<String, String>>> {
-
-    private static final int DEFAULT_CACHE_SIZE = 8192;
-    private static final int DEFAULT_CACHE_CONCURRENCY = 32;
-
+    @Configuration
+    private I18nConfig.CacheConfig cacheConfig = new I18nConfig.CacheConfig();
     @Inject
-    private Application application;
-
-    @Inject
-    private CacheLoader<String, Map <String, String>> i18nCacheLoader;
-
-    I18nCacheProvider() {
-    }
+    private CacheLoader<String, Map<String, String>> i18nCacheLoader;
 
     @Singleton
     @Override
     public LoadingCache<String, Map<String, String>> get() {
-        Configuration configuration = application.getConfiguration();
-        int cacheSize = configuration.getInt("org.seedstack.i18n.cache.max-size", DEFAULT_CACHE_SIZE);
-        return CacheBuilder.newBuilder().maximumSize(cacheSize)
-                .concurrencyLevel(configuration.getInt("org.seedstack.i18n.cache.concurrency", DEFAULT_CACHE_CONCURRENCY))
-                .initialCapacity(configuration.getInt("org.seedstack.i18n.cache.initial-size", cacheSize / 4))
+        return CacheBuilder.newBuilder()
+                .maximumSize(cacheConfig.getMaxSize())
+                .concurrencyLevel(cacheConfig.getConcurrencyLevel())
+                .initialCapacity(cacheConfig.getInitialSize())
                 .build(i18nCacheLoader);
     }
 }

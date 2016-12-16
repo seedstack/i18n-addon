@@ -38,7 +38,7 @@ public class KeysQuery implements SelectQuery, CountQuery {
     private CriteriaQuery<Long> countQuery;
     private Root<Key> keyRoot;
     private CriteriaBuilder criteriaBuilder;
-    private List<Predicate> predicates = new ArrayList<Predicate>();
+    private List<Predicate> predicates = new ArrayList<>();
 
     public KeysQuery(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -71,7 +71,7 @@ public class KeysQuery implements SelectQuery, CountQuery {
 
     private void addSQLLikePredicateOnName(KeySearchCriteria criteria, List<Predicate> predicates) {
         if (StringUtils.isNotBlank(criteria.getName())) {
-            predicates.add(criteriaBuilder.like(keyRoot.<String>get(ENTITY_ID), "%" + criteria.getName() + "%"));
+            predicates.add(criteriaBuilder.like(keyRoot.get(ENTITY_ID), "%" + criteria.getName() + "%"));
         }
     }
 
@@ -100,7 +100,7 @@ public class KeysQuery implements SelectQuery, CountQuery {
         }
         Root<Key> fromKey = subQuery.from(Key.class);
 
-        subQuery.select(fromKey.<String>get(ENTITY_ID));
+        subQuery.select(fromKey.get(ENTITY_ID));
 
         Join join = fromKey.join(TRANSLATIONS, JoinType.LEFT);
 

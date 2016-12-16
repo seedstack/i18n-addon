@@ -11,9 +11,10 @@ import com.google.common.base.Joiner;
 import com.ibm.icu.util.LocaleMatcher;
 import com.ibm.icu.util.LocalePriorityList;
 import com.ibm.icu.util.ULocale;
+import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
-import org.seedstack.seed.Application;
 import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.Application;
 import org.seedstack.seed.transaction.Transactional;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
@@ -40,7 +41,6 @@ import java.util.Set;
  */
 @Singleton
 public class I18nConfigurationHandler implements FragmentConfigurationHandler {
-
     private static final String[] W20_BUILTIN_LOCALES = new String[]{
             "af", "af-ZA", "am", "am-ET", "ar", "ar-AE", "ar-BH", "ar-DZ", "ar-EG", "ar-IQ", "ar-JO", "ar-KW", "ar-LB", "ar-LY",
             "ar-MA", "ar-OM", "ar-QA", "ar-SA", "ar-SY", "ar-TN", "ar-YE", "arn", "arn-CL", "as", "as-IN", "az", "az-Cyrl",
@@ -71,11 +71,11 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
             "zh-TW", "zu", "zu-ZA"
     };
 
-    public static final String W20_CORE_FRAGMENT = "w20-core";
-    public static final String CULTURE_MODULE = "culture";
-    public static final String AVAILABLE_CULTURES = "available";
-    public static final String DEFAULT_CULTURE = "default";
-    public static final String EN_LANGUAGE_TAG = "en";
+    static final String W20_CORE_FRAGMENT = "w20-core";
+    static final String CULTURE_MODULE = "culture";
+    static final String AVAILABLE_CULTURES = "available";
+    static final String DEFAULT_CULTURE = "default";
+    private static final String EN_LANGUAGE_TAG = "en";
 
     private final LocaleMatcher localeMatcher;
     private final Set<String> supportedLocales;
@@ -83,9 +83,11 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
 
     @Inject
     public I18nConfigurationHandler(Application application, LocaleService localeService) {
+        I18nConfig i18nConfig = application.getConfiguration().get(I18nConfig.class);
+        List<String> additionalLocales = i18nConfig.getAdditionalLocales();
         supportedLocales = sortLanguages(
                 W20_BUILTIN_LOCALES,
-                application.getConfiguration().getStringArray("org.seedstack.i18n.additional-locales.codes")
+                additionalLocales.toArray(new String[additionalLocales.size()])
         );
         localeMatcher = new LocaleMatcher(LocalePriorityList.add(Joiner.on(',').join(supportedLocales)).build());
         this.localeService = localeService;
@@ -116,7 +118,7 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
         if (W20_CORE_FRAGMENT.equals(fragmentName) && CULTURE_MODULE.equals(moduleName)) {
             // "available" : ["en-US", "fr-FR"]
             if (!sourceConfiguration.containsKey(AVAILABLE_CULTURES)) {
-                Set<String> closestAvailableLocales = new HashSet<String>();
+                Set<String> closestAvailableLocales = new HashSet<>();
 
                 for (String availableLocale : localeService.getAvailableLocales()) {
                     closestAvailableLocales.add(getClosestW20Locale(availableLocale));
@@ -147,7 +149,7 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
     }
 
     private Set<String> sortLanguages(String[]... arrays) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         for (String[] array : arrays) {
             if (array != null) {
@@ -159,6 +161,6 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
         Collections.sort(result);
         Collections.reverse(result);
 
-        return new HashSet<String>(result);
+        return new HashSet<>(result);
     }
 }

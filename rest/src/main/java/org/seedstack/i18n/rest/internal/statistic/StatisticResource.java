@@ -49,7 +49,7 @@ public class StatisticResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getStatistics(@QueryParam("selectLang") String locale) {
-		List<StatisticRepresentation> listResult = new ArrayList<StatisticRepresentation>();
+		List<StatisticRepresentation> listResult = new ArrayList<>();
 		// select "All"
 		if (StringUtils.isBlank(locale)) {
 			List<LocaleRepresentation> availableLocales = localeFinder

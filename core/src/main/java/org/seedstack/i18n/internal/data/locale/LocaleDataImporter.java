@@ -44,7 +44,7 @@ public class LocaleDataImporter implements DataImporter<LocaleDTO> {
         this.localeRepository = localeRepository;
         this.localeFactory = localeFactory;
         this.fluentAssembler = fluentAssembler;
-        this.staging = new ArrayList<LocaleDTO>();
+        this.staging = new ArrayList<>();
     }
 
     @Override

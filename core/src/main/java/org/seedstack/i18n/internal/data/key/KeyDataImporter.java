@@ -33,7 +33,7 @@ public class KeyDataImporter implements DataImporter<KeyDTO> {
     @Inject
     private KeyRepository keyRepository;
 
-    private Set<KeyDTO> staging = new HashSet<KeyDTO>();
+    private Set<KeyDTO> staging = new HashSet<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KeyDataImporter.class);
 

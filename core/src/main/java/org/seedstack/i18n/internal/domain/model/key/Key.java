@@ -39,7 +39,7 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "SEED_I18N_KEY_TRANS")
     @MapKey
-    private Map<TranslationId, Translation> translations = new HashMap<TranslationId, Translation>();
+    private Map<TranslationId, Translation> translations = new HashMap<>();
 
     protected Key() {
     }
@@ -187,7 +187,7 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @return the translations
      */
     public Map<String, Translation> getTranslations() {
-        Map<String, Translation> map = new HashMap<String, Translation>();
+        Map<String, Translation> map = new HashMap<>();
         for (Map.Entry<TranslationId, Translation> translationEntry : translations.entrySet()) {
             map.put(translationEntry.getKey().getLocale(), translationEntry.getValue());
         }

@@ -45,7 +45,7 @@ class LocaleJpaFinder implements LocaleFinder {
     @Override
     public List<LocaleRepresentation> findAvailableLocales() {
         List<Locale> locales = localeRepository.loadAll();
-        List<LocaleRepresentation> localeRepresentations = new ArrayList<LocaleRepresentation>();
+        List<LocaleRepresentation> localeRepresentations = new ArrayList<>();
         for (Locale locale : locales) {
             localeRepresentations.add(assembler.assembleDtoFromAggregate(locale));
         }

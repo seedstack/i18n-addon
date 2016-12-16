@@ -7,7 +7,6 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
-import com.google.common.base.Optional;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.text.NumberFormat;
@@ -25,6 +24,7 @@ import org.seedstack.seed.transaction.Transactional;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Localization service implementation based on ICU.

@@ -48,7 +48,7 @@ class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, CSVRepresentati
 
         ICsvMapReader mapReader = null;
         InputStreamReader inputStreamReader = null;
-        List<CSVRepresentation> CSVRepresentations = new ArrayList<CSVRepresentation>();
+        List<CSVRepresentation> CSVRepresentations = new ArrayList<>();
 
         try {
             inputStreamReader = new InputStreamReader(inputStream, template.getCharsetName());
@@ -73,7 +73,7 @@ class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, CSVRepresentati
     }
 
     private List<CSVRepresentation> parseLines(ICsvMapReader mapReader, String[] headers) throws IOException {
-        List<CSVRepresentation> CSVRepresentations = new ArrayList<CSVRepresentation>();
+        List<CSVRepresentation> CSVRepresentations = new ArrayList<>();
         final CellProcessor[] processors = getCellProcessorPerColumn(headers);
 
         Map<String, Object> beanMap;
@@ -108,7 +108,7 @@ class CSVParser extends AbstractTemplateParser<SuperCsvTemplate, CSVRepresentati
     }
 
     private Map<String, String> parseTranslations(Map<String, Object> beanMap) {
-        Map<String, String> translations = new HashMap<String, String>(beanMap.size());
+        Map<String, String> translations = new HashMap<>(beanMap.size());
         for (Map.Entry<String, Object> translation : beanMap.entrySet()) {
             translations.put(translation.getKey(), (String) translation.getValue());
         }

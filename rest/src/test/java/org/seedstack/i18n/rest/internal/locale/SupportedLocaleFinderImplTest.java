@@ -69,7 +69,7 @@ public class SupportedLocaleFinderImplTest {
 
             @Mock
             java.util.Locale[] getAvailableLocales() {
-                List<java.util.Locale> locales = new ArrayList<java.util.Locale>();
+                List<java.util.Locale> locales = new ArrayList<>();
                 for (String locale : localeCodes) {
                     locales.add(new java.util.Locale(locale));
                 }

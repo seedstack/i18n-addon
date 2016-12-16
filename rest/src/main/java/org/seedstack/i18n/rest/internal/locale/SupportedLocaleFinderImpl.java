@@ -37,7 +37,7 @@ class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
 
     @Override
     public List<LocaleRepresentation> findSupportedLocales() {
-        List<LocaleRepresentation> localeRepresentations = new ArrayList<LocaleRepresentation>();
+        List<LocaleRepresentation> localeRepresentations = new ArrayList<>();
         for (java.util.Locale jLocale : java.util.Locale.getAvailableLocales()) {
             if (!jLocale.toString().equals("")) {
                 localeRepresentations.add(convertToLocaleRepresentation(jLocale));
@@ -54,7 +54,7 @@ class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
     }
 
     private List<LocaleRepresentation> findAdditionalLocale() {
-        List<LocaleRepresentation> localeRepresentations = new ArrayList<LocaleRepresentation>();
+        List<LocaleRepresentation> localeRepresentations = new ArrayList<>();
         if (additionalLocaleCodes != null) {
             for (String additionalLocaleCode : additionalLocaleCodes) {
                 Locale locale = localeFactory.createFromCode(additionalLocaleCode);

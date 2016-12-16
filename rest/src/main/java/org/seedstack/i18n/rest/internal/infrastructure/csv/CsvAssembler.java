@@ -26,7 +26,7 @@ class CSVAssembler extends BaseAssembler<Key, CSVRepresentation> {
     protected void doAssembleDtoFromAggregate(CSVRepresentation targetDto, Key sourceEntity) {
         targetDto.setKey(sourceEntity.getEntityId());
 
-        Map<String, String> translations = new HashMap<String, String>();
+        Map<String, String> translations = new HashMap<>();
         for (Map.Entry<String, Translation> entry : sourceEntity.getTranslations().entrySet()) {
             translations.put(entry.getKey(), entry.getValue().getValue());
         }

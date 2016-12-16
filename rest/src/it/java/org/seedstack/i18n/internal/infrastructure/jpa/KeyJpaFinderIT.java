@@ -73,7 +73,7 @@ public class KeyJpaFinderIT {
         // Clean the database
         keyRepository.deleteAll();
 
-        List<Key> keys = new ArrayList<Key>();
+        List<Key> keys = new ArrayList<>();
         keys.add(createKey(KEY_DEFAULT, false, false, false));
 
         Key outdatedKey = createKey(KEY_OUTDATED, false, false, false);

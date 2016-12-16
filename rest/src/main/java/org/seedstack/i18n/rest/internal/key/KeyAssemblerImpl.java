@@ -29,7 +29,7 @@ class KeyAssemblerImpl implements KeyAssembler {
 
     @Override
     public List<KeyRepresentation> assemble(List<Key> keys) {
-        List<KeyRepresentation> keyRepresentations = new ArrayList<KeyRepresentation>();
+        List<KeyRepresentation> keyRepresentations = new ArrayList<>();
         for (Key key : keys) {
             keyRepresentations.add(assemble(key));
         }

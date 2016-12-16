@@ -132,7 +132,7 @@ public class AvailableLocalesResource {
         localeRepository.clear();
         if (representations != null && !representations.isEmpty()) {
             // Gets the new list of available locales
-            List<Locale> locales = new ArrayList<Locale>();
+            List<Locale> locales = new ArrayList<>();
             String defaultLocale = localeService.getDefaultLocale();
             for (LocaleRepresentation representation : representations) {
                 boolean isDefault = StringUtils.isNotBlank(defaultLocale) && defaultLocale.equals(representation.getCode());

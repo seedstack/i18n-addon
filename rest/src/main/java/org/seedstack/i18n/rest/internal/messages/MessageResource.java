@@ -57,7 +57,7 @@ public class MessageResource {
         if (StringUtils.isNotBlank(localeService.getDefaultLocale())) {
             return messageService.getTranslationsForLocale(locale);
         } else {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
     }
 

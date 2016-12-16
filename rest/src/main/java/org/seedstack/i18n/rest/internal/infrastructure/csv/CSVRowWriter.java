@@ -30,7 +30,7 @@ class CSVRowWriter {
     private boolean shouldPrintHeader;
     private final SuperCsvTemplate template;
     private final String[] columnNames;
-    private final Map<String, String> columnValues = new HashMap<String, String>();
+    private final Map<String, String> columnValues = new HashMap<>();
     private final CellProcessor[] cellProcessors;
 
     public CSVRowWriter(SuperCsvTemplate template) {

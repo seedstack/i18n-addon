@@ -8,34 +8,30 @@
 package org.seedstack.i18n.internal.infrastructure.jpa;
 
 import com.google.common.cache.CacheLoader;
-import org.seedstack.i18n.LocaleService;
 import org.apache.commons.lang.StringUtils;
+import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.service.TranslationService;
-import org.seedstack.seed.core.utils.SeedCheckUtils;
 
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author pierre.thirouin@ext.mpsa.com
- */
-public class I18nCacheLoader extends CacheLoader<String, Map<String, String>> {
+import static com.google.common.base.Preconditions.checkNotNull;
 
+public class I18nCacheLoader extends CacheLoader<String, Map<String, String>> {
     @Inject
     private TranslationService messageService;
-
     @Inject
     private LocaleService localeService;
 
     @Override
     public Map<String, String> load(String key) {
-        SeedCheckUtils.checkIfNotNull(key);
+        checkNotNull(key, "key must not be null");
         // If the default locale is not available, then the application is not configured
         if (StringUtils.isNotBlank(localeService.getDefaultLocale())) {
             return messageService.getTranslationsForLocale(key);
         } else {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
     }
 }

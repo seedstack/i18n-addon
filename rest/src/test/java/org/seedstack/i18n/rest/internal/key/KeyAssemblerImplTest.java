@@ -97,7 +97,7 @@ public class KeyAssemblerImplTest {
 
     @Test
     public void testAssembleEmptyList() throws Exception {
-        List<KeyRepresentation> keyRepresentations = underTest.assemble(new ArrayList<Key>());
+        List<KeyRepresentation> keyRepresentations = underTest.assemble(new ArrayList<>());
         Assertions.assertThat(keyRepresentations).isNotNull();
         Assertions.assertThat(keyRepresentations).hasSize(0);
     }

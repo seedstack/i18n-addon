@@ -53,7 +53,7 @@ class KeyJpaFinder extends BaseRangeFinder<KeyRepresentation, Map<String, Object
     public PaginatedView<KeyRepresentation> findKeysWithTheirDefaultTranslation(Page page, KeySearchCriteria criteria) {
         Range range = Range.rangeFromPageInfo(page.getIndex(), page.getCapacity());
         Result<KeyRepresentation> keyRepresentationResult = find(range, criteria != null ? criteria.convertToMap() : null);
-        return new PaginatedView<KeyRepresentation>(keyRepresentationResult, page);
+        return new PaginatedView<>(keyRepresentationResult, page);
     }
 
     @Override

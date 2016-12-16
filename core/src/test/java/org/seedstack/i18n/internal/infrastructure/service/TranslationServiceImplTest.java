@@ -7,7 +7,6 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import mockit.Deencapsulation;
 import mockit.Expectations;
@@ -19,11 +18,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.Assert.fail;
 
@@ -32,10 +33,9 @@ import static org.junit.Assert.fail;
  */
 @RunWith(JMockit.class)
 public class TranslationServiceImplTest {
-
-    public static final String FR_TRANSLATION = "quatre-vingt-dix";
-    public static final String FR_BE_TRANSLATION = "Nonante";
-    public static final String EN_TRANSLATION = "ninety";
+    private static final String FR_TRANSLATION = "quatre-vingt-dix";
+    private static final String FR_BE_TRANSLATION = "Nonante";
+    private static final String EN_TRANSLATION = "ninety";
     private static final String EN = "en";
     private static final String FR_BE = "fr-BE";
     private static final String FR = "fr";
@@ -87,6 +87,7 @@ public class TranslationServiceImplTest {
 
     @Test
     public void testGetTranslationWithMissingKey() {
+        Deencapsulation.setField(underTest, "i18nConfig", new I18nConfig());
         Optional<String> localizedMessage = underTest.getTranslationWithFallback(FR_BE, KEY);
 
         Assertions.assertThat(localizedMessage.isPresent()).isFalse();
@@ -126,7 +127,7 @@ public class TranslationServiceImplTest {
     @Test
     public void testGetTranslationsWithFallBackToDefault() {
         addKeys(addTranslation(KEY1, EN, EN_TRANSLATION));
-        Deencapsulation.setField(underTest, "translationFallback", true);
+        Deencapsulation.setField(underTest, "i18nConfig", new I18nConfig().setTranslationFallback(true));
 
         new Expectations() {
             {
@@ -146,7 +147,7 @@ public class TranslationServiceImplTest {
                 addTranslation(KEY1, FR_BE, FR_BE_TRANSLATION),
                 new Key(KEY2)
         );
-        Deencapsulation.setField(underTest, "allowMissingTranslation", true);
+        Deencapsulation.setField(underTest, "i18nConfig", new I18nConfig().setAllowMissingTranslations(true));
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 
@@ -160,7 +161,7 @@ public class TranslationServiceImplTest {
                 addTranslation(KEY1, FR_BE, FR_BE_TRANSLATION),
                 new Key(KEY2)
         );
-        Deencapsulation.setField(underTest, "allowMissingTranslation", false);
+        Deencapsulation.setField(underTest, "i18nConfig", new I18nConfig().setAllowMissingTranslations(false));
 
         Map<String, String> translationsForLocale = underTest.getTranslationsForLocale(FR_BE);
 

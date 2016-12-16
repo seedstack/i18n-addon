@@ -47,7 +47,7 @@ class ICULocaleService implements LocaleService {
 
     @Override
     public Set<String> getAvailableLocales() {
-        Set<String> result = new HashSet<String>();
+        Set<String> result = new HashSet<>();
         for (Locale locale : localeRepository.loadAll()) {
             result.add(locale.getEntityId());
         }
@@ -56,7 +56,7 @@ class ICULocaleService implements LocaleService {
 
     @Override
     public Set<String> getSupportedLocales() {
-        Set<String> supportedLocales = new HashSet<String>();
+        Set<String> supportedLocales = new HashSet<>();
         java.util.Locale[] locales = java.util.Locale.getAvailableLocales();
         for (java.util.Locale locale : locales) {
             supportedLocales.add(localeFactory.createFromLocale(locale).getEntityId());

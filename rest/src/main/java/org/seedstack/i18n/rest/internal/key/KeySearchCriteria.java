@@ -98,7 +98,7 @@ public class KeySearchCriteria {
     }
 
     public Map<String, Object> convertToMap() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put(IS_APPROX, isApprox);
         map.put(IS_MISSING, isMissing);
         map.put(IS_OUTDATED, isOutdated);

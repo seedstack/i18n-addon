@@ -22,7 +22,7 @@ public class KeyDTO {
     private String name;
     private String comment;
     private boolean outdated;
-    private List<TranslationDTO> translations = new ArrayList<TranslationDTO>();
+    private List<TranslationDTO> translations = new ArrayList<>();
 
     /**
      * Adds a translation to the keyDTO

@@ -133,7 +133,7 @@ public class IOResource {
     }
 
     private Map<String, Object> printHeader(boolean shouldPrintHeader) {
-        final Map<String, Object> parameters = new HashMap<String, Object>();
+        final Map<String, Object> parameters = new HashMap<>();
         parameters.put("printHeader", shouldPrintHeader);
         return parameters;
     }

@@ -156,7 +156,7 @@ public class KeyRepositoryIT {
     @Transactional
     @Test
     public void testDelete() {
-        List<Key> keysToDelete = new ArrayList<Key>();
+        List<Key> keysToDelete = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Key key = createKey(UUID.randomUUID().toString());
             keysToDelete.add(key);

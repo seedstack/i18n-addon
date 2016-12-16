@@ -51,7 +51,7 @@ public class I18nCSVRendererTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRenderWithoutPrintHeaderParameter() throws Exception {
-        underTest.render(new ByteArrayOutputStream(), key, "application/csv", new HashMap<String, Object>());
+        underTest.render(new ByteArrayOutputStream(), key, "application/csv", new HashMap<>());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class I18nCSVRendererTest {
     }
 
     public Map<String, Object> printHeader(boolean shouldPrintHeader) {
-        Map<String, Object> printHeader = new HashMap<String, Object>();
+        Map<String, Object> printHeader = new HashMap<>();
         printHeader.put("printHeader", shouldPrintHeader);
         return printHeader;
     }

@@ -62,7 +62,7 @@ class TranslationJpaFinder extends BaseRangeFinder<TranslationRepresentation, Ma
     public PaginatedView<TranslationRepresentation> findAllTranslations(Page page, KeySearchCriteria criteria) {
         Range range = Range.rangeFromPageInfo(page.getIndex(), page.getCapacity());
         Result<TranslationRepresentation> translationRepresentationResult = find(range, criteria.convertToMap());
-        return new PaginatedView<TranslationRepresentation>(translationRepresentationResult, page);
+        return new PaginatedView<>(translationRepresentationResult, page);
     }
 
     @Override

@@ -7,10 +7,10 @@
  */
 package org.seedstack.i18n.internal.domain.service;
 
-import com.google.common.base.Optional;
 import org.seedstack.business.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This service provide access to the translations stored by the application.

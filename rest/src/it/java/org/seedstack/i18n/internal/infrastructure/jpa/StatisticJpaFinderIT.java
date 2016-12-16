@@ -33,7 +33,7 @@ public class StatisticJpaFinderIT {
 	public void testFindStatisticRepresentation() {
 		LocaleRepresentation localeRepresentation = new LocaleRepresentation();
 		localeRepresentation.setCode("fr");
-		List<StatisticRepresentation> listResult = new ArrayList<StatisticRepresentation>();
+		List<StatisticRepresentation> listResult = new ArrayList<>();
 		statisticFinder.findStatisticRepresentation(localeRepresentation, listResult);
 		assertThat(listResult).hasSize(1);
 	}

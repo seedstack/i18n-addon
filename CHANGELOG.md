@@ -1,3 +1,7 @@
+# Version 3.0.0 (2016-12-19)
+
+* [chg] Update to SeedStack 16.11 new configuration system.
+
 # Version 2.2.2 (2016-07-29)
 
 * [chg] Frontend updated to [2.1.4](https://github.com/seedstack/w20-i18n-addon/releases/tag/v2.1.4)

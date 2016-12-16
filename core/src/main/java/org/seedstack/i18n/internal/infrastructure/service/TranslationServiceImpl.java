@@ -7,9 +7,9 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
-import com.google.common.base.Optional;
 import com.ibm.icu.util.ULocale;
 import org.apache.commons.lang.StringUtils;
+import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -31,28 +32,11 @@ import java.util.Map;
 @JpaUnit("seed-i18n-domain")
 @Transactional
 class TranslationServiceImpl implements TranslationService {
-
-    public static final String IS_EMPTY_ERROR_MESSAGE = "The %s can't be null or empty";
-
+    private static final String IS_EMPTY_ERROR_MESSAGE = "The %s can't be null or empty";
     private final KeyRepository keyRepository;
     private final LocaleService localeService;
-
-    /**
-     * The translationFallback field is false by default. When true it enables a fallback to the default
-     * language when no translation is found after walking the locale hierarchy.
-     */
-    @Configuration(value = "org.seedstack.i18n.translation-fallback", defaultValue = "false")
-    private boolean translationFallback;
-
-    /**
-     * The allowMissingTranslation field is true by default.
-     * <ul>
-     * <li>When true the missing translation won't appear in the key/translation map.</li>
-     * <li>When false they will appear with the translation [key.name]</li>
-     * </ul>
-     */
-    @Configuration(value = "org.seedstack.i18n.allow-missing-translation", defaultValue = "true")
-    private boolean allowMissingTranslation;
+    @Configuration
+    private I18nConfig i18nConfig = new I18nConfig();
 
     @Inject
     public TranslationServiceImpl(KeyRepository keyRepository, LocaleService localeService) {
@@ -63,7 +47,7 @@ class TranslationServiceImpl implements TranslationService {
     @Override
     public Optional<String> getTranslationWithFallback(String locale, String keyName) {
         Key key = keyRepository.load(keyName);
-        return key == null ? Optional.<String>absent() : getTranslationWithFallback(locale, key);
+        return key == null ? Optional.empty() : getTranslationWithFallback(locale, key);
     }
 
     private Optional<String> getTranslationWithFallback(String locale, Key key) {
@@ -73,18 +57,18 @@ class TranslationServiceImpl implements TranslationService {
             }
         }
 
-        if (translationFallback) {
+        if (i18nConfig.isTranslationFallback()) {
             String defaultLocale = localeService.getDefaultLocale();
             if (key.isTranslated(defaultLocale)) {
                 return Optional.of(key.getTranslation(defaultLocale).getValue());
             }
         }
 
-        return Optional.absent();
+        return Optional.empty();
     }
 
     private List<String> getParentLocalesFor(ULocale locale) {
-        List<String> locales = new ArrayList<String>();
+        List<String> locales = new ArrayList<>();
         ULocale current = locale;
         while (current != null && StringUtils.isNotBlank(current.toString())) {
             locales.add(current.toLanguageTag());
@@ -95,11 +79,11 @@ class TranslationServiceImpl implements TranslationService {
 
     @Override
     public Map<String, String> getTranslationsForLocale(String locale) {
-        Map<String, String> translations = new HashMap<String, String>();
+        Map<String, String> translations = new HashMap<>();
         for (Key key : keyRepository.loadAll()) {
             Optional<String> translation = getTranslationWithFallback(locale, key);
-            if (translation.isPresent() || !allowMissingTranslation) {
-                translations.put(key.getEntityId(), translation.or("[" + key.getEntityId() + "]"));
+            if (translation.isPresent() || !i18nConfig.isAllowMissingTranslations()) {
+                translations.put(key.getEntityId(), translation.orElse("[" + key.getEntityId() + "]"));
             }
         }
         return translations;
