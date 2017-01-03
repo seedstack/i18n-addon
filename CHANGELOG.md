@@ -1,6 +1,6 @@
 # Version 3.0.0 (2016-12-19)
 
-* [chg] Update to SeedStack 16.11 new configuration system.
+* [chg] Update to new configuration system.
 
 # Version 2.2.2 (2016-07-29)
 
