@@ -1,13 +1,8 @@
 ---
-title: "Basics"
-name: "Internationalization (i18n)"
+title: "Internationalization (i18n)"
 repo: "https://github.com/seedstack/i18n-addon"
-date: 2016-01-21
 author: Pierre THIROUIN
 description: "Provides backend services and a Web UI to manage application locales and translations."
-backend: true
-frontend: "responsive"
-weight: -1
 tags:
     - "i18n"
     - "locale"
