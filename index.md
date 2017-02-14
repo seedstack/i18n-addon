@@ -38,7 +38,7 @@ and the security.
 ## Persistence
 
 The i18n addon uses JPA to store its data. No `persistence.xml` file is provided, as it expects your
-application to be configured with [automatically generated persistence information](/addons/jpa).
+application to be configured with [automatically generated persistence information]({{< ref "addons/jpa/index.md" >}}).
 You just need add the JPA unit (`seed-i18n-domain`) to the global list of JPA units and specify its datasource:
 
 ```ini
@@ -117,8 +117,8 @@ This encoding is not used by default in Microsoft Excel.
 ## All data
 
 In order to backup/restore all data with their metadata (e.g. default locale or outdated indicator) the addon provides
-[shell](/docs/seed/manual/operations/#shell) commands. To use it, enable the Shell support. Then, use the `core:export` or `core:import`
-commands (cf. [Core data documentation](/docs/seed/manual/more/#data-import-export)).
+[shell]({{< ref "docs/seed/manual/operations.md#shell" >}}) commands. To use it, enable the Shell support. Then, use the `core:export` or `core:import`
+commands (cf. [Core data documentation]({{< ref "docs/seed/manual/more.md#data-import-export" >}}).
 
 # Java API usage
 
