@@ -100,20 +100,12 @@ initial-size=2048
 
 # Backup/Restore
 
-## CSV
-
 The "Manage Keys" interface provides CSV import/export functionality.
 
 {{% callout info %}}
 The exported CSV file is in UTF-8 in order to support all the possible languages.
 This encoding is not used by default in Microsoft Excel.
 {{% /callout %}}
-
-## All data
-
-In order to backup/restore all data with their metadata (e.g. default locale or outdated indicator) the addon provides
-[shell]({{< ref "docs/seed/manual/operations.md#shell" >}}) commands. To use it, enable the Shell support. Then, use the `core:export` or `core:import`
-commands (cf. [Core data documentation]({{< ref "docs/seed/manual/more.md#data-import-export" >}}).
 
 # Java API usage
 
