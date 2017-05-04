@@ -10,7 +10,7 @@ menu:
         weight: 10
 ---
 
-The i18n addon provides backend services and a Web UI to manage your application's locales and translations.
+The i18n addon provides backend services and a Web UI to manage your application's locales and translations.<!--more-->
 
 # Dependencies
 
