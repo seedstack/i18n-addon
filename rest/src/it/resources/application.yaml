@@ -38,9 +38,7 @@ security:
   roles:
     seed-i18n.reader: SEED.DEVELOPER
     seed-i18n.translator: SEED.TRANSLATOR
-
-web:
-  security:
+  web:
     urls:
       -
         pattern: /**
