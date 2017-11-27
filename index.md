@@ -1,18 +1,17 @@
 ---
-title: "Internationalization (i18n)"
+title: "I18n"
+addon: "I18n"
 repo: "https://github.com/seedstack/i18n-addon"
 author: Pierre THIROUIN
 description: "Provides backend services and a Web UI to manage application locales and translations."
 zones:
     - Addons
-menu:
-    InternationalizationAddon:
-        weight: 10
+noMenu: true    
 ---
 
 The i18n addon provides backend services and a Web UI to manage your application's locales and translations.<!--more-->
 
-# Dependencies
+## Dependencies
 
 If you only need to internationalize at server-side, add the following dependency: 
 
@@ -26,7 +25,7 @@ If you also need the W20 UI, use the following dependency instead:
 
 {{< dependency g="org.seedstack.addons.i18n" a="i18n-web" >}}
 
-# Persistence
+## Persistence
 
 The i18n add-on uses JPA to store its data in a relational database. You need to configure its JPA unit named `seed-i18n-domain`.
 See the ({{< ref "addons/jpa/index.md" >}}) for details about how to configure JPA units. An example could be:
@@ -43,7 +42,7 @@ jpa:
       datasource: myDataSource
 ```
 
-# Security
+## Security
 
 All the REST APIs are secured with permissions. These permissions are bound to two default roles:
 
@@ -83,7 +82,7 @@ seed:i18n:translation:delete
 ```
 {{% /callout %}}
 
-# Cache (Optional)
+## Cache (Optional)
 
 The add-on uses cache to improve i18n performances. By default, this cache does not need configuration,
 but it is possible to change the configuration as follow:
@@ -96,14 +95,14 @@ i18n:
     concurrencyLevel: 32
 ```
 
-# Backup/Restore
+## Backup/Restore
 
 The "Manage Keys" interface provides CSV import/export functionality. The exported CSV file is in UTF-8 in order to support 
 all the possible languages.  
 
-# Usage
+## Usage
 
-## Locales
+### Locales
 
 The i18n add-on stores application available locales and default locale. Available locales are the locales in which
 the application is translated, i.e. available to users. The default locale is the "native language" of the application.
@@ -118,7 +117,7 @@ public class SomeClass {
 }
 ```
 
-## Localization
+### Localization
 
 Localization is provided by the {{< java "org.seedstack.i18n.LocalizationService" >}} which allows to localize date, number, 
 string and currency.
