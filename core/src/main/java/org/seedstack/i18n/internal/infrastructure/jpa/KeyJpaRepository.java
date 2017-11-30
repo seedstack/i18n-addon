@@ -55,26 +55,26 @@ public class KeyJpaRepository extends BaseJpaRepository<Key, String> implements 
 
     @Override
     public void delete(String id) {
-        super.delete(id);
+        super.remove(id);
         invalidCache();
     }
 
     @Override
     public void delete(Key aggregate) {
-        super.delete(aggregate);
+        super.remove(aggregate);
         invalidCache();
     }
 
     @Override
     public void persist(Key aggregate) {
-        super.persist(aggregate);
+        super.add(aggregate);
         invalidCache();
     }
 
     @Override
     public Key save(Key aggregate) {
         invalidCache();
-        return super.save(aggregate);
+        return super.update(aggregate);
     }
 
     private void invalidCache() {

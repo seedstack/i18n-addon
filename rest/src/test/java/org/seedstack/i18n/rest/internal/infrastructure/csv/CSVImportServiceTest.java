@@ -8,6 +8,10 @@
 package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
 import com.google.common.collect.Lists;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
@@ -16,16 +20,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seedstack.business.assembler.FluentAssembler;
-import org.seedstack.business.assembler.dsl.MergeAggregateWithRepositoryThenFactoryProvider;
+import org.seedstack.business.assembler.dsl.MergeFromRepositoryOrFactory;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 import org.seedstack.io.Parser;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
@@ -42,7 +41,7 @@ public class CSVImportServiceTest {
     @Mocked
     private FluentAssembler fluentAssembler;
     @Mocked
-    private MergeAggregateWithRepositoryThenFactoryProvider mergeAggregate;
+    private MergeFromRepositoryOrFactory mergeAggregate;
     private InputStream inputStream;
 
     @Before

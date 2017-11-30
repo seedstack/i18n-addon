@@ -5,19 +5,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.locale;
 
-import mockit.*;
+import java.util.ArrayList;
+import java.util.List;
+import mockit.Deencapsulation;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mock;
+import mockit.MockUp;
+import mockit.Mocked;
+import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.business.assembler.LegacyAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
@@ -35,7 +42,7 @@ public class SupportedLocaleFinderImplTest {
     @Injectable
     private LocaleFactory localeFactory;
     @Injectable
-    private LocaleAssembler localeAssembler;
+    private LegacyAssembler<Locale, LocaleRepresentation> localeAssembler;
     @Mocked
     private Locale enLocale;
     @Mocked
@@ -98,7 +105,8 @@ public class SupportedLocaleFinderImplTest {
         mockAssembler(frJLocale, frLocale, frLocaleRepresentation);
     }
 
-    public void mockAssembler(final java.util.Locale jLocale, final Locale locale, final LocaleRepresentation localeRepresentation) {
+    public void mockAssembler(final java.util.Locale jLocale, final Locale locale,
+            final LocaleRepresentation localeRepresentation) {
         new Expectations() {
             {
                 localeFactory.createFromLocale(jLocale);
@@ -141,7 +149,8 @@ public class SupportedLocaleFinderImplTest {
         Assertions.assertThat(underTest.findSupportedLocales()).hasSize(2);
     }
 
-    public void mockAssemblerForAdditionalLocale(final String localeCode, final Locale locale, final LocaleRepresentation localeRepresentation) {
+    public void mockAssemblerForAdditionalLocale(final String localeCode, final Locale locale,
+            final LocaleRepresentation localeRepresentation) {
         new Expectations() {
             {
                 localeFactory.createFromCode(localeCode);

@@ -56,7 +56,7 @@ public class LocaleFactoryTest {
     public void testCreateFromLocale() {
         java.util.Locale japLocale = new java.util.Locale("ja", "JP", "JP");
         Locale locale = localeFactory.createFromLocale(japLocale);
-        Assertions.assertThat(locale.getEntityId()).isEqualTo("ja-JP-JP-#u-ca-japanese");
+        Assertions.assertThat(locale.getId()).isEqualTo("ja-JP-JP-#u-ca-japanese");
         Assertions.assertThat(locale.getLanguage()).isEqualTo("日本語 (日本,JP)");
         Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("Japanese (Japan,JP)");
     }
@@ -68,7 +68,7 @@ public class LocaleFactoryTest {
     }
 
     private void assertLocale(Locale locale, String code, String language, String englishLanguage) {
-        Assertions.assertThat(locale.getEntityId()).isEqualTo(code);
+        Assertions.assertThat(locale.getId()).isEqualTo(code);
         Assertions.assertThat(locale.getLanguage()).isEqualTo(language);
         Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo(englishLanguage);
     }

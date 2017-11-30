@@ -47,7 +47,7 @@ class StatisticJpaFinder implements StatisticFinder {
 			int translatedCount = 0;
 			for (Key key : keys) {
 				Translation translation = key.getTranslation(selectLocale
-						.getEntityId());
+						.getId());
 				if (translation != null
 						&& StringUtils.isNotBlank(translation.getValue())) {
 					translatedCount++;

@@ -111,8 +111,8 @@ public class KeysResource {
         addDefaultTranslation(keyRepresentation, key);
         keyRepository.persist(key);
 
-        return Response.created(new URI(uriInfo.getRequestUri() + "/" + key.getEntityId()))
-                .entity(keyFinder.findKeyWithName(key.getEntityId())).build();
+        return Response.created(new URI(uriInfo.getRequestUri() + "/" + key.getId()))
+                .entity(keyFinder.findKeyWithName(key.getId())).build();
     }
 
     private void addDefaultTranslation(KeyRepresentation keyRepresentation, Key key) {

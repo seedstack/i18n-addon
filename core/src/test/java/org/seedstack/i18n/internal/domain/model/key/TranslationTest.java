@@ -31,8 +31,8 @@ public class TranslationTest {
 
     @Test
     public void testMinimalTranslation() {
-        Assertions.assertThat(underTest.getEntityId().getKey()).isEqualTo(KEY);
-        Assertions.assertThat(underTest.getEntityId().getLocale()).isEqualTo(FR);
+        Assertions.assertThat(underTest.getId().getKey()).isEqualTo(KEY);
+        Assertions.assertThat(underTest.getId().getLocale()).isEqualTo(FR);
         Assertions.assertThat(underTest.getValue()).isEqualTo(FR_TRANSLATION);
         Assertions.assertThat(underTest.isApproximate()).isFalse();
         Assertions.assertThat(underTest.isOutdated()).isFalse();

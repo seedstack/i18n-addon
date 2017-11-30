@@ -5,18 +5,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n.internal.data.locale;
 
+package org.seedstack.i18n.internal.data.locale;
 
 import org.seedstack.business.assembler.DtoOf;
 import org.seedstack.business.assembler.MatchingEntityId;
 import org.seedstack.business.assembler.MatchingFactoryParameter;
+import org.seedstack.business.data.DataSet;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
 @DtoOf(Locale.class)
+@DataSet(group = "seed-i18n", name = "locale")
 public class LocaleDTO {
 
     private static final int PARAM_0 = 0;
@@ -29,15 +31,10 @@ public class LocaleDTO {
 
     private boolean defaultLocale;
 
-    @MatchingEntityId(index= PARAM_0)
-    @MatchingFactoryParameter(index= PARAM_0)
+    @MatchingEntityId(index = PARAM_0)
+    @MatchingFactoryParameter(index = PARAM_0)
     public String getCode() {
         return code;
-    }
-
-    // Let it for ModelMapper
-    public void setEntityId(String code) {
-        this.code = code;
     }
 
     public void setCode(String code) {

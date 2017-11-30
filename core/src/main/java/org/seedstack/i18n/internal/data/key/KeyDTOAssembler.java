@@ -7,22 +7,22 @@
  */
 package org.seedstack.i18n.internal.data.key;
 
+import org.seedstack.business.assembler.LegacyBaseAssembler;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
-import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
-public class KeyDTOAssembler extends BaseAssembler<Key, KeyDTO> {
+public class KeyDTOAssembler extends LegacyBaseAssembler<Key, KeyDTO> {
 
     @Override
     protected void doAssembleDtoFromAggregate(KeyDTO targetDto, Key sourceEntity) {
-        targetDto.setName(sourceEntity.getEntityId());
+        targetDto.setName(sourceEntity.getId());
         targetDto.setComment(sourceEntity.getComment());
         targetDto.setOutdated(sourceEntity.isOutdated());
         for (Translation tln : sourceEntity.getTranslations().values()) {
-            targetDto.addTranslationDTO(tln.getEntityId().getLocale(), tln.getValue(), tln.isOutdated(), tln.isApproximate());
+            targetDto.addTranslationDTO(tln.getId().getLocale(), tln.getValue(), tln.isOutdated(), tln.isApproximate());
         }
     }
 

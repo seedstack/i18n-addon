@@ -77,7 +77,7 @@ public class CSVImportServiceIT {
 
         Key foo = keyRepository.load(keyName);
         assertThat(foo).isNotNull();
-        assertThat(foo.getEntityId()).isEqualTo(keyName);
+        assertThat(foo.getId()).isEqualTo(keyName);
         assertThat(foo.getTranslation("en").getValue()).isEqualTo("bar");
     }
 

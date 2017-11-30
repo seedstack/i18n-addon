@@ -111,8 +111,8 @@ public class AvailableLocalesResource {
             return Response.status(Response.Status.CONFLICT).build();
         }
 
-        return Response.created(new URI(uriInfo.getRequestUri() + "/" + result.getEntityId()))
-                .entity(localeFinder.findAvailableLocale(result.getEntityId())).build();
+        return Response.created(new URI(uriInfo.getRequestUri() + "/" + result.getId()))
+                .entity(localeFinder.findAvailableLocale(result.getId())).build();
     }
 
     /**
@@ -142,7 +142,7 @@ public class AvailableLocalesResource {
             }
             // And persist the new
             for (Locale locale : locales) {
-                localeRepository.save(locale);
+                localeRepository.addOrUpdate(locale);
             }
 
             return Response.ok(new URI(uriInfo.getRequestUri() + "/"))

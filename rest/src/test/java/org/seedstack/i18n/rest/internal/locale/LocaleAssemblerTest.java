@@ -31,7 +31,7 @@ public class LocaleAssemblerTest {
     public void testAssemble() throws Exception {
         new Expectations() {
             {
-                locale.getEntityId();
+                locale.getId();
                 result = "fr";
                 locale.getLanguage();
                 result = "français";

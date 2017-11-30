@@ -49,7 +49,7 @@ class ICULocaleService implements LocaleService {
     public Set<String> getAvailableLocales() {
         Set<String> result = new HashSet<>();
         for (Locale locale : localeRepository.loadAll()) {
-            result.add(locale.getEntityId());
+            result.add(locale.getId());
         }
         return result;
     }
@@ -59,7 +59,7 @@ class ICULocaleService implements LocaleService {
         Set<String> supportedLocales = new HashSet<>();
         java.util.Locale[] locales = java.util.Locale.getAvailableLocales();
         for (java.util.Locale locale : locales) {
-            supportedLocales.add(localeFactory.createFromLocale(locale).getEntityId());
+            supportedLocales.add(localeFactory.createFromLocale(locale).getId());
         }
         return supportedLocales;
     }
@@ -68,7 +68,7 @@ class ICULocaleService implements LocaleService {
     public String getDefaultLocale() {
         Locale defaultLocale = localeRepository.getDefaultLocale();
         if (defaultLocale != null) {
-            return defaultLocale.getEntityId();
+            return defaultLocale.getId();
         } else {
             return null;
         }

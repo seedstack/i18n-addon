@@ -5,8 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
@@ -21,11 +27,6 @@ import org.seedstack.i18n.rest.internal.key.KeyRepresentation;
 import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Map;
 
 /**
  * KeyFinder implementation for JPA.
@@ -42,7 +43,8 @@ class KeyJpaFinder extends BaseRangeFinder<KeyRepresentation, Map<String, Object
     private final KeyRepository keyRepository;
 
     @Inject
-    public KeyJpaFinder(EntityManager entityManager, LocaleService localeService, KeyAssembler keyAssembler, KeyRepository keyRepository) {
+    public KeyJpaFinder(EntityManager entityManager, LocaleService localeService, KeyAssembler keyAssembler,
+            KeyRepository keyRepository) {
         this.entityManager = entityManager;
         this.localeService = localeService;
         this.keyAssembler = keyAssembler;
@@ -52,13 +54,14 @@ class KeyJpaFinder extends BaseRangeFinder<KeyRepresentation, Map<String, Object
     @Override
     public PaginatedView<KeyRepresentation> findKeysWithTheirDefaultTranslation(Page page, KeySearchCriteria criteria) {
         Range range = Range.rangeFromPageInfo(page.getIndex(), page.getCapacity());
-        Result<KeyRepresentation> keyRepresentationResult = find(range, criteria != null ? criteria.convertToMap() : null);
+        Result<KeyRepresentation> keyRepresentationResult = find(range,
+                criteria != null ? criteria.convertToMap() : null);
         return new PaginatedView<>(keyRepresentationResult, page);
     }
 
     @Override
     public List<KeyRepresentation> findKeysWithTheirDefaultTranslation(KeySearchCriteria criteria) {
-        return computeResultList(null, criteria != null ? criteria.convertToMap() : null);
+        return computeResultList(null, criteria != null ? criteria.convertToMap() : new HashMap<>());
     }
 
     @Override

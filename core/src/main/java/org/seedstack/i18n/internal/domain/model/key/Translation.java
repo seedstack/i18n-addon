@@ -43,7 +43,7 @@ public class Translation extends BaseEntity<TranslationId> {
     }
 
     @Override
-    public TranslationId getEntityId() {
+    public TranslationId getId() {
         return entityId;
     }
 

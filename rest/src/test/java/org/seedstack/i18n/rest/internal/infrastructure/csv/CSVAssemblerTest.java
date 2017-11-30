@@ -5,7 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.infrastructure.csv;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,19 +16,17 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.rest.internal.infrastructure.csv.CSVImportServiceTest.KeyBuilder;
 import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public class CSVAssemblerTest {
+public class CsvAssemblerTest {
 
-    private CSVAssembler underTest;
+    private CsvAssembler underTest;
     private Key key;
 
     @Before
     public void setUp() throws Exception {
-        underTest = new CSVAssembler();
+        underTest = new CsvAssembler();
         key = new Key("foo");
     }
 
@@ -35,13 +36,13 @@ public class CSVAssemblerTest {
 
         underTest.mergeAggregateWithDto(key, emptyRepresentation);
 
-        assertThat(key.getEntityId()).as("check entityId don't change").isEqualTo("foo");
+        assertThat(key.getId()).as("check entityId don't change").isEqualTo("foo");
     }
 
     @Test
     public void testMergeWithoutTranslations() {
         underTest.mergeAggregateWithDto(key, KeyBuilder.key("foo").build());
-        assertThat(key.getEntityId()).as("check entityId don't change").isEqualTo("foo");
+        assertThat(key.getId()).as("check entityId don't change").isEqualTo("foo");
     }
 
     @Test

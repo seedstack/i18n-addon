@@ -5,19 +5,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.seedstack.business.assembler.LegacyAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
-import org.seedstack.i18n.rest.internal.locale.LocaleAssembler;
 import org.seedstack.i18n.rest.internal.locale.LocaleFinder;
 import org.seedstack.i18n.rest.internal.locale.LocaleRepresentation;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -30,7 +30,7 @@ class LocaleJpaFinder implements LocaleFinder {
     private LocaleRepository localeRepository;
 
     @Inject
-    private LocaleAssembler assembler;
+    private LegacyAssembler<Locale, LocaleRepresentation> assembler;
 
     @Override
     public LocaleRepresentation findDefaultLocale() {

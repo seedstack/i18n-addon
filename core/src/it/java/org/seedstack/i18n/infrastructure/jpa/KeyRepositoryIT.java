@@ -5,13 +5,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.infrastructure.jpa;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.business.domain.AggregateExistsException;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
@@ -20,14 +28,6 @@ import org.seedstack.i18n.internal.infrastructure.jpa.Units;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.persistence.EntityExistsException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
@@ -63,7 +63,7 @@ public class KeyRepositoryIT {
 
     @JpaUnit(Units.I18N)
     @Transactional
-    @Test(expected = EntityExistsException.class)
+    @Test(expected = AggregateExistsException.class)
     public void testCannotPersistDuplicate() {
         Key key = createKey(keyId);
         underTest.persist(key);

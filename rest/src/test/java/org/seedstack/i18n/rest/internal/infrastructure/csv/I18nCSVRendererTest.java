@@ -66,7 +66,7 @@ public class I18nCSVRendererTest {
 
                 csvRowWriter.getColumnNames();
                 result = new String[]{"key", "fr"};
-                key.getEntityId();
+                key.getId();
                 result = "keyName";
                 csvRowWriter.addColumnValue("key", "keyName");
 

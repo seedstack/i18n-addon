@@ -22,7 +22,7 @@ public class LocaleTest {
     @Test
     public void testLocaleConstructor() {
         Locale locale = new Locale(ES_AR, ESPAÑOL_ARGENTINA, SPANISH_ARGENTINA);
-        Assertions.assertThat(locale.getEntityId()).isEqualTo(ES_AR);
+        Assertions.assertThat(locale.getId()).isEqualTo(ES_AR);
         Assertions.assertThat(locale.getLanguage()).isEqualTo(ESPAÑOL_ARGENTINA);
         Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo(SPANISH_ARGENTINA);
     }

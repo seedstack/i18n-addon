@@ -7,17 +7,15 @@
  */
 package org.seedstack.i18n.internal.domain.model.key;
 
-
-import org.seedstack.business.domain.GenericRepository;
-
 import java.util.List;
+import org.seedstack.business.domain.LegacyRepository;
 
 /**
  * Stores application keys and translations.
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-public interface KeyRepository extends GenericRepository<Key, String> {
+public interface KeyRepository extends LegacyRepository<Key, String> {
 
     /**
      * Gets all keys.

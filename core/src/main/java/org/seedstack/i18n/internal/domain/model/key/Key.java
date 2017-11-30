@@ -5,15 +5,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.internal.domain.model.key;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
-import org.seedstack.i18n.internal.domain.model.locale.LocaleCodeSpecification;
-
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleCodeSpecification;
 
 /**
  * Aggregate root of Key aggregate.
@@ -22,10 +29,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "SEED_I18N_KEY")
-public class Key extends BaseAggregateRoot<String> implements Serializable {
-
-    private static final long serialVersionUID = -2498537747032788365L;
-
+public class Key extends BaseAggregateRoot<String> {
     @Id
     @Column(name = "ID")
     private String entityId;
@@ -49,7 +53,7 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
     }
 
     @Override
-    public String getEntityId() {
+    public String getId() {
         return entityId;
     }
 
@@ -61,11 +65,12 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @param value  translation value
      * @return the new translation
      * @throws java.lang.IllegalArgumentException if the locale is null or empty
-     * or contains other characters than letters and "-".
+     *                                            or contains other characters than letters and "-".
      */
     public Translation addTranslation(String locale, String value) {
         return addTranslation(locale, value, false);
     }
+
     /**
      * Saves or updates the translation for the specified locale.
      * If the key was outdated, checks if the key is still outdated.
@@ -74,7 +79,7 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @param value  translation value
      * @return the new translation
      * @throws java.lang.IllegalArgumentException if the locale is null or empty
-     * or contains other characters than letters and "-".
+     *                                            or contains other characters than letters and "-".
      */
     public Translation addTranslation(String locale, String value, boolean isApproximate) {
         LocaleCodeSpecification.assertCode(locale);
@@ -105,7 +110,7 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      * @param locale locale code
      * @return the translation
      * @throws java.lang.IllegalArgumentException if the locale is null or empty
-     * or contains other characters than letters and "-".
+     *                                            or contains other characters than letters and "-".
      */
     public Translation getTranslation(String locale) {
         LocaleCodeSpecification.assertCode(locale);
@@ -118,14 +123,14 @@ public class Key extends BaseAggregateRoot<String> implements Serializable {
      *
      * @param locale locale code
      * @throws java.lang.IllegalArgumentException if the locale is null or empty
-     * or contains other characters than letters and "-".
+     *                                            or contains other characters than letters and "-".
      */
     public void removeTranslation(String locale) {
         LocaleCodeSpecification.assertCode(locale);
 
         Translation translation = getTranslation(locale);
         if (translation != null) {
-            this.translations.remove(translation.getEntityId());
+            this.translations.remove(translation.getId());
         }
     }
 

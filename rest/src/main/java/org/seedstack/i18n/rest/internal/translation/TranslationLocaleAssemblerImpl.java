@@ -37,7 +37,7 @@ class TranslationLocaleAssemblerImpl implements TranslationLocaleAssembler{
     }
 
     private void assembleKeyInfo(Key key, TranslationRepresentation representation) {
-        representation.setName(key.getEntityId());
+        representation.setName(key.getId());
         representation.setComment(key.getComment());
     }
 

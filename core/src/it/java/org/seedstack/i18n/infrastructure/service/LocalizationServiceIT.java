@@ -134,10 +134,10 @@ public class LocalizationServiceIT {
         key.addTranslation(EN_GB, translation_en_GB);
         repository.persist(key);
 
-        String requestedTranslation = localizationService.localize(EN, key.getEntityId());
+        String requestedTranslation = localizationService.localize(EN, key.getId());
         Assertions.assertThat(requestedTranslation).isEqualTo(translation_en);
 
-        requestedTranslation = localizationService.localize(EN_GB, key.getEntityId());
+        requestedTranslation = localizationService.localize(EN_GB, key.getId());
         Assertions.assertThat(requestedTranslation).isEqualTo(translation_en_GB);
 
         localeService.deleteLocale(EN);

@@ -11,6 +11,7 @@ import com.google.common.base.Joiner;
 import com.ibm.icu.util.LocaleMatcher;
 import com.ibm.icu.util.LocalePriorityList;
 import com.ibm.icu.util.ULocale;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.jpa.JpaUnit;
@@ -94,11 +95,13 @@ public class I18nConfigurationHandler implements FragmentConfigurationHandler {
     }
 
     @Override
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "Mandated by the W20 bridge API")
     public Boolean overrideFragmentStatus(String fragmentName) {
         return null;
     }
 
     @Override
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "Mandated by the W20 bridge API")
     public Boolean overrideModuleStatus(String fragmentName, String moduleName) {
         if (W20_CORE_FRAGMENT.equals(fragmentName) && CULTURE_MODULE.equals(moduleName)) {
             return true;

@@ -93,7 +93,7 @@ public class ICULocaleServiceTest {
             {
                 localeRepository.loadAll();
                 result = Lists.newArrayList(locale);
-                locale.getEntityId();
+                locale.getId();
                 result = FR;
 
                 localeRepository.load(FR_BE);
@@ -110,7 +110,7 @@ public class ICULocaleServiceTest {
             {
                 localeRepository.getDefaultLocale();
                 result = defaultLocale;
-                defaultLocale.getEntityId();
+                defaultLocale.getId();
                 result = locale;
             }
         };

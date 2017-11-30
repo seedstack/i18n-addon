@@ -5,16 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.locale;
 
-import org.seedstack.i18n.internal.domain.model.locale.Locale;
-import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
-import org.seedstack.seed.Configuration;
-
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.inject.Inject;
+import org.seedstack.business.assembler.LegacyAssembler;
+import org.seedstack.i18n.internal.domain.model.locale.Locale;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
+import org.seedstack.seed.Configuration;
 
 /**
  * Finds the locales available on the platform.
@@ -24,13 +25,14 @@ import java.util.List;
 class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
 
     private final LocaleFactory localeFactory;
-    private final LocaleAssembler localeAssembler;
+    private final LegacyAssembler<Locale, LocaleRepresentation> localeAssembler;
 
     @Configuration(value = "org.seedstack.i18n.additional-locales", mandatory = false)
     private String[] additionalLocaleCodes;
 
     @Inject
-    public SupportedLocaleFinderImpl(LocaleFactory localeFactory, LocaleAssembler localeAssembler) {
+    public SupportedLocaleFinderImpl(LocaleFactory localeFactory,
+            LegacyAssembler<Locale, LocaleRepresentation> localeAssembler) {
         this.localeFactory = localeFactory;
         this.localeAssembler = localeAssembler;
     }

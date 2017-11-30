@@ -11,11 +11,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.business.data.DataManager;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.DataManager;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
@@ -62,7 +62,7 @@ public class ExportDataIT {
         keyRepository.delete(keyRepository.load(KEY_NAME));
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        dataManager.importData(inputStream, null, null, true);
+        dataManager.importData(inputStream);
 
         // Check imported data
         Key loadedKey = keyRepository.load(KEY_NAME);

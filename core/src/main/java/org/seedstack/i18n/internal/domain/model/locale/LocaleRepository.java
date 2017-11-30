@@ -7,9 +7,8 @@
  */
 package org.seedstack.i18n.internal.domain.model.locale;
 
-import org.seedstack.business.domain.GenericRepository;
-
 import java.util.List;
+import org.seedstack.business.domain.LegacyRepository;
 
 /**
  * Store application locales.
@@ -17,7 +16,7 @@ import java.util.List;
  * @author pierre.thirouin@ext.mpsa.com
  *         Date: 20/11/13
  */
-public interface LocaleRepository extends GenericRepository<Locale, String> {
+public interface LocaleRepository extends LegacyRepository<Locale, String> {
 
     /**
      * @return all locales

@@ -5,16 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.internal.domain.model.locale;
-
-
-import org.seedstack.business.domain.BaseAggregateRoot;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
+import org.seedstack.business.domain.BaseAggregateRoot;
 
 /**
  * Locale aggregate root.
@@ -23,10 +21,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "SEED_I18N_LOCALE")
-public class Locale extends BaseAggregateRoot<String> implements Serializable {
-
-    private static final long serialVersionUID = 5353966062091859950L;
-
+public class Locale extends BaseAggregateRoot<String> {
     /**
      * Identifies the locale with the ISO 639 alpha-2 or alpha-3 language code and the ISO 3166 alpha-2 country code.
      * Example: en-US, fr-FR
@@ -85,7 +80,7 @@ public class Locale extends BaseAggregateRoot<String> implements Serializable {
     }
 
     @Override
-    public String getEntityId() {
+    public String getId() {
         return code;
     }
 

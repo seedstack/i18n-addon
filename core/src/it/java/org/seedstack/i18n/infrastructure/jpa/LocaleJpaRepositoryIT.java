@@ -57,7 +57,7 @@ public class LocaleJpaRepositoryIT {
     @Test
     public void persist_then_load() {
         localeRepository.persist(expectedLocale);
-        Locale locale = localeRepository.load(expectedLocale.getEntityId());
+        Locale locale = localeRepository.load(expectedLocale.getId());
         Assertions.assertThat(locale).isEqualTo(expectedLocale);
     }
 
@@ -70,8 +70,8 @@ public class LocaleJpaRepositoryIT {
 
     @Test
     public void save_then_load() {
-        localeRepository.save(expectedLocale);
-        Locale locale = localeRepository.load(expectedLocale.getEntityId());
+        localeRepository.addOrUpdate(expectedLocale);
+        Locale locale = localeRepository.load(expectedLocale.getId());
         Assertions.assertThat(locale.getEnglishLanguage()).isEqualTo("French");
     }
 

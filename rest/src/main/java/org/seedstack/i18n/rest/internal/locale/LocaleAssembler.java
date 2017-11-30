@@ -7,17 +7,17 @@
  */
 package org.seedstack.i18n.rest.internal.locale;
 
+import org.seedstack.business.assembler.LegacyBaseAssembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
-import org.seedstack.business.assembler.BaseAssembler;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
-public class LocaleAssembler extends BaseAssembler<Locale, LocaleRepresentation> {
+public class LocaleAssembler extends LegacyBaseAssembler<Locale, LocaleRepresentation> {
 
     @Override
     protected void doAssembleDtoFromAggregate(LocaleRepresentation targetDto, Locale sourceEntity) {
-        targetDto.setCode(sourceEntity.getEntityId());
+        targetDto.setCode(sourceEntity.getId());
         targetDto.setLanguage(sourceEntity.getLanguage());
         targetDto.setEnglishLanguage(sourceEntity.getEnglishLanguage());
     }

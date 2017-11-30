@@ -5,25 +5,25 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.data;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import javax.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.business.data.DataManager;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.internal.infrastructure.jpa.Units;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.DataManager;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Propagation;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
@@ -59,7 +59,7 @@ public class LocaleImportExportIT {
     public void testImport() throws Exception {
         InputStream inputStream = new ByteArrayInputStream(EXPECTED_DATA.getBytes());
 
-        dataManager.importData(inputStream, "seed-i18n", "locale", true);
+        dataManager.importData(inputStream, "seed-i18n", "locale");
 
         assertThat(localeRepository.count()).isEqualTo(2);
         assertThat(localeRepository.load("fr")).isNotNull();

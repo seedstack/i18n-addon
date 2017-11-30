@@ -39,7 +39,7 @@ class KeyAssemblerImpl implements KeyAssembler {
     @Override
     public KeyRepresentation assemble(Key key) {
         KeyRepresentation keyRepresentation = new KeyRepresentation();
-        keyRepresentation.setName(key.getEntityId());
+        keyRepresentation.setName(key.getId());
         keyRepresentation.setComment(key.getComment());
         keyRepresentation.setOutdated(key.isOutdated());
         String defaultLocale = localeService.getDefaultLocale();

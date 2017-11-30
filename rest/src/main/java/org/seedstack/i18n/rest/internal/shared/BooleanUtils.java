@@ -7,6 +7,8 @@
  */
 package org.seedstack.i18n.rest.internal.shared;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author pierre.thirouin@ext.mpsa.com
  *         Date: 04/12/13
@@ -25,6 +27,7 @@ public final class BooleanUtils {
      * @param bool boolean
      * @return true if bool is true, null otherwise
      */
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "That's the point (but dubious)")
     public static Boolean falseToNull(Boolean bool) {
         if (bool != null && bool) {
             return true;

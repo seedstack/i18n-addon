@@ -5,8 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.internal.infrastructure.jpa;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +29,6 @@ import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.it.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This integration test checks key finder methods.
@@ -70,8 +70,7 @@ public class KeyJpaFinderIT {
     public void setUp() {
         defineApplicationLocales();
 
-        // Clean the database
-        keyRepository.deleteAll();
+        clearKeys();
 
         List<Key> keys = new ArrayList<>();
         keys.add(createKey(KEY_DEFAULT, false, false, false));
@@ -89,8 +88,12 @@ public class KeyJpaFinderIT {
         keys.add(key);
 
         for (Key keyToPersist : keys) {
-            keyRepository.save(keyToPersist);
+            keyRepository.persist(keyToPersist);
         }
+    }
+
+    void clearKeys() {
+        keyRepository.delete(keyRepository.loadAll());
     }
 
     private void defineApplicationLocales() {
@@ -102,7 +105,8 @@ public class KeyJpaFinderIT {
     @Test
     public void findKeysWithoutCriteria() {
         KeySearchCriteria criteria = new KeySearchCriteria(null, null, null, null);
-        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder
+                .findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
         assertThat(keyRepresentations.getPageSize()).isEqualTo(5);
 
@@ -118,7 +122,8 @@ public class KeyJpaFinderIT {
     @Test
     public void get_missing_default_translation() {
         KeySearchCriteria criteria = new KeySearchCriteria(true, null, null, null);
-        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder
+                .findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
         assertThat(keyRepresentations.getPageSize()).isEqualTo(2);
 
@@ -132,8 +137,8 @@ public class KeyJpaFinderIT {
     @Test
     public void get_approx_default_translation() {
         KeySearchCriteria criteria = new KeySearchCriteria(null, true, null, null);
-        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
-
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder
+                .findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
         assertThat(keyRepresentations.getPageSize()).isEqualTo(1);
 
@@ -145,7 +150,8 @@ public class KeyJpaFinderIT {
     @Test
     public void testFindKeysByName() {
         KeySearchCriteria criteria = new KeySearchCriteria(null, null, null, KEY_DEFAULT);
-        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder
+                .findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
         assertThat(keyRepresentations.getPageSize()).isEqualTo(1);
 
@@ -158,7 +164,8 @@ public class KeyJpaFinderIT {
     public void testFindOutdatedKeys() {
         KeySearchCriteria criteria = new KeySearchCriteria(null, null, true, null);
         keyRepository.loadAll();
-        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder.findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
+        PaginatedView<KeyRepresentation> keyRepresentations = keyFinder
+                .findKeysWithTheirDefaultTranslation(FIRST_RANGE, criteria);
 
         assertThat(keyRepresentations.getPageSize()).isEqualTo(2);
 

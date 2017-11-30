@@ -29,7 +29,7 @@ public class KeyTest {
     @Test
     public void testMinimalKey() {
         Key key = new Key(KEY);
-        Assertions.assertThat(key.getEntityId()).isEqualTo(KEY);
+        Assertions.assertThat(key.getId()).isEqualTo(KEY);
         Assertions.assertThat(key.getComment()).isEqualTo(null);
         Assertions.assertThat(key.getTranslations()).isNotNull();
         Assertions.assertThat(key.getTranslations()).isEmpty();

@@ -1,6 +1,10 @@
+# Version 4.0.0 (2017-11-30)
+
+* [chg] Updated for business framework 4.0.
+
 # Version 3.0.0 (2016-12-19)
 
-* [chg] Update to new configuration system.
+* [chg] Updated to new configuration system.
 
 # Version 2.2.2 (2016-07-29)
 

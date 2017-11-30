@@ -5,8 +5,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.io;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.ContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -23,26 +43,6 @@ import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This REST resource provide an API to import/export CSV file.
@@ -100,7 +100,8 @@ public class IOResource {
 
     private boolean fileHasCSVExtension(BodyPart bodyPart) {
         ContentDisposition contentDisposition = bodyPart.getContentDisposition();
-        return contentDisposition != null && contentDisposition.getFileName() != null && contentDisposition.getFileName().endsWith(".csv");
+        return contentDisposition != null && contentDisposition.getFileName() != null && contentDisposition
+                .getFileName().endsWith(".csv");
     }
 
     /**
@@ -120,11 +121,11 @@ public class IOResource {
 
             @Override
             public void write(OutputStream os) throws IOException {
-                Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+                Writer writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
                 for (Key key : keys) {
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     renderer.render(byteArrayOutputStream, key, APPLICATION_CSV, printHeader(isFirstLine));
-                    writer.write(byteArrayOutputStream.toString());
+                    writer.write(byteArrayOutputStream.toString("UTF-8"));
                     isFirstLine = false;
                 }
                 writer.flush();

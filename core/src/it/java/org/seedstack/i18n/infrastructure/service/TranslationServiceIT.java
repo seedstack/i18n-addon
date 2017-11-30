@@ -80,7 +80,7 @@ public class TranslationServiceIT {
     private void givenTheTranslatedKey(String keyName, String locale, String translation) {
         Key key = keyFactory.createKey(keyName);
         key.addTranslation(locale, translation);
-        keyRepository.save(key);
+        keyRepository.addOrUpdate(key);
     }
 
     @After

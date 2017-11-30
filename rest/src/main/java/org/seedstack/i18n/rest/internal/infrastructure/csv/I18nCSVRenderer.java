@@ -60,7 +60,7 @@ class I18nCSVRenderer extends AbstractTemplateRenderer<SuperCsvTemplate> {
     private void addKeyWithTranslationsToFile(Key key, CSVRowWriter csvRowWriter) {
         for (String columnName : csvRowWriter.getColumnNames()) {
             if (isColumnKey(columnName)) {
-                csvRowWriter.addColumnValue(I18nCSVTemplateLoader.KEY, key.getEntityId());
+                csvRowWriter.addColumnValue(I18nCSVTemplateLoader.KEY, key.getId());
             } else {
                 if (key.isTranslated(columnName)) {
                     csvRowWriter.addColumnValue(columnName, key.getTranslation(columnName).getValue());

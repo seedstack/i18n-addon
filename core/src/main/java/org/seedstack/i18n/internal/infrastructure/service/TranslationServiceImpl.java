@@ -83,7 +83,7 @@ class TranslationServiceImpl implements TranslationService {
         for (Key key : keyRepository.loadAll()) {
             Optional<String> translation = getTranslationWithFallback(locale, key);
             if (translation.isPresent() || !i18nConfig.isAllowMissingTranslations()) {
-                translations.put(key.getEntityId(), translation.orElse("[" + key.getEntityId() + "]"));
+                translations.put(key.getId(), translation.orElse("[" + key.getId() + "]"));
             }
         }
         return translations;
