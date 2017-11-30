@@ -19,14 +19,14 @@ import org.seedstack.i18n.rest.internal.io.CSVRepresentation;
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public class CsvAssemblerTest {
+public class CSVAssemblerTest {
 
-    private CsvAssembler underTest;
+    private CSVAssembler underTest;
     private Key key;
 
     @Before
     public void setUp() throws Exception {
-        underTest = new CsvAssembler();
+        underTest = new CSVAssembler();
         key = new Key("foo");
     }
 

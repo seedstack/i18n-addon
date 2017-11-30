@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author pierre.thirouin@ext.mpsa.com
  */
-class CsvAssembler extends LegacyBaseAssembler<Key, CSVRepresentation> {
+class CSVAssembler extends LegacyBaseAssembler<Key, CSVRepresentation> {
 
     @Override
     protected void doAssembleDtoFromAggregate(CSVRepresentation targetDto, Key sourceEntity) {
