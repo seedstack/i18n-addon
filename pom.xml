@@ -25,10 +25,10 @@
     <properties>
         <poms.version>3.1.0</poms.version>
         <seed.version>3.4.0</seed.version>
-        <business.version>4.0.0-SNAPSHOT</business.version>
+        <business.version>4.0.0</business.version>
         <io.version>3.0.0</io.version>
         <w20-bridge.version>3.1.0</w20-bridge.version>
-        <jpa.version>4.0.0-SNAPSHOT</jpa.version>
+        <jpa.version>4.0.0</jpa.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
 
         <compatibility.skip>true</compatibility.skip>
