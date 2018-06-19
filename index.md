@@ -100,6 +100,35 @@ i18n:
 The "Manage Keys" interface provides CSV import/export functionality. The exported CSV file is in UTF-8 in order to support 
 all the possible languages.  
 
+## Configuration
+
+The following i18n options can be specified:
+
+{{% config p="i18n" %}}
+```yaml
+i18n:
+  # If true, enables a fallback to the default language of the application (false by default)
+  translationFallback: boolean
+  
+  # If true, missing translations will appear as [key.name] in the returned translations (true by default)
+  allowMissingTranslations: boolean
+  
+  # Allows to specify additional custom local codes
+  additionalLocales: (List<String>)
+  
+  # Cache options for translations
+  cache:
+    # Initial size of the cache (maxSize/4 by default)
+    initialSize: (int)
+    
+    # Max size of the cache (8192 by default)
+    maxSize: (int)
+    
+    # Maximum concurrent access to the cache (32 by default)
+    concurrencyLevel: (int)
+```
+{{% /config %}}   
+
 ## Usage
 
 ### Locales
