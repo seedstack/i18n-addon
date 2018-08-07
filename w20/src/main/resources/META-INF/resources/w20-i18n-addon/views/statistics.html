@@ -1,0 +1,105 @@
+<div>
+    <div data-ng-show="authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'read']) && authentication.isAuthentifiable()">
+        <div class="container-full container-main-title">
+            <div class="menu-wrapper">
+                <a data-ng-href="seed-i18n" class="menu-item">
+                    {{ "application.view.seed-i18n.locales" | localize }}
+                </a>
+                <a data-ng-href="seed-i18n/keys"
+                   class="menu-item">
+                    {{ "application.view.seed-i18n.keys" | localize }}
+                </a>
+                <a data-ng-href="seed-i18n/translations"
+                   class="menu-item" data-ng-class="{'disabled-link': !allowTranslate()}">
+                    {{ "application.view.seed-i18n.translations" | localize }}
+                </a>
+                <span class="menu-item big">
+                    {{ "application.view.seed-i18n.statistics" | localize }}
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="alert alert-warning" data-ng-show="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'read']) && authentication.isAuthentifiable()">
+            {{ "application.view.seed-i18n.noeditpermission" | localize }}
+        </div>
+        <div id="container-main-content" class="container-full">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a data-ng-click="redrawMultibar()" href="#chart" role="tab" data-toggle="tab">MultibarChart</a>
+                </li>
+                <li><a data-ng-click="redrawTable()" href="#table" role="tab" data-toggle="tab">Table</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="chart">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">{{ "application.view.seed-i18n.statisticresult" | localize
+                                    }}
+                                </div>
+                                <div class="panel-body">
+                                    <label class="label label-app-languages" for="selectStatisticLanguage1"> {{
+                                        "application.view.seed-i18n.statisticlanguageis" | localize }}
+                                        <span data-ng-show="!defaultLocale"> {{ "application.view.seed-i18n.notset" | localize }} </span>
+                                    </label>
+                                    <select id="selectStatisticLanguage1" class="select-style"
+                                            data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'read']) && authentication.isAuthentifiable()"
+                                            data-ng-options="lang.code as lang.englishLanguage for lang in applicationLocales | orderBy:'toString()'"
+                                            data-ng-model="selectLang" data-ng-change="changeLangMultibar()">
+                                        <option value="">All</option>
+                                    </select>
+                                    <div style="height:500px" id="multibar"
+                                         data-w20-multibar-chart="multibarConfig"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="table">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"> {{ "application.view.seed-i18n.statisticlanguage" | localize
+                                    }}
+                                </div>
+                                <div class="panel-body">
+                                    <label class="label label-app-languages" for="selectStatisticLanguage2"> {{
+                                        "application.view.seed-i18n.statisticlanguageis" | localize }}
+                                        <span data-ng-show="!defaultLocale"> {{ "application.view.seed-i18n.notset" | localize }} </span>
+                                    </label>
+                                    <select id="selectStatisticLanguage2" class="select-style"
+                                            data-ng-disabled="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'read']) && authentication.isAuthentifiable()"
+                                            data-ng-options="lang.code as lang.englishLanguage for lang in applicationLocales | orderBy:'toString()'"
+                                            data-ng-model="selectLang" data-ng-change="changeLangTable()">
+                                        <option value="">All</option>
+                                    </select>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Language</th>
+                                            <th>Locale</th>
+                                            <th>to translate</th>
+                                            <th>translated</th>
+                                            <th>total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="langStat in statisticTableData">
+                                            <td></td>
+                                            <td>{{langStat.englishLanguage}}</td>
+                                            <td>{{langStat.locale}}</td>
+                                            <td>{{langStat.totranslate}}</td>
+                                            <td>{{langStat.translated}}</td>
+                                            <td>{{langStat.keytotal}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

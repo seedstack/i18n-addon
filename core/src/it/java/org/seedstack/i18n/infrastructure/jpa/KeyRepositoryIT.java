@@ -1,11 +1,10 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 package org.seedstack.i18n.infrastructure.jpa;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +25,7 @@ import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
 import org.seedstack.i18n.internal.infrastructure.jpa.Units;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
 
 /**
@@ -58,7 +57,7 @@ public class KeyRepositoryIT {
     @Transactional
     public void persistKey() {
         Key key = createKey(keyId);
-        underTest.persist(key);
+        underTest.add(key);
     }
 
     @JpaUnit(Units.I18N)
@@ -66,9 +65,9 @@ public class KeyRepositoryIT {
     @Test(expected = AggregateExistsException.class)
     public void testCannotPersistDuplicate() {
         Key key = createKey(keyId);
-        underTest.persist(key);
+        underTest.add(key);
         Key key2 = createKey(keyId);
-        underTest.persist(key2);
+        underTest.add(key2);
     }
 
     private Key createKey(String keyName) {
@@ -82,7 +81,7 @@ public class KeyRepositoryIT {
     @JpaUnit(Units.I18N)
     @Transactional
     public void assertSameLoadedKey() {
-        Key key2 = underTest.load(keyId);
+        Key key2 = underTest.get(keyId).orElseThrow(IllegalArgumentException::new);
         assertThat(key2.getComment()).isEqualTo("comment");
         assertThat(key2.isOutdated()).isFalse();
 
@@ -106,13 +105,13 @@ public class KeyRepositoryIT {
     public void persistOutdatedKey() {
         Key key = createKey(keyId);
         key.setOutdated();
-        underTest.persist(key);
+        underTest.add(key);
     }
 
     @JpaUnit(Units.I18N)
     @Transactional
     public void assertLoadedKeyIsOutdated() {
-        Key key2 = underTest.load(keyId);
+        Key key2 = underTest.get(keyId).orElseThrow(IllegalArgumentException::new);
         assertThat(key2.isOutdated()).isTrue();
         assertThat(key2.getTranslation("fr").isOutdated()).isTrue();
         assertThat(key2.getTranslation("en").isOutdated()).isTrue();
@@ -124,7 +123,7 @@ public class KeyRepositoryIT {
     public void testLoadAll() {
         int expectedSize = random.nextInt(5) + 2;
         for (int i = 0; i < expectedSize; i++) {
-            underTest.persist(createKey(UUID.randomUUID().toString()));
+            underTest.add(createKey(UUID.randomUUID().toString()));
         }
         assertThat(underTest.loadAll()).hasSize(expectedSize);
     }
@@ -135,9 +134,9 @@ public class KeyRepositoryIT {
     public void testCount() throws Exception {
         int expectedSize = random.nextInt(5) + 2;
         for (int i = 0; i < expectedSize; i++) {
-            underTest.persist(createKey(UUID.randomUUID().toString()));
+            underTest.add(createKey(UUID.randomUUID().toString()));
         }
-        assertThat(underTest.count()).isEqualTo(expectedSize);
+        assertThat(underTest.size()).isEqualTo(expectedSize);
     }
 
     @JpaUnit(Units.I18N)
@@ -145,11 +144,11 @@ public class KeyRepositoryIT {
     @Test
     public void testDeleteAll() {
         for (int i = 0; i < 5; i++) {
-            underTest.persist(createKey(UUID.randomUUID().toString()));
+            underTest.add(createKey(UUID.randomUUID().toString()));
         }
-        underTest.deleteAll();
+        underTest.clear();
 
-        assertThat(underTest.count()).isZero();
+        assertThat(underTest.size()).isZero();
     }
 
     @JpaUnit(Units.I18N)
@@ -160,17 +159,17 @@ public class KeyRepositoryIT {
         for (int i = 0; i < 5; i++) {
             Key key = createKey(UUID.randomUUID().toString());
             keysToDelete.add(key);
-            underTest.persist(key);
+            underTest.add(key);
         }
         underTest.delete(keysToDelete);
 
-        assertThat(underTest.count()).isZero();
+        assertThat(underTest.size()).isZero();
     }
 
     @JpaUnit(Units.I18N)
     @Transactional
     @After
     public void tearDown() throws Exception {
-        underTest.deleteAll();
+        underTest.clear();
     }
 }

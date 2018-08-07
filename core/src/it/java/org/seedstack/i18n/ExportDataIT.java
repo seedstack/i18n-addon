@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,6 +7,9 @@
  */
 package org.seedstack.i18n;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import javax.inject.Inject;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,12 +19,8 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -49,7 +48,7 @@ public class ExportDataIT {
         Key key1 = keyFactory.createKey(KEY_NAME);
         key1.addTranslation(FR, "key1fr");
         key1.addTranslation(EN, "key1en");
-        keyRepository.persist(key1);
+        keyRepository.add(key1);
     }
 
     @Test
@@ -59,14 +58,13 @@ public class ExportDataIT {
         dataManager.exportData(outputStream, "seed-i18n");
 
         // Remove data
-        keyRepository.delete(keyRepository.load(KEY_NAME));
+        keyRepository.remove(KEY_NAME);
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         dataManager.importData(inputStream);
 
         // Check imported data
-        Key loadedKey = keyRepository.load(KEY_NAME);
-        Assertions.assertThat(loadedKey).isNotNull();
+        Assertions.assertThat(keyRepository.get(KEY_NAME)).isNotEmpty();
     }
 
 }

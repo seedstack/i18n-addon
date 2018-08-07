@@ -1,12 +1,27 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.key;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.I18nPermissions;
@@ -15,15 +30,6 @@ import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
@@ -87,9 +93,11 @@ public class KeyResource {
         key.setComment(representation.getComment());
         key.setOutdated();
         // Updates the default translation
-        key.addTranslation(representation.getDefaultLocale(), representation.getTranslation(), representation.isApprox());
+        key.addTranslation(representation.getDefaultLocale(),
+                representation.getTranslation(),
+                representation.isApprox());
 
-        keyRepository.save(key);
+        keyRepository.update(key);
 
         return Response.ok(new URI(uriInfo.getRequestUri() + "/" + keyName))
                 .entity(keyFinder.findKeyWithName(keyName)).build();
@@ -104,15 +112,12 @@ public class KeyResource {
     @RequiresPermissions(I18nPermissions.KEY_DELETE)
     public Response deleteKey() {
         Key key = loadKeyIfExistsOrFail();
-        keyRepository.delete(key);
+        keyRepository.remove(key);
         return Response.noContent().build();
     }
 
     private Key loadKeyIfExistsOrFail() {
-        Key key = keyRepository.load(keyName);
-        if (key == null) {
-            throw new NotFoundException(String.format(KEY_NOT_FOUND, keyName));
-        }
-        return key;
+        return keyRepository.get(keyName)
+                .orElseThrow(() -> new NotFoundException(String.format(KEY_NOT_FOUND, keyName)));
     }
 }

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,7 +7,6 @@
  */
 package org.seedstack.i18n.internal.rest;
 
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +17,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
- * Date: 10/12/13
+ *         Date: 10/12/13
  */
 public class DefaultLocaleResourceIT extends AbstractI18nRestIT {
 
@@ -36,7 +35,6 @@ public class DefaultLocaleResourceIT extends AbstractI18nRestIT {
         italianJsonObject.put(ENGLISH_LANGUAGE_FIELD, "Italian");
     }
 
-    @RunAsClient
     @Test
     public void putThenGetDefaultLocale() throws JSONException {
         JSONArray jsonArray = new JSONArray();

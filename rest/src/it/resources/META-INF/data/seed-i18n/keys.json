@@ -1,7 +1,7 @@
 [
     {
         "group": "seed-i18n",
-        "name": "key",
+        "name": "keys",
         "items": [
             {
                 "comment": "i18n",

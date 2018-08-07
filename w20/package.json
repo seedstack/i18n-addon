@@ -1,0 +1,10 @@
+{
+  "name": "18n-w20",
+  "description": "i18n-w20",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "repository": "https://github.com/seedstack/i18n-addon.git",
+  "devDependencies": {
+    "dropzone": "5.5.1"
+  }
+}

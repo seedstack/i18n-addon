@@ -1,0 +1,175 @@
+<div>
+    <div data-ng-show="authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'read']) && authentication.isAuthentifiable()">
+        <div class="container-full container-main-title">
+            <div class="menu-wrapper">
+                <a data-ng-href="seed-i18n" class="menu-item">
+                    {{ "application.view.seed-i18n.locales" | localize }}
+                </a>
+                <a data-ng-href="seed-i18n/keys" class="menu-item">
+                    {{ "application.view.seed-i18n.keys" | localize }}
+                </a>
+                <span class="menu-item big">
+                    {{ "application.view.seed-i18n.translations" | localize }} ({{defaultLocale.englishLanguage}} to {{target.englishLanguage}})
+                </span>
+                <a data-ng-href="seed-i18n/statistics" class="menu-item">
+                    {{ "application.view.seed-i18n.statistics" | localize }}
+                </a>
+
+                <div class="pull-right translate-keys">
+                    <div>
+                        <div>
+                            <label class="normalLabel" for="menuChangeTarget"> Translate in </label>
+                        </div>
+                        <div class="dropdown">
+                            <a id="menuChangeTarget" class="btn-flat btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+                                {{target.englishLanguage}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- dropdown menu links -->
+                                <li ng-repeat="lang in applicationLocales" ng-click="setTarget(lang)"><a href="">{{lang.englishLanguage}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="alert alert-warning"
+             data-ng-show="!authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'write']) && authentication.isAuthentifiable()">
+            {{ "application.view.seed-i18n.noeditpermission" | localize }}
+        </div>
+
+        <div class="container" data-ng-cloak data-ng-show="noTarget">
+            <br><br>
+            <div class="row">
+                <div  class="col-md-12 alert-flat alert-flat--dismissable alert-flat-warning">
+                    <button class="close" data-dismiss="alert" type="button"> × </button>
+                    <h4> {{ "application.view.seed-i18n.nolanguages" | localize }} </h4>
+                    {{ "application.view.seed-i18n.messagenolanguage" | localize }}
+                </div>
+            </div>
+        </div>
+
+        <div id="container-main-content" data-ng-hide="noTarget">
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-md-12">
+                    <div class="form-inline keys-form-inline">
+                        <input id="search-keys" type="search" data-ng-model="keyFilterSearch.name" placeholder="{{ 'application.view.seed-i18n.searchkeys' | localize }}" class="form-control search-query">
+                        <div class="checkbox">
+                            <label for="checkbox-no-translation" class="checkbox">
+                                <input id="checkbox-no-translation" type="checkbox" data-ng-model="missing"> {{  "application.view.seed-i18n.missing" | localize }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="checkbox-outdated" class="checkbox">
+                                <input id="checkbox-outdated" type="checkbox" data-ng-model="outdated"> {{ "application.view.seed-i18n.outdated" | localize }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="checkbox-no-" class="checkbox">
+                                <input id="checkbox-no-" type="checkbox" data-ng-model="approx"> {{ "application.view.seed-i18n.approximate" |localize }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-ng-hide="addKey || !keys.length">
+                <div class="col-md-12">
+                    <div data-uib-pagination
+                         data-max-size="maxSize"
+                         data-total-items="pageSize*numPages()"
+                         data-ng-model="pageIndex"
+                         data-rotate="false"
+                         data-boundary-links="true">
+                     </div>
+                </div>
+            </div>
+
+            <div class="label label-app-languages" data-ng-show="!keys.length"> {{ "application.view.seed-i18n.nokeysretrieved" | localize }} </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="key-list" data-ng-show="keys.length">
+                        <div class="key-list-repeat" data-ng-repeat="key in keys | filter:keyFilterSearch" data-ng-class="{selected: key == currentKey[0]}">
+                            <div class="col-md-12" style="height:100%" data-ng-click="setCurrentKey(key)">
+                                <div ng-hide="true"></div>
+                                <div class="square-key done" data-ng-show="!key.source.approx &amp;&amp; !key.target.approx &amp;&amp; !key.missing &amp;&amp; !key.source.outdated &amp;&amp; !key.target.outdated" data-toggle="tooltip" title="Valid">✔</div>
+                                <div class="square-key approximate" data-ng-show="(key.source.approx || key.target.approx)" data-toggle="tooltip" title="Key translation has been marked as approximate">≈</div>
+                                <div class="square-key missing" data-ng-show="key.missing" data-toggle="tooltip" title="Default translation is missing">⚠</div>
+                                <div class="square-key outdated" data-ng-show="key.source.outdated || key.target.outdated" data-toggle="tooltip" title="Default translation has changed">✎</div>
+                                <div class="col-md-9 key-title">{{key.name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 box-translation" ng-show="currentKey.length &amp;&amp; keys.length">
+                    <!--Body content-->
+                    <form name="formtranslate" class="form-translate form-vertical">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading"> {{ "application.view.seed-i18n.comments" | localize }} </div>
+                            <div class="panel-body">
+                                <p> {{currentKey[0].comment}} </p>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading"> {{ "application.view.seed-i18n.sourcein" | localize }} {{defaultLocale.englishLanguage}} </div>
+                            <div class="panel-body">
+                                <p> {{currentKey[0].source.translation}} </p>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Translation in {{target.englishLanguage}}
+                                    <label class="control-label pull-right normalLabel">
+                                        <input type="checkbox" class="pull-right" data-ng-model="targetApprox" data-ng-checked="currentKey[0].target.approx" data-ng-click="currentKey[0].target.approx = !currentKey[0].target.approx">
+                                        {{ "application.view.seed-i18n.isapproximate" | localize }} &nbsp;
+                                    </label>
+                            </div>
+                            <div class="panel-body">
+                                <textarea id="targetTranslation" class="form-control" rows="7" data-ng-model="currentKey[0].target.translation" data-ng-disabled="defaultLanguage == 'undefined'" autofocus required></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group form-i18n form-button-end-translation">
+                            <div class="controls">
+                                <button type="button" class="btn-flat btn-default" value="Clear" data-ng-click="reset()"> {{ "application.view.seed-i18n.clear" | localize }}</button>
+                                <div class="pull-right">
+                                    <button type="button"
+                                            data-ng-click="save(currentKey[0], true)"
+                                            class="btn-flat btn-primary"
+                                            value="Save"
+                                            data-ng-disabled="formtranslate.$invalid || formtranslate.$pristine || !authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'write']) && authentication.isAuthentifiable()">
+                                        {{ "application.view.seed-i18n.saveandnext" | localize }}
+                                    </button>
+                                    <button type="button"
+                                            data-ng-click="save(currentKey[0], false)"
+                                            class="btn-flat btn-primary"
+                                            value="Save"
+                                            data-ng-disabled="formtranslate.$invalid || formtranslate.$pristine || !authorization.hasPermission('seed-w20', ['seed', 'i18n', 'translation', 'write']) && authentication.isAuthentifiable()">
+                                        {{ "application.view.seed-i18n.save" | localize }}
+                                    </button>
+                                    <button type="button"
+                                            class="btn-flat btn-default"
+                                            value="Previous"
+                                            data-ng-click="navigate('backward')">
+                                        {{ "application.view.seed-i18n.previous" | localize }}
+                                    </button>
+                                    <button type="button"
+                                            class="btn-flat btn-default"
+                                            value="Next"
+                                            data-ng-click="navigate('forward')">
+                                        {{ "application.view.seed-i18n.next" | localize }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

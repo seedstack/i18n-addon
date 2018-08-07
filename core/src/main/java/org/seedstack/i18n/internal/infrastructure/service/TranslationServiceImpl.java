@@ -1,13 +1,20 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.internal.infrastructure.service;
 
 import com.ibm.icu.util.ULocale;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
@@ -18,13 +25,6 @@ import org.seedstack.i18n.internal.domain.service.TranslationService;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.Configuration;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -46,8 +46,7 @@ class TranslationServiceImpl implements TranslationService {
 
     @Override
     public Optional<String> getTranslationWithFallback(String locale, String keyName) {
-        Key key = keyRepository.load(keyName);
-        return key == null ? Optional.empty() : getTranslationWithFallback(locale, key);
+        return keyRepository.get(keyName).flatMap(k -> getTranslationWithFallback(locale, k));
     }
 
     private Optional<String> getTranslationWithFallback(String locale, Key key) {
@@ -98,7 +97,8 @@ class TranslationServiceImpl implements TranslationService {
             throw new IllegalArgumentException(String.format(IS_EMPTY_ERROR_MESSAGE, "locale"));
         }
 
-        Key key = keyRepository.load(keyName);
+        Key key = keyRepository.get(keyName).orElseThrow(() -> new IllegalArgumentException(
+                "The locale " + locale + " is not available."));
         if (isEmpty(translation)) {
             key.removeTranslation(locale);
         } else {

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -58,7 +58,7 @@ public class CSVImportService implements ImportService {
         List<CSVRepresentation> CSVRepresentations = parser.parse(inputStream, CSVRepresentation.class);
         for (CSVRepresentation dto : CSVRepresentations) {
             Key key = fluentAssembler.merge(dto).into(Key.class).fromRepository().orFromFactory();
-            keyRepository.persist(key);
+            keyRepository.add(key);
         }
         return CSVRepresentations.size();
     }

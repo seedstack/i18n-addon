@@ -1,10 +1,11 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
 import com.google.common.collect.Lists;
@@ -99,7 +100,7 @@ public class CSVImportServiceTest {
     private void thenKeyWasPersisted(int numberOfKeys) {
         new Expectations() {
             {
-                keyRepository.persist(withAny(new Key("keyname")));
+                keyRepository.add(withAny(new Key("keyname")));
                 times = 2;
             }
         };

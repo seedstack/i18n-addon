@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,15 +10,16 @@ package org.seedstack.i18n.internal.data.key;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.seedstack.business.assembler.MatchingEntityId;
-import org.seedstack.business.assembler.MatchingFactoryParameter;
+import org.seedstack.business.assembler.AggregateId;
+import org.seedstack.business.assembler.FactoryArgument;
 import org.seedstack.business.data.DataSet;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
-@DataSet(group = "seed-i18n", name = "key")
+@DataSet(group = "seed-i18n", name = "keys")
 public class KeyDTO {
+    private static final int PARAM_0 = 0;
     private String name;
     private String comment;
     private boolean outdated;
@@ -41,8 +42,8 @@ public class KeyDTO {
      *
      * @return key name
      */
-    @MatchingEntityId(index = 0)
-    @MatchingFactoryParameter(index = 0)
+    @AggregateId(index = PARAM_0)
+    @FactoryArgument(index = PARAM_0)
     public String getName() {
         return name;
     }

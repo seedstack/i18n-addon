@@ -1,12 +1,30 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.translation;
 
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_APPROX;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_MISSING;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_OUTDATED;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.LOCALE;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.SEARCH_NAME;
+
+import java.util.List;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.seedstack.business.view.Page;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
@@ -17,14 +35,6 @@ import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.*;
 
 /**
  * This REST resource provide access to translations.
@@ -63,14 +73,15 @@ public class TranslationsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.TRANSLATION_READ)
     public Response getTranslations(@QueryParam(PAGE_INDEX) Long pageIndex, @QueryParam(PAGE_SIZE) Integer pageSize,
-                                    @QueryParam(IS_MISSING) Boolean isMissing, @QueryParam(IS_APPROX) Boolean isApprox,
-                                    @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
+            @QueryParam(IS_MISSING) Boolean isMissing, @QueryParam(IS_APPROX) Boolean isApprox,
+            @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
 
         Response response = Response.noContent().build();
 
         if (pageIndex != null && pageSize != null) {
             KeySearchCriteria criteria = new KeySearchCriteria(isMissing, isApprox, isOutdated, searchName, locale);
-            response = Response.ok(translationFinder.findAllTranslations(new Page(pageIndex, pageSize), criteria)).build();
+            response = Response.ok(translationFinder.findAllTranslations(new Page(pageIndex, pageSize), criteria))
+                    .build();
         } else {
             List<TranslationRepresentation> translations = translationFinder.findTranslations(locale);
             if (!translations.isEmpty()) {
@@ -83,7 +94,7 @@ public class TranslationsResource {
     /**
      * Returns a translation for specified key and locale.
      *
-     * @param key    key name
+     * @param key key name
      * @return status code 200 with a translation or 404 if not found
      */
     @GET
@@ -115,13 +126,9 @@ public class TranslationsResource {
         TranslationValueRepresentation translationToUpdate = representation.getTarget();
         WebAssertions.assertNotNull(translationToUpdate, "The translation target should not be null");
 
-        Key key = keyRepository.load(keyName);
-        if (key == null) {
-            throw new NotFoundException("The key is not found");
-        }
-
+        Key key = keyRepository.get(keyName).orElseThrow(() -> new NotFoundException("The key is not found"));
         key.addTranslation(locale, translationToUpdate.getTranslation(), translationToUpdate.isApprox());
-        keyRepository.save(key);
+        keyRepository.update(key);
 
         return Response.noContent().build();
     }

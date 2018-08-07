@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,11 +15,11 @@ import org.junit.runner.RunWith;
 import org.seedstack.i18n.rest.internal.locale.LocaleRepresentation;
 import org.seedstack.i18n.rest.internal.statistic.StatisticFinder;
 import org.seedstack.i18n.rest.internal.statistic.StatisticRepresentation;
-import org.seedstack.seed.it.SeedITRunner;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

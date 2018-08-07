@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,8 +48,8 @@ public class KeyTest {
             new Key(KEY).addTranslation(INVALID_LOCALE, FR_TRANSLATION);
             fail();
         } catch (IllegalArgumentException e) {
-            Assertions.assertThat(e).hasMessage("The locale should not be null or empty" +
-                    " and should only contains letters or \"-\", but \"fr_FR\" was found.");
+            Assertions.assertThat(e).hasMessage("The locale code should should only contain letters, numbers and " +
+                    "\"-\", but \"fr_FR\" was found.");
         }
     }
 
@@ -69,8 +69,8 @@ public class KeyTest {
             new Key(KEY).addTranslation(null, FR_TRANSLATION);
             fail();
         } catch (IllegalArgumentException e) {
-            Assertions.assertThat(e).hasMessage("The locale should not be null or empty" +
-                    " and should only contains letters or \"-\", but \"null\" was found.");
+            Assertions.assertThat(e).hasMessage("The locale code should should only contain letters, numbers and " +
+                    "\"-\", but \"null\" was found.");
         }
     }
 

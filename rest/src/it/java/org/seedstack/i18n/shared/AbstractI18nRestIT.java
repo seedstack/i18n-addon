@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,39 +7,32 @@
  */
 package org.seedstack.i18n.shared;
 
-import com.jayway.restassured.builder.MultiPartSpecBuilder;
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.json.JSONException;
-import org.seedstack.seed.it.AbstractSeedWebIT;
-
-import java.net.URL;
-
-import static com.jayway.restassured.RestAssured.expect;
+import static io.restassured.RestAssured.expect;
 import static org.junit.Assert.fail;
+
+import io.restassured.builder.MultiPartSpecBuilder;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import org.json.JSONException;
+import org.junit.runner.RunWith;
+import org.seedstack.seed.Configuration;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+import org.seedstack.seed.undertow.LaunchWithUndertow;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
+@RunWith(SeedITRunner.class)
+@LaunchWithUndertow
+public abstract class AbstractI18nRestIT {
 
     private static final String LOGIN = "admin";
     private static final String PASSWORD = "password";
     private static final String APPLICATION_JSON = "application/json";
     private static final String PATH_PREFIX = "seed-i18n/";
 
-    @ArquillianResource
-    private URL baseURL;
-
-
-    @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class);
-    }
+    @Configuration("web.runtime.baseUrl")
+    private String baseURL;
 
     protected void assertResponseHasStatusCode(Response response, int statusCode) {
         if (response.statusCode() != statusCode) {
@@ -63,8 +56,8 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @param path the resource URI
      * @return the http response
      */
-    protected Response httpGet(String path, int statusCode) throws JSONException {
-        return httpRequest(statusCode, null).get(baseURL.toString() + PATH_PREFIX + path);
+    protected Response httpGet(String path, int statusCode) {
+        return httpRequest(statusCode, null).get(baseURL + PATH_PREFIX + path);
     }
 
     /**
@@ -75,7 +68,7 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @return the http response
      */
     protected Response httpPost(String path, String body, int status) {
-        return httpRequest(status, null).body(body).post(baseURL.toString() + PATH_PREFIX + path);
+        return httpRequest(status, null).body(body).post(baseURL + PATH_PREFIX + path);
     }
 
     /**
@@ -92,7 +85,7 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
         return httpRequest(status, "multipart/form-data")
                 .multiPart(multipart.build())
                 .header("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=")
-                .post(baseURL.toString() + PATH_PREFIX + path);
+                .post(baseURL + PATH_PREFIX + path);
     }
 
     /**
@@ -113,8 +106,8 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @param body the resource representation
      * @return the http response
      */
-    protected Response httpPut(String path, String body, int status) throws JSONException {
-        return httpRequest(status, null).body(body).put(baseURL.toString() + PATH_PREFIX + path);
+    protected Response httpPut(String path, String body, int status) {
+        return httpRequest(status, null).body(body).put(baseURL + PATH_PREFIX + path);
     }
 
     /**
@@ -123,13 +116,16 @@ public abstract class AbstractI18nRestIT extends AbstractSeedWebIT {
      * @param path the resource URI
      * @return the http response
      */
-    protected Response httpDelete(String path, int status) throws JSONException {
-        return httpRequest(status, null).delete(baseURL.toString() + PATH_PREFIX + path);
+    protected Response httpDelete(String path, int status) {
+        return httpRequest(status, null).delete(baseURL + PATH_PREFIX + path);
     }
 
-
     protected RequestSpecification httpRequest(int statusCode, String contentType) {
-        return expect().statusCode(statusCode).given().auth().basic(LOGIN, PASSWORD).
-                header("Accept", APPLICATION_JSON).header("Content-Type", contentType == null ? APPLICATION_JSON : contentType);
+        return expect().statusCode(statusCode)
+                .given()
+                .auth()
+                .basic(LOGIN, PASSWORD)
+                .header("Accept", APPLICATION_JSON)
+                .header("Content-Type", contentType == null ? APPLICATION_JSON : contentType);
     }
 }

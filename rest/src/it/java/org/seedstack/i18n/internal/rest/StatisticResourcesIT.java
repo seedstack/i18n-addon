@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,9 +7,8 @@
  */
 package org.seedstack.i18n.internal.rest;
 
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +48,6 @@ public class StatisticResourcesIT extends AbstractI18nRestIT {
         jsonObjectFr.put(ENGLISH_LANGUAGE_FIELD, "French");
     }
 
-    @RunAsClient
     @Test
     public void get_statistic() throws JSONException {
         testStatisticsForAllLocales();

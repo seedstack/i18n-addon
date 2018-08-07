@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+    Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,10 +15,55 @@
     <parent>
         <groupId>org.seedstack.addons.i18n</groupId>
         <artifactId>i18n</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>i18n-web</artifactId>
+    <artifactId>i18n-w20</artifactId>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>yarn install</id>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                            <goal>yarn</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <nodeVersion>v10.0.0</nodeVersion>
+                    <yarnVersion>v1.7.0</yarnVersion>
+                    <installDirectory>target</installDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-web-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/node_modules">
+                                    <fileset dir="${project.basedir}/node_modules">
+                                        <include name="dropzone/**" />
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -86,54 +131,11 @@
             <version>${logback.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>pl.allegro</groupId>
-                <artifactId>grunt-maven-plugin</artifactId>
-                <version>1.5.0</version>
-                <configuration>
-                    <sourceDirectory>${project.basedir}/src/main/js</sourceDirectory>
-                    <jsSourceDirectory>.</jsSourceDirectory>
-                    <gruntBuildDirectory>${project.build.directory}/grunt</gruntBuildDirectory>
-                    <ignoreTasksErrors>false</ignoreTasksErrors>
-                    <ignoreAllErrors>false</ignoreAllErrors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>grunt-default-task</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>create-resources</goal>
-                            <goal>bower</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-w20</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/bower_components">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components">
-                                        <include name="**/w20-i18n-addon/**"/>
-                                        <include name="**/dropzone/**"/>
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

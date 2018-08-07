@@ -1,0 +1,658 @@
+[
+  {
+    "group": "seed-i18n",
+    "name": "keys",
+    "items": [
+      {
+        "name": "application.view.seed-i18n.",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Internationalization"
+          },
+          {
+            "locale": "fr",
+            "value": "Internationalisation"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.locales",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Locales"
+          },
+          {
+            "locale": "fr",
+            "value": "Locales"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.keys",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Manage keys"
+          },
+          {
+            "locale": "fr",
+            "value": "Gestion des clés"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.translations",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Translations"
+          },
+          {
+            "locale": "fr",
+            "value": "Traductions"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.statistics",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Statistics"
+          },
+          {
+            "locale": "fr",
+            "value": "Statistiques"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.statisticlanguage",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Statistic Language"
+          },
+          {
+            "locale": "fr",
+            "value": "Langue de Statistique"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.statisticlanguageis",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Statistic Language is"
+          },
+          {
+            "locale": "fr",
+            "value": "Langue de Statistique est"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.statisticresult",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Statistic Result"
+          },
+          {
+            "locale": "fr",
+            "value": "Resultat de Statistique"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.dashboard.error",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Server failed to respond"
+          },
+          {
+            "locale": "fr",
+            "value": "Erreur de réponse du serveur"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.noauthorization",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "You do not have read authorization on this content"
+          },
+          {
+            "locale": "fr",
+            "value": "Vous ne disposez pas d'autorisation pour ce contenu"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.minimumlocales",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "You must set at least two application locales and a default locale to enable this menu"
+          },
+          {
+            "locale": "fr",
+            "value": "Vous devez configurer au minimum deux langues et une langue par défaut"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.twolocalesminimum",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Two languages minimum required !"
+          },
+          {
+            "locale": "fr",
+            "value": "Deux langues au minimum requise !"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.applicationlanguages",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Application languages"
+          },
+          {
+            "locale": "fr",
+            "value": "Langues de l'application"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.noeditpermission",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "No permission for editing"
+          },
+          {
+            "locale": "fr",
+            "value": "Pas de permission en édition"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.nolanguages",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "No languages !"
+          },
+          {
+            "locale": "fr",
+            "value": "Pas de langues !"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.languagestoadd",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Select languages to add (hold Ctrl for multiple)..."
+          },
+          {
+            "locale": "fr",
+            "value": "Sélectionner les langues à ajouter (maintenir Ctrl pour séléction multiple)"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.addlanguages",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Add selected languages"
+          },
+          {
+            "locale": "fr",
+            "value": "Ajouter ces langues"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.defaultlanguage",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Default language"
+          },
+          {
+            "locale": "fr",
+            "value": "Langue par défaut"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.defaultlanguageis",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Default language is"
+          },
+          {
+            "locale": "fr",
+            "value": "La langue par défaut est : "
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.notset",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "not set !"
+          },
+          {
+            "locale": "fr",
+            "value": "non défini !"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.remove",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Remove..."
+          },
+          {
+            "locale": "fr",
+            "value": "Enlever..."
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.add",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Add..."
+          },
+          {
+            "locale": "fr",
+            "value": "Ajouter..."
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.closethis",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Close this"
+          },
+          {
+            "locale": "fr",
+            "value": "Fermer"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.search",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Search locales..."
+          },
+          {
+            "locale": "fr",
+            "value": "Rechercher des locales"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.searchkeys",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Search keys..."
+          },
+          {
+            "locale": "fr",
+            "value": "Rechercher des clés..."
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.exportkeys",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Export keys"
+          },
+          {
+            "locale": "fr",
+            "value": "Exporter les clés"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.importkeys",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Import keys"
+          },
+          {
+            "locale": "fr",
+            "value": "Importer les clés"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.addnewkey",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Add new key"
+          },
+          {
+            "locale": "fr",
+            "value": "Ajouter une clé"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.close",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Close"
+          },
+          {
+            "locale": "fr",
+            "value": "Fermer"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.deletefiltered",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Delete all currently filtered keys"
+          },
+          {
+            "locale": "fr",
+            "value": "Supprimer les clés filtrées"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.dropzone",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Drop .csv files to import in the zone below (or click inside of it for a folder explorer). Press Import to upload files."
+          },
+          {
+            "locale": "fr",
+            "value": "Déposer les fichiers .csv à importer (ou cliquer à l'intérieur). Presser Importer pour charger."
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.addkeytitle",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Add a new i18n key with default locale in"
+          },
+          {
+            "locale": "fr",
+            "value": "Ajouter une clé avec une locale par défaut en :"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.keyname",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Key name :"
+          },
+          {
+            "locale": "fr",
+            "value": "Nom de la clé : "
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.comment",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Comment :"
+          },
+          {
+            "locale": "fr",
+            "value": "Commentaire : "
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.defaulttranslation",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Default translation"
+          },
+          {
+            "locale": "fr",
+            "value": "Traduction par défaut"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.saveandnew",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Save and new"
+          },
+          {
+            "locale": "fr",
+            "value": "Enregistrer et nouveau"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.save",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Save"
+          },
+          {
+            "locale": "fr",
+            "value": "Enregistrer"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.missing",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Missing translation"
+          },
+          {
+            "locale": "fr",
+            "value": "Traduction manquante"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.outdated",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Outdated"
+          },
+          {
+            "locale": "fr",
+            "value": "Obsolète"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.nokeysretrieved",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "No keys retrieved"
+          },
+          {
+            "locale": "fr",
+            "value": "Aucune clés retrouvées"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.comments",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Comments"
+          },
+          {
+            "locale": "fr",
+            "value": "Commentaires"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.clear",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Clear"
+          },
+          {
+            "locale": "fr",
+            "value": "Effacer"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.cancel",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Cancel"
+          },
+          {
+            "locale": "fr",
+            "value": "Annuler"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.previous",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Previous"
+          },
+          {
+            "locale": "fr",
+            "value": "Précédent"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.next",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Next"
+          },
+          {
+            "locale": "fr",
+            "value": "Suivant"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.messagenolanguage",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Be sure to set a default locale and application locales to translate"
+          },
+          {
+            "locale": "fr",
+            "value": "Définissez une locale par défaut ainsi que des locales d'applicatons"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.approximate",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Approximate"
+          },
+          {
+            "locale": "fr",
+            "value": "Approximatif"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.saveandnext",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Save and next"
+          },
+          {
+            "locale": "fr",
+            "value": "Enregistrer et nouveau"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.isapproximate",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "is approximate"
+          },
+          {
+            "locale": "fr",
+            "value": "est approximatif"
+          }
+        ]
+      },
+      {
+        "name": "application.view.seed-i18n.sourcein",
+        "translations": [
+          {
+            "locale": "en",
+            "value": "Source in"
+          },
+          {
+            "locale": "fr",
+            "value": "Source en"
+          }
+        ]
+      }
+    ]
+  }
+]

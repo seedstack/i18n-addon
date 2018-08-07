@@ -1,3 +1,7 @@
+# Version 4.1.0 (2017-08-01)
+
+* [chg] Merged W20 frontend code directly into the `w20` module. 
+
 # Version 4.0.0 (2017-11-30)
 
 * [chg] Updated for business framework 4.0.

@@ -1,33 +1,40 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.locale;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
 import org.seedstack.i18n.rest.internal.I18nPermissions;
 import org.seedstack.i18n.rest.internal.shared.WebAssertions;
-import org.apache.commons.lang.StringUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This REST resource provide method to access application available locales.
@@ -100,13 +107,14 @@ public class AvailableLocalesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.LOCALE_WRITE)
-    public Response addAvailableLocale(LocaleRepresentation representation, @Context UriInfo uriInfo) throws URISyntaxException {
+    public Response addAvailableLocale(LocaleRepresentation representation,
+            @Context UriInfo uriInfo) throws URISyntaxException {
         WebAssertions.assertNotNull(representation, LOCALE_SHOULD_NOT_BE_BLANK);
-        Locale locale = localeRepository.load(representation.getCode());
+
         Locale result;
-        if (locale == null) {
-            localeRepository.persist(factory.createFromCode(representation.getCode()));
-            result = localeRepository.load(representation.getCode());
+        if (!localeRepository.contains(representation.getCode())) {
+            result = factory.createFromCode(representation.getCode());
+            localeRepository.add(result);
         } else {
             return Response.status(Response.Status.CONFLICT).build();
         }
@@ -127,7 +135,8 @@ public class AvailableLocalesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.LOCALE_WRITE)
-    public Response replaceAvailableLocales(List<LocaleRepresentation> representations, @Context UriInfo uriInfo) throws URISyntaxException {
+    public Response replaceAvailableLocales(List<LocaleRepresentation> representations,
+            @Context UriInfo uriInfo) throws URISyntaxException {
         // Delete the old list of available locales
         localeRepository.clear();
         if (representations != null && !representations.isEmpty()) {
@@ -135,7 +144,8 @@ public class AvailableLocalesResource {
             List<Locale> locales = new ArrayList<>();
             String defaultLocale = localeService.getDefaultLocale();
             for (LocaleRepresentation representation : representations) {
-                boolean isDefault = StringUtils.isNotBlank(defaultLocale) && defaultLocale.equals(representation.getCode());
+                boolean isDefault =
+                        StringUtils.isNotBlank(defaultLocale) && defaultLocale.equals(representation.getCode());
                 Locale locale = factory.createFromCode(representation.getCode());
                 locale.setDefaultLocale(isDefault);
                 locales.add(locale);
@@ -165,7 +175,7 @@ public class AvailableLocalesResource {
     public Response deleteAvailableLocale(@PathParam("locale") String locale) {
         WebAssertions.assertNotBlank(locale, LOCALE_SHOULD_NOT_BE_BLANK);
         if (locale != null) {
-            localeRepository.delete(localeRepository.load(locale));
+            localeRepository.remove(locale);
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -183,7 +193,7 @@ public class AvailableLocalesResource {
     public Response deleteAllAvailableLocales() {
         List<Locale> locales = localeRepository.loadAll();
         for (Locale locale : locales) {
-            localeRepository.delete(locale);
+            localeRepository.remove(locale);
         }
         return Response.noContent().build();
 

@@ -1,13 +1,13 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 package org.seedstack.i18n.rest.internal.locale;
 
+import com.ibm.icu.util.ULocale;
 import java.util.ArrayList;
 import java.util.List;
 import mockit.Deencapsulation;
@@ -22,7 +22,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.business.assembler.LegacyAssembler;
+import org.seedstack.business.assembler.Assembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 
@@ -31,18 +31,15 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
  */
 @RunWith(JMockit.class)
 public class SupportedLocaleFinderImplTest {
-
     public static final String EN = "en";
     public static final String FR = "fr";
-    private final java.util.Locale enJLocale = new java.util.Locale(EN);
-    private final java.util.Locale frJLocale = new java.util.Locale(FR);
 
     @Tested
     private SupportedLocaleFinderImpl underTest;
     @Injectable
     private LocaleFactory localeFactory;
     @Injectable
-    private LegacyAssembler<Locale, LocaleRepresentation> localeAssembler;
+    private Assembler<Locale, LocaleRepresentation> localeAssembler;
     @Mocked
     private Locale enLocale;
     @Mocked
@@ -72,15 +69,15 @@ public class SupportedLocaleFinderImplTest {
     }
 
     private void mockAvailableLocales(final String... localeCodes) {
-        new MockUp<java.util.Locale>() {
+        new MockUp<ULocale>() {
 
             @Mock
-            java.util.Locale[] getAvailableLocales() {
-                List<java.util.Locale> locales = new ArrayList<>();
+            ULocale[] getAvailableLocales() {
+                List<ULocale> locales = new ArrayList<>();
                 for (String locale : localeCodes) {
-                    locales.add(new java.util.Locale(locale));
+                    locales.add(new ULocale(locale));
                 }
-                return locales.toArray(new java.util.Locale[]{});
+                return locales.toArray(new ULocale[]{});
             }
         };
     }
@@ -98,21 +95,21 @@ public class SupportedLocaleFinderImplTest {
     }
 
     public void mockAssemblerForEN() {
-        mockAssembler(enJLocale, enLocale, enLocaleRepresentation);
+        mockAssembler(ULocale.ENGLISH, enLocale, enLocaleRepresentation);
     }
 
     public void mockAssemblerForFR() {
-        mockAssembler(frJLocale, frLocale, frLocaleRepresentation);
+        mockAssembler(ULocale.FRENCH, frLocale, frLocaleRepresentation);
     }
 
-    public void mockAssembler(final java.util.Locale jLocale, final Locale locale,
+    public void mockAssembler(final ULocale uLocale, final Locale locale,
             final LocaleRepresentation localeRepresentation) {
         new Expectations() {
             {
-                localeFactory.createFromLocale(jLocale);
+                localeFactory.createFromULocale(uLocale);
                 result = locale;
 
-                localeAssembler.assembleDtoFromAggregate(locale);
+                localeAssembler.createDtoFromAggregate(locale);
                 result = localeRepresentation;
             }
         };
@@ -156,7 +153,7 @@ public class SupportedLocaleFinderImplTest {
                 localeFactory.createFromCode(localeCode);
                 result = locale;
 
-                localeAssembler.assembleDtoFromAggregate(locale);
+                localeAssembler.createDtoFromAggregate(locale);
                 result = localeRepresentation;
             }
         };

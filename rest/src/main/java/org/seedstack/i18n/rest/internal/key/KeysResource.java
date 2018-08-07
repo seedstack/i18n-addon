@@ -1,12 +1,34 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.rest.internal.key;
 
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_APPROX;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_MISSING;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_OUTDATED;
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.SEARCH_NAME;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.business.view.Page;
 import org.seedstack.i18n.internal.domain.model.key.Key;
@@ -18,19 +40,6 @@ import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.*;
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_MISSING;
 
 /**
  * REST resources exposing keys for administration.
@@ -78,11 +87,11 @@ public class KeysResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresPermissions(I18nPermissions.KEY_READ)
     public Response getKeys(@QueryParam(PAGE_INDEX) @DefaultValue("0") long pageIndex,
-                            @QueryParam(PAGE_SIZE) @DefaultValue("10") int pageSize,
-                            @QueryParam(IS_MISSING) Boolean isMissing,
-                            @QueryParam(IS_APPROX) Boolean isApprox,
-                            @QueryParam(IS_OUTDATED) Boolean isOutdated,
-                            @QueryParam(SEARCH_NAME) String searchName) {
+            @QueryParam(PAGE_SIZE) @DefaultValue("10") int pageSize,
+            @QueryParam(IS_MISSING) Boolean isMissing,
+            @QueryParam(IS_APPROX) Boolean isApprox,
+            @QueryParam(IS_OUTDATED) Boolean isOutdated,
+            @QueryParam(SEARCH_NAME) String searchName) {
         WebAssertions.assertIf(pageSize > 0, "Page size should be greater than zero.");
         KeySearchCriteria keySearchCriteria = new KeySearchCriteria(isMissing, isApprox, isOutdated, searchName);
         Page page = new Page(pageIndex, pageSize);
@@ -109,7 +118,7 @@ public class KeysResource {
         Key key = factory.createKey(keyRepresentation.getName());
         key.setComment(keyRepresentation.getComment());
         addDefaultTranslation(keyRepresentation, key);
-        keyRepository.persist(key);
+        keyRepository.add(key);
 
         return Response.created(new URI(uriInfo.getRequestUri() + "/" + key.getId()))
                 .entity(keyFinder.findKeyWithName(key.getId())).build();
@@ -123,10 +132,7 @@ public class KeysResource {
     }
 
     private void assertKeyDoNotAlreadyExists(KeyRepresentation representation) {
-        Key key = keyRepository.load(representation.getName());
-        if (key != null) {
-            throw new AlreadyExistException();
-        }
+        keyRepository.get(representation.getName()).ifPresent(k -> {throw new AlreadyExistException();});
     }
 
     /**
@@ -142,13 +148,13 @@ public class KeysResource {
     @Produces("text/plain")
     @RequiresPermissions(I18nPermissions.KEY_DELETE)
     public Response deleteKeys(@QueryParam(IS_MISSING) Boolean isMissing, @QueryParam(IS_APPROX) Boolean isApprox,
-                               @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
+            @QueryParam(IS_OUTDATED) Boolean isOutdated, @QueryParam(SEARCH_NAME) String searchName) {
 
         KeySearchCriteria keySearchCriteria = new KeySearchCriteria(isMissing, isApprox, isOutdated, searchName);
         long numberOfDeletedKeys;
         if (shouldDeleteWithoutFilter(keySearchCriteria)) {
-            numberOfDeletedKeys = keyRepository.count();
-            keyRepository.deleteAll(); // If no filter are precised use the "deleteAll()" method which is more optimized
+            numberOfDeletedKeys = keyRepository.size();
+            keyRepository.clear(); // If no filter are precised use the "deleteAll()" method which is more optimized
         } else {
             numberOfDeletedKeys = deleteFilteredKeys(keySearchCriteria);
         }
@@ -158,7 +164,7 @@ public class KeysResource {
     private long deleteFilteredKeys(KeySearchCriteria keySearchCriteria) {
         List<KeyRepresentation> keysToDelete = keyFinder.findKeysWithTheirDefaultTranslation(keySearchCriteria);
         for (KeyRepresentation key : keysToDelete) {
-            keyRepository.delete(key.getName());
+            keyRepository.remove(key.getName());
         }
         return keysToDelete.size();
     }

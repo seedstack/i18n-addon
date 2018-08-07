@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,19 +7,18 @@
  */
 package org.seedstack.i18n.rest.internal.infrastructure.csv;
 
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import mockit.Deencapsulation;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.io.supercsv.SuperCsvTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)

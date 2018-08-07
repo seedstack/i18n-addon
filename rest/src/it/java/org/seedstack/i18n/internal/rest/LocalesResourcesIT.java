@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,7 +8,6 @@
 package org.seedstack.i18n.internal.rest;
 
 import org.assertj.core.api.Assertions;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +41,6 @@ public class LocalesResourcesIT extends AbstractI18nRestIT {
         enCALocale.put(ENGLISH_LANGUAGE, "English (Canada)");
     }
 
-    @RunAsClient
     @Test
     public void getSupportedLocales() throws JSONException {
         String response = httpGet("locales", 200).asString();

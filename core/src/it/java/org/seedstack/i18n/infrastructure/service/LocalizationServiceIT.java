@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,6 +7,11 @@
  */
 package org.seedstack.i18n.infrastructure.service;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Set;
+import javax.inject.Inject;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
@@ -18,14 +23,8 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -112,7 +111,7 @@ public class LocalizationServiceIT {
         key1.setComment(COMMENT);
         key1.addTranslation(FR, frValue);
         key1.addTranslation(FR_FR, fr_FRValue);
-        repository.persist(key1);
+        repository.add(key1);
 
         String localizedKey = localizationService.localize(FR_FR, keyID1);
         Assertions.assertThat(localizedKey).isEqualTo(fr_FRValue);
@@ -132,7 +131,7 @@ public class LocalizationServiceIT {
         Key key = factory.createKey("key");
         key.addTranslation(EN, translation_en);
         key.addTranslation(EN_GB, translation_en_GB);
-        repository.persist(key);
+        repository.add(key);
 
         String requestedTranslation = localizationService.localize(EN, key.getId());
         Assertions.assertThat(requestedTranslation).isEqualTo(translation_en);
@@ -142,7 +141,7 @@ public class LocalizationServiceIT {
 
         localeService.deleteLocale(EN);
         localeService.deleteLocale(EN_GB);
-        repository.delete(key);
+        repository.remove(key);
     }
 
     @After

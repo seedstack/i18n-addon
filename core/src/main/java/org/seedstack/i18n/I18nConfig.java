@@ -1,18 +1,18 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.i18n;
 
-import org.seedstack.coffig.Config;
+package org.seedstack.i18n;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.seedstack.coffig.Config;
 
 @Config("i18n")
 public class I18nConfig {
@@ -24,6 +24,8 @@ public class I18nConfig {
     /**
      * The translationFallback flag is false by default. When true it enables a fallback to the default
      * language when no translation is found after walking the locale hierarchy.
+     *
+     * @return true if fallback is allowed, false otherwise.
      */
     public boolean isTranslationFallback() {
         return translationFallback;
@@ -40,6 +42,8 @@ public class I18nConfig {
      * <li>When true the missing translation won't appear in the key/translation map.</li>
      * <li>When false they will appear with the translation [key.name]</li>
      * </ul>
+     *
+     * @return true if missing translations are processed as empty string, false otherwise.
      */
     public boolean isAllowMissingTranslations() {
         return allowMissingTranslations;

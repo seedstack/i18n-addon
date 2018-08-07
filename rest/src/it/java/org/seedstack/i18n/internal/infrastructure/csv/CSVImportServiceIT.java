@@ -1,12 +1,19 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.i18n.internal.infrastructure.csv;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.UUID;
+import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,15 +21,8 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.rest.internal.io.ImportService;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
@@ -75,7 +75,7 @@ public class CSVImportServiceIT {
 
         csvImportService.importKeysWithTranslations(emptyInputStream);
 
-        Key foo = keyRepository.load(keyName);
+        Key foo = keyRepository.get(keyName).orElse(null);
         assertThat(foo).isNotNull();
         assertThat(foo.getId()).isEqualTo(keyName);
         assertThat(foo.getTranslation("en").getValue()).isEqualTo("bar");
@@ -87,7 +87,8 @@ public class CSVImportServiceIT {
 
         csvImportService.importKeysWithTranslations(emptyInputStream);
 
-        Key foo = keyRepository.load(keyName);
+        Key foo = keyRepository.get(keyName).orElse(null);
+        assertThat(foo).isNotNull();
         assertThat(foo.isTranslated("fr")).isFalse();
     }
 

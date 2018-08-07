@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -75,8 +75,9 @@ public class Key extends BaseAggregateRoot<String> {
      * Saves or updates the translation for the specified locale.
      * If the key was outdated, checks if the key is still outdated.
      *
-     * @param locale specified the translation locale
-     * @param value  translation value
+     * @param locale        specified the translation locale
+     * @param value         translation value
+     * @param isApproximate true if the translation is not exact.
      * @return the new translation
      * @throws java.lang.IllegalArgumentException if the locale is null or empty
      *                                            or contains other characters than letters and "-".

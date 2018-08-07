@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,6 +7,7 @@
  */
 package org.seedstack.i18n.infrastructure.service;
 
+import javax.inject.Inject;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
@@ -17,10 +18,8 @@ import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.it.SeedITRunner;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
-
-import javax.inject.Inject;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -49,7 +48,7 @@ public class LocalizationServiceFallbackIT {
 
         Key key = keyFactory.createKey("key");
         key.addTranslation("fr", "youpi");
-        keyRepository.persist(key);
+        keyRepository.add(key);
 
         String actualTranslation = localizationService.localize("fr-BE", "key");
 
@@ -69,7 +68,7 @@ public class LocalizationServiceFallbackIT {
     @After
     public void clean() {
         for (Key key : keyRepository.loadAll()) {
-            keyRepository.delete(key);
+            keyRepository.remove(key);
         }
         for (String locale : localeService.getAvailableLocales()) {
             localeService.deleteLocale(locale);

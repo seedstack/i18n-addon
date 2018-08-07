@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,11 +8,13 @@
 
 package org.seedstack.i18n.rest.internal.locale;
 
+import com.google.common.base.Strings;
+import com.ibm.icu.util.ULocale;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
-import org.seedstack.business.assembler.LegacyAssembler;
+import org.seedstack.business.assembler.Assembler;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
 import org.seedstack.seed.Configuration;
@@ -25,14 +27,14 @@ import org.seedstack.seed.Configuration;
 class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
 
     private final LocaleFactory localeFactory;
-    private final LegacyAssembler<Locale, LocaleRepresentation> localeAssembler;
+    private final Assembler<Locale, LocaleRepresentation> localeAssembler;
 
     @Configuration(value = "org.seedstack.i18n.additional-locales", mandatory = false)
     private String[] additionalLocaleCodes;
 
     @Inject
     public SupportedLocaleFinderImpl(LocaleFactory localeFactory,
-            LegacyAssembler<Locale, LocaleRepresentation> localeAssembler) {
+            Assembler<Locale, LocaleRepresentation> localeAssembler) {
         this.localeFactory = localeFactory;
         this.localeAssembler = localeAssembler;
     }
@@ -40,9 +42,9 @@ class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
     @Override
     public List<LocaleRepresentation> findSupportedLocales() {
         List<LocaleRepresentation> localeRepresentations = new ArrayList<>();
-        for (java.util.Locale jLocale : java.util.Locale.getAvailableLocales()) {
-            if (!jLocale.toString().equals("")) {
-                localeRepresentations.add(convertToLocaleRepresentation(jLocale));
+        for (ULocale locale : ULocale.getAvailableLocales()) {
+            if (!Strings.isNullOrEmpty(locale.toLanguageTag())) {
+                localeRepresentations.add(convertToLocaleRepresentation(locale));
             }
         }
         localeRepresentations.addAll(findAdditionalLocale());
@@ -50,9 +52,8 @@ class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
         return localeRepresentations;
     }
 
-    private LocaleRepresentation convertToLocaleRepresentation(java.util.Locale jLocale) {
-        Locale locale = localeFactory.createFromLocale(jLocale);
-        return localeAssembler.assembleDtoFromAggregate(locale);
+    private LocaleRepresentation convertToLocaleRepresentation(ULocale locale) {
+        return localeAssembler.createDtoFromAggregate(localeFactory.createFromULocale(locale));
     }
 
     private List<LocaleRepresentation> findAdditionalLocale() {
@@ -60,7 +61,7 @@ class SupportedLocaleFinderImpl implements SupportedLocaleFinder {
         if (additionalLocaleCodes != null) {
             for (String additionalLocaleCode : additionalLocaleCodes) {
                 Locale locale = localeFactory.createFromCode(additionalLocaleCode);
-                localeRepresentations.add(localeAssembler.assembleDtoFromAggregate(locale));
+                localeRepresentations.add(localeAssembler.createDtoFromAggregate(locale));
             }
         }
         return localeRepresentations;

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,9 +7,8 @@
  */
 package org.seedstack.i18n.internal.rest;
 
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.json.JSONException;
 import org.junit.Test;
 import org.seedstack.i18n.shared.AbstractI18nRestIT;
@@ -19,11 +18,14 @@ import org.seedstack.i18n.shared.AbstractI18nRestIT;
  */
 public class KeyResourceIT extends AbstractI18nRestIT {
 
-    private static final String KEY_FOO = "{\"name\":\"test.foo\",\"comment\":\"i18n\",\"translation\":\"bar\",\"defaultLocale\":\"en\",\"missing\":false,\"approx\":false,\"outdated\":false}";
-    private static final String UPDATED_KEY = "{\"name\":\"test.to.update\",\"comment\":\"i18n\",\"translation\":\"updated\",\"defaultLocale\":\"en\",\"missing\":false,\"approx\":false,\"outdated\":true}";
-    private static final String WRONG_UPDATED_KEY = "{\"name\":\"test.to.update\",\"comment\":\"i18n\",\"translation\":\"updated\",\"defaultLocale\":\"\",\"missing\":false,\"approx\":false,\"outdated\":false}";
+    private static final String KEY_FOO = "{\"name\":\"test.foo\",\"comment\":\"i18n\",\"translation\":\"bar\"," +
+            "\"defaultLocale\":\"en\",\"missing\":false,\"approx\":false,\"outdated\":false}";
+    private static final String UPDATED_KEY = "{\"name\":\"test.to.update\",\"comment\":\"i18n\"," +
+            "\"translation\":\"updated\",\"defaultLocale\":\"en\",\"missing\":false,\"approx\":false," +
+            "\"outdated\":true}";
+    private static final String WRONG_UPDATED_KEY = "{\"name\":\"test.to.update\",\"comment\":\"i18n\"," +
+            "\"translation\":\"updated\",\"defaultLocale\":\"\",\"missing\":false,\"approx\":false,\"outdated\":false}";
 
-    @RunAsClient
     @Test
     public void getKey() throws JSONException {
         Response getFooResponse = httpGet("keys/test.foo", 200);
@@ -32,7 +34,6 @@ public class KeyResourceIT extends AbstractI18nRestIT {
         httpGet("keys/test.bar", 404);
     }
 
-    @RunAsClient
     @Test
     public void updateKey() throws JSONException {
         Response getUpdatedResponse = httpPut("keys/test.to.update", UPDATED_KEY, 200);

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,6 @@ import org.seedstack.i18n.internal.domain.model.locale.LocaleRepository;
  */
 @RunWith(JMockit.class)
 public class ICULocaleServiceTest {
-
     private static final String EN = "en";
     private static final String FR = "fr";
     private static final String FR_BE = "fr-BE";
@@ -55,8 +54,8 @@ public class ICULocaleServiceTest {
     public void testLocaleIsNotAvailable() {
         new Expectations() {
             {
-                localeRepository.load(FR);
-                result = null;
+                localeRepository.contains(FR);
+                result = false;
             }
         };
         Assertions.assertThat(localeService.isAvailable(FR)).isFalse();
@@ -66,8 +65,8 @@ public class ICULocaleServiceTest {
     public void testLocaleIsAvailable() {
         new Expectations() {
             {
-                localeRepository.load(FR);
-                result = locale;
+                localeRepository.contains(FR);
+                result = true;
             }
         };
         Assertions.assertThat(localeService.isAvailable(FR)).isTrue();
@@ -77,8 +76,8 @@ public class ICULocaleServiceTest {
     public void getClosestLocaleReturnsActualLocale() {
         new Expectations() {
             {
-                localeRepository.load(FR_BE);
-                result = locale;
+                localeRepository.contains(FR_BE);
+                result = true;
             }
         };
 
@@ -88,16 +87,22 @@ public class ICULocaleServiceTest {
 
     @Test
     public void getClosestLocale_return_closest_locale() {
-        mockDefaultLocale(EN);
         new Expectations() {
             {
+                localeRepository.getDefaultLocale();
+                result = defaultLocale;
+
+                defaultLocale.getId();
+                result = EN;
+
                 localeRepository.loadAll();
                 result = Lists.newArrayList(locale);
+
                 locale.getId();
                 result = FR;
 
-                localeRepository.load(FR_BE);
-                result = null;
+                localeRepository.contains(FR_BE);
+                result = false;
             }
         };
 
@@ -105,24 +110,18 @@ public class ICULocaleServiceTest {
         Assertions.assertThat(closestLocale).isEqualTo(FR);
     }
 
-    private Expectations mockDefaultLocale(final String locale) {
-        return new Expectations() {
+    @Test
+    public void getClosestLocale_return_default_when_no_closest_locale() {
+        new Expectations() {
             {
                 localeRepository.getDefaultLocale();
                 result = defaultLocale;
-                defaultLocale.getId();
-                result = locale;
-            }
-        };
-    }
 
-    @Test
-    public void getClosestLocale_return_default_when_no_closest_locale() {
-        mockDefaultLocale(FR);
-        new Expectations() {
-            {
-                localeRepository.load("zzz");
-                result = null;
+                defaultLocale.getId();
+                result = FR;
+
+                localeRepository.contains("zzz");
+                result = false;
             }
         };
         String zzz = localeService.getClosestLocale("zzz");
@@ -133,8 +132,8 @@ public class ICULocaleServiceTest {
     public void getClosestLocale_is_null_when_no_default_locale() {
         new Expectations() {
             {
-                localeRepository.load("zzz");
-                result = null;
+                localeRepository.contains("zzz");
+                result = false;
             }
         };
         String zzz = localeService.getClosestLocale("zzz");

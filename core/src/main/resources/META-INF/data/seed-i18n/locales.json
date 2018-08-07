@@ -1,7 +1,7 @@
 [
     {
         "group": "seed-i18n",
-        "name": "locale",
+        "name": "locales",
         "items": [
             {
                 "code": "en",
