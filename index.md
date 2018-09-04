@@ -23,7 +23,7 @@ If you need to expose internationalization REST APIs for your frontend, use the 
 
 If you also need the W20 UI, use the following dependency instead:
 
-{{< dependency g="org.seedstack.addons.i18n" a="i18n-web" >}}
+{{< dependency g="org.seedstack.addons.i18n" a="i18n-w20" >}}
 
 ## Persistence
 
