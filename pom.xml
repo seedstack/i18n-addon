@@ -1,6 +1,6 @@
 <!--
 
-    Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
+    Copyright © 2013-2020, The SeedStack authors <http://seedstack.org>
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,26 +14,28 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>3.4.2</version>
+        <version>3.4.9-SNAPSHOT</version>
     </parent>
 
     <groupId>org.seedstack.addons.i18n</groupId>
     <artifactId>i18n</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>3.7.0</seed.version>
-        <business.version>4.2.1</business.version>
+        <seed.version>3.9.1</seed.version>
+        <business.version>4.3.0</business.version>
         <modelmapper.version>1.0.0</modelmapper.version>
-        <io.version>3.0.0</io.version>
-        <w20-bridge.version>3.2.5</w20-bridge.version>
-        <jpa.version>4.0.3</jpa.version>
-        <hibernate.version>5.2.10.Final</hibernate.version>
+        <io.version>3.0.1-SNAPSHOT</io.version>
+        <w20-bridge.version>3.2.7</w20-bridge.version>
+        <jpa.version>4.1.0</jpa.version>
+        <hibernate.version>5.4.12.Final</hibernate.version>
 
         <compatibility.skip>true</compatibility.skip>
 
         <bintray.package>i18n-addon</bintray.package>
+
+        <testArgLine>-javaagent:"${settings.localRepository}"/org/jmockit/jmockit/${jmockit.version}/jmockit-${jmockit.version}.jar</testArgLine>
     </properties>
 
     <modules>

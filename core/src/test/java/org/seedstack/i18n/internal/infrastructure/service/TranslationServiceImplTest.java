@@ -1,11 +1,10 @@
 /*
- * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
+ * Copyright © 2013-2020, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 package org.seedstack.i18n.internal.infrastructure.service;
 
 import static org.junit.Assert.fail;
@@ -17,11 +16,9 @@ import mockit.Deencapsulation;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.Tested;
-import mockit.integration.junit4.JMockit;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
@@ -30,7 +27,6 @@ import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 /**
  * @author pierre.thirouin@ext.mpsa.com
  */
-@RunWith(JMockit.class)
 public class TranslationServiceImplTest {
     private static final String FR_TRANSLATION = "quatre-vingt-dix";
     private static final String FR_BE_TRANSLATION = "Nonante";

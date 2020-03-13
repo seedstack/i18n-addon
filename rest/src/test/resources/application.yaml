@@ -1,0 +1,45 @@
+#
+# Copyright © 2013-2020, The SeedStack authors <http://seedstack.org>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+
+application:
+  id: seed-i18n
+  name: SEED i18n web
+
+jdbc:
+  datasources:
+    ds:
+      url: jdbc:hsqldb:mem:testdb
+
+jpa:
+  units:
+    seed-i18n-domain:
+      datasource: ds
+      properties:
+        hibernate.dialect: org.hibernate.dialect.HSQLDialect
+        hibernate.hbm2ddl.auto: create
+        sql.enforce_strict_size: true
+
+security:
+  users:
+    jane:
+      password: password
+      roles: SEED.TRANSLATOR
+    john:
+      password: password
+      roles: SEED.DEVELOPER
+    admin:
+      password: password
+      roles: [SEED.TRANSLATOR, SEED.DEVELOPER]
+  roles:
+    seed-i18n.reader: SEED.DEVELOPER
+    seed-i18n.translator: SEED.TRANSLATOR
+  web:
+    urls:
+      -
+        pattern: /**
+        filters: authcBasic
