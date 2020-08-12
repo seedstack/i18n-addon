@@ -11,7 +11,7 @@ package org.seedstack.i18n.rest.internal.locale;
  * Locale representation.
  *
  * @author pierre.thirouin@ext.mpsa.com
- *         Date: 25/11/13
+ * Date: 25/11/13
  */
 public class LocaleRepresentation implements Comparable<LocaleRepresentation> {
 
@@ -80,8 +80,8 @@ public class LocaleRepresentation implements Comparable<LocaleRepresentation> {
 
     @Override
     public int compareTo(LocaleRepresentation o) {
-        if (o == null) {
-            return -1;
+        if (o == null || o.englishLanguage == null || englishLanguage == null) {
+            return 0;
         }
         return englishLanguage.compareTo(o.englishLanguage);
     }

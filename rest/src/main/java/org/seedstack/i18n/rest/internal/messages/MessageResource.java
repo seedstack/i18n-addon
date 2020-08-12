@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.messages;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.service.TranslationService;
 
@@ -54,7 +54,7 @@ public class MessageResource {
 
     public Map<String, String> getMessages(String locale) {
         // If the default locale is not available, then the application is not configured
-        if (StringUtils.isNotBlank(localeService.getDefaultLocale())) {
+        if (!Strings.isNullOrEmpty(localeService.getDefaultLocale())) {
             return messageService.getTranslationsForLocale(locale);
         } else {
             return new HashMap<>();

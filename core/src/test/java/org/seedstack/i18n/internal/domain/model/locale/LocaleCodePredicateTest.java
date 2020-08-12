@@ -14,32 +14,32 @@ import org.junit.Test;
 /**
  * @author pierre.thirouin@ext.mpsa.com (Pierre Thirouin)
  */
-public class LocaleCodeSpecificationTest {
+public class LocaleCodePredicateTest {
 
-    private final LocaleCodeSpecification underTest = new LocaleCodeSpecification();
+    private final LocaleCodePredicate underTest = new LocaleCodePredicate();
 
     @Test
     public void testSatisfyByWithValidCodes() {
-        assertThat(underTest.isSatisfiedBy("fr")).isTrue();
-        assertThat(underTest.isSatisfiedBy("fr-BE")).isTrue();
-        assertThat(underTest.isSatisfiedBy("ja-JP-JP-#u-ca-japanese")).isTrue();
+        assertThat(underTest.test("fr")).isTrue();
+        assertThat(underTest.test("fr-BE")).isTrue();
+        assertThat(underTest.test("ja-JP-JP-#u-ca-japanese")).isTrue();
     }
 
     @Test
     public void testSatisfyByWithInvalidCodes() {
-        assertThat(underTest.isSatisfiedBy("")).isFalse();
-        assertThat(underTest.isSatisfiedBy(null)).isFalse();
-        assertThat(underTest.isSatisfiedBy("fr_BE")).isFalse();
-        assertThat(underTest.isSatisfiedBy("fr BE")).isFalse();
+        assertThat(underTest.test("")).isFalse();
+        assertThat(underTest.test(null)).isFalse();
+        assertThat(underTest.test("fr_BE")).isFalse();
+        assertThat(underTest.test("fr BE")).isFalse();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAssertWit() {
-        LocaleCodeSpecification.assertCode("fr_BE");
+        LocaleCodePredicate.assertCode("fr_BE");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAssert() {
-        LocaleCodeSpecification.assertCode(null);
+        LocaleCodePredicate.assertCode(null);
     }
 }

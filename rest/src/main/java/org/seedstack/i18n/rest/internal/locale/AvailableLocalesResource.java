@@ -7,24 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.locale;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.locale.Locale;
 import org.seedstack.i18n.internal.domain.model.locale.LocaleFactory;
@@ -34,6 +17,17 @@ import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This REST resource provide method to access application available locales.
@@ -144,7 +138,7 @@ public class AvailableLocalesResource {
             String defaultLocale = localeService.getDefaultLocale();
             for (LocaleRepresentation representation : representations) {
                 boolean isDefault =
-                        StringUtils.isNotBlank(defaultLocale) && defaultLocale.equals(representation.getCode());
+                        !Strings.isNullOrEmpty(defaultLocale) && defaultLocale.equals(representation.getCode());
                 Locale locale = factory.createFromCode(representation.getCode());
                 locale.setDefaultLocale(isDefault);
                 locales.add(locale);

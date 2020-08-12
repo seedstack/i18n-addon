@@ -61,8 +61,8 @@ public class Locale extends BaseAggregateRoot<String> {
      * @param englishLanguage locale english language
      */
     protected Locale(String code, String language, String englishLanguage) {
-        if (!new LocaleCodeSpecification().isSatisfiedBy(code)) {
-            throw new IllegalArgumentException(String.format(LocaleCodeSpecification.MESSAGE, code));
+        if (!new LocaleCodePredicate().test(code)) {
+            throw new IllegalArgumentException(String.format(LocaleCodePredicate.MESSAGE, code));
         }
         this.code = code;
         this.language = language;

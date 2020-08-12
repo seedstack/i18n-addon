@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.shared;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 
 /**
  * Class with various web check utilities.
@@ -51,7 +51,7 @@ public final class WebAssertions {
      * @param message error message
      */
     public static void assertNotBlank(String actual, String message) {
-        if (StringUtils.isBlank(actual)) {
+        if (Strings.isNullOrEmpty(actual)) {
             throw new BadRequestException(message);
         }
     }

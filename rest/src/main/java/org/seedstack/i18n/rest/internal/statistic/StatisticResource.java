@@ -7,9 +7,9 @@
  */
 package org.seedstack.i18n.rest.internal.statistic;
 
+import com.google.common.base.Strings;
 import org.seedstack.i18n.rest.internal.locale.LocaleFinder;
 import org.seedstack.i18n.rest.internal.locale.LocaleRepresentation;
-import org.apache.commons.lang.StringUtils;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
@@ -51,7 +51,7 @@ public class StatisticResource {
 	public Response getStatistics(@QueryParam("selectLang") String locale) {
 		List<StatisticRepresentation> listResult = new ArrayList<>();
 		// select "All"
-		if (StringUtils.isBlank(locale)) {
+		if (Strings.isNullOrEmpty(locale)) {
 			List<LocaleRepresentation> availableLocales = localeFinder
 					.findAvailableLocales();
 			for (LocaleRepresentation localeRepresentation : availableLocales) {

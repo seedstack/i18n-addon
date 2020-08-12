@@ -23,6 +23,6 @@ public class LocaleAssembler extends BaseAssembler<Locale, LocaleRepresentation>
 
     @Override
     public void mergeDtoIntoAggregate(LocaleRepresentation sourceDto, Locale targetAggregate) {
-// do nothing
+        // do nothing
     }
 }

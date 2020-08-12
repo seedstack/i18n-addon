@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>3.4.9-SNAPSHOT</version>
+        <version>3.4.9</version>
     </parent>
 
     <groupId>org.seedstack.addons.i18n</groupId>
@@ -23,13 +23,13 @@
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>3.9.1</seed.version>
-        <business.version>4.3.0</business.version>
+        <seed.version>3.10.0</seed.version>
+        <business.version>4.3.1</business.version>
         <modelmapper.version>1.0.0</modelmapper.version>
-        <io.version>3.0.1-SNAPSHOT</io.version>
-        <w20-bridge.version>3.2.7</w20-bridge.version>
-        <jpa.version>4.1.0</jpa.version>
-        <hibernate.version>5.4.12.Final</hibernate.version>
+        <io.version>3.0.1</io.version>
+        <w20-bridge.version>3.2.8</w20-bridge.version>
+        <jpa.version>4.1.1</jpa.version>
+        <hibernate.version>5.4.20.Final</hibernate.version>
 
         <compatibility.skip>true</compatibility.skip>
 
@@ -56,6 +56,7 @@
                             <includedLicense>Apache 2</includedLicense>
                             <includedLicense>BSD</includedLicense>
                             <includedLicense>CDDL</includedLicense>
+                            <includedLicense>EDL 1.0</includedLicense>
                             <includedLicense>ICU License</includedLicense>
                             <includedLicense>LGPL</includedLicense>
                             <includedLicense>MIT</includedLicense>
@@ -79,6 +80,7 @@
                             <licenseMerge>CDDL|CDDL + GPLv2 with classpath exception</licenseMerge>
                             <licenseMerge>CDDL|CDDL+GPL License</licenseMerge>
                             <licenseMerge>CDDL|CDDL 1.1</licenseMerge>
+                            <licenseMerge>EDL 1.0|Eclipse Distribution License - v 1.0</licenseMerge>
                             <licenseMerge>MIT|MIT License</licenseMerge>
                             <licenseMerge>MIT|The MIT License</licenseMerge>
                             <licenseMerge>MIT|MIT license</licenseMerge>
@@ -86,6 +88,7 @@
                             <licenseMerge>LGPL|GNU Lesser Public License</licenseMerge>
                             <licenseMerge>LGPL|GNU Lesser General Public License, version 2.1</licenseMerge>
 
+                            <licenseMerge>IGNORED_LICENSE|BSD 2-Clause</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|LGPL 2.1</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|MPL 1.1</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|GPL2 w/ CPE</licenseMerge>
@@ -93,6 +96,9 @@
                             <licenseMerge>IGNORED_LICENSE|CDDL/GPLv2+CE</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|Modified BSD</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|The GNU General Public License (GPL), Version 2, With Classpath Exception</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|W3C license</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|jQuery license</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|EPL 2.0</licenseMerge>
                         </licenseMerges>
                     </configuration>
                 </plugin>

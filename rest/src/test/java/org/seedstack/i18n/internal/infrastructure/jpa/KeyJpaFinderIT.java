@@ -7,12 +7,7 @@
  */
 package org.seedstack.i18n.internal.infrastructure.jpa;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.inject.Inject;
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +23,12 @@ import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.testing.junit4.SeedITRunner;
 import org.seedstack.seed.transaction.Transactional;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This integration test checks key finder methods.
@@ -127,7 +128,7 @@ public class KeyJpaFinderIT {
         assertThat(keyRepresentations.getPageSize()).isEqualTo(2);
 
         KeyRepresentation representation = keyRepresentations.getView().get(0);
-        assertThat(StringUtils.isBlank(representation.getTranslation())).isTrue();
+        assertThat(Strings.isNullOrEmpty(representation.getTranslation())).isTrue();
     }
 
     /**

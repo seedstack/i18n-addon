@@ -7,28 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.key;
 
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_APPROX;
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_MISSING;
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.IS_OUTDATED;
-import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.SEARCH_NAME;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.seedstack.business.view.Page;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyFactory;
@@ -39,6 +18,18 @@ import org.seedstack.i18n.rest.internal.shared.WebAssertions;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.security.RequiresPermissions;
 import org.seedstack.seed.transaction.Transactional;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import static org.seedstack.i18n.rest.internal.key.KeySearchCriteria.*;
 
 /**
  * REST resources exposing keys for administration.
@@ -172,7 +163,7 @@ public class KeysResource {
         return criteria.getMissing() == null
                 && criteria.getApprox() == null
                 && criteria.getOutdated() == null
-                && StringUtils.isBlank(criteria.getName());
+                && Strings.isNullOrEmpty(criteria.getName());
     }
 
 }

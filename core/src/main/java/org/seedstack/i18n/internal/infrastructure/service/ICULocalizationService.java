@@ -7,6 +7,7 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
+import com.google.common.base.Strings;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.text.NumberFormat;
@@ -14,7 +15,6 @@ import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.CurrencyAmount;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
-import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.LocalizationService;
 import org.seedstack.i18n.internal.domain.service.TranslationService;
@@ -78,7 +78,7 @@ class ICULocalizationService implements LocalizationService {
     public String formatDate(String locale, Date date, String skeleton, String timezone) {
         ULocale closestLocale = findClosestULocale(locale);
         DateFormat formatter = DateFormat.getPatternInstance(skeleton, closestLocale);
-        if (StringUtils.isNotEmpty(timezone)) {
+        if (!Strings.isNullOrEmpty(timezone)) {
             formatter.setTimeZone(TimeZone.getTimeZone(timezone));
         }
         return formatter.format(date);
@@ -93,7 +93,7 @@ class ICULocalizationService implements LocalizationService {
     public Date parseDate(String locale, String value, String skeleton, String timezone) throws ParseException {
         ULocale closestLocale = findClosestULocale(locale);
         DateFormat formatter = DateFormat.getPatternInstance(skeleton, closestLocale);
-        if (StringUtils.isNotEmpty(timezone)) {
+        if (!Strings.isNullOrEmpty(timezone)) {
             formatter.setTimeZone(TimeZone.getTimeZone(timezone));
         }
         return formatter.parse(value);
@@ -108,7 +108,7 @@ class ICULocalizationService implements LocalizationService {
     public String formatCurrencyAmount(String locale, Number amount, String currencyCode) {
         ULocale closestLocale = findClosestULocale(locale);
         Currency currency;
-        if (StringUtils.isEmpty(currencyCode)) {
+        if (Strings.isNullOrEmpty(currencyCode)) {
             currency = Currency.getInstance(new ULocale(locale));
         } else {
             currency = Currency.getInstance(currencyCode);
@@ -128,7 +128,7 @@ class ICULocalizationService implements LocalizationService {
     public Number parseCurrencyAmount(String locale, String value, String currencyCode) throws ParseException {
         ULocale closestLocale = findClosestULocale(locale);
         Currency currency;
-        if (StringUtils.isEmpty(currencyCode)) {
+        if (Strings.isNullOrEmpty(currencyCode)) {
             currency = Currency.getInstance(new ULocale(locale));
         } else {
             currency = Currency.getInstance(currencyCode);

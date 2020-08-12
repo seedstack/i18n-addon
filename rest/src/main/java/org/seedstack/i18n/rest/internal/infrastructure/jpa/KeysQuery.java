@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.seedstack.business.finder.Range;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
@@ -17,7 +17,13 @@ import org.seedstack.i18n.rest.internal.key.KeySearchCriteria;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +76,7 @@ public class KeysQuery implements SelectQuery, CountQuery {
     }
 
     private void addSQLLikePredicateOnName(KeySearchCriteria criteria, List<Predicate> predicates) {
-        if (StringUtils.isNotBlank(criteria.getName())) {
+        if (!Strings.isNullOrEmpty(criteria.getName())) {
             predicates.add(criteriaBuilder.like(keyRoot.get(ENTITY_ID), "%" + criteria.getName() + "%"));
         }
     }
@@ -95,8 +101,10 @@ public class KeysQuery implements SelectQuery, CountQuery {
         Subquery<String> subQuery;
         if (selectQuery != null) {
             subQuery = selectQuery.subquery(String.class);
-        } else {
+        } else if (countQuery != null) {
             subQuery = countQuery.subquery(String.class);
+        } else {
+            throw new IllegalStateException("KeysQuery must be specialized with count() or select()");
         }
         Root<Key> fromKey = subQuery.from(Key.class);
 
@@ -126,7 +134,11 @@ public class KeysQuery implements SelectQuery, CountQuery {
     @Override
     public List<Key> getResultList(Range range) {
         if (!predicates.isEmpty()) {
-            selectQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+            if (selectQuery != null) {
+                selectQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+            } else {
+                throw new IllegalStateException("getResultList() can only be used in a select() specialization");
+            }
         }
 
         // Get all the keys with their default translation
@@ -141,7 +153,11 @@ public class KeysQuery implements SelectQuery, CountQuery {
     @Override
     public long getResult() {
         if (!predicates.isEmpty()) {
+            if (countQuery != null) {
             countQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+            } else {
+                throw new IllegalStateException("getResult() can only be used in a count() specialization");
+            }
         }
         return entityManager.createQuery(countQuery).getSingleResult();
     }

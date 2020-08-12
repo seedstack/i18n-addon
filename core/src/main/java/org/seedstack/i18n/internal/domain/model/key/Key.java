@@ -19,7 +19,7 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.seedstack.business.domain.BaseAggregateRoot;
-import org.seedstack.i18n.internal.domain.model.locale.LocaleCodeSpecification;
+import org.seedstack.i18n.internal.domain.model.locale.LocaleCodePredicate;
 
 /**
  * Aggregate root of Key aggregate.
@@ -82,7 +82,7 @@ public class Key extends BaseAggregateRoot<String> {
      *                                            or contains other characters than letters and "-".
      */
     public Translation addTranslation(String locale, String value, boolean isApproximate) {
-        LocaleCodeSpecification.assertCode(locale);
+        LocaleCodePredicate.assertCode(locale);
         if (isBlank(value)) {
             throw new IllegalArgumentException("The translation can't be blank");
         }
@@ -113,7 +113,7 @@ public class Key extends BaseAggregateRoot<String> {
      *                                            or contains other characters than letters and "-".
      */
     public Translation getTranslation(String locale) {
-        LocaleCodeSpecification.assertCode(locale);
+        LocaleCodePredicate.assertCode(locale);
 
         return this.getTranslations().get(locale);
     }
@@ -126,7 +126,7 @@ public class Key extends BaseAggregateRoot<String> {
      *                                            or contains other characters than letters and "-".
      */
     public void removeTranslation(String locale) {
-        LocaleCodeSpecification.assertCode(locale);
+        LocaleCodePredicate.assertCode(locale);
 
         Translation translation = getTranslation(locale);
         if (translation != null) {

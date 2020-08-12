@@ -7,14 +7,8 @@
  */
 package org.seedstack.i18n.internal.infrastructure.service;
 
+import com.google.common.base.Strings;
 import com.ibm.icu.util.ULocale;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import javax.inject.Inject;
-import org.apache.commons.lang.StringUtils;
 import org.seedstack.i18n.I18nConfig;
 import org.seedstack.i18n.LocaleService;
 import org.seedstack.i18n.internal.domain.model.key.Key;
@@ -24,6 +18,9 @@ import org.seedstack.i18n.internal.domain.service.TranslationService;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.Configuration;
 import org.seedstack.seed.transaction.Transactional;
+
+import javax.inject.Inject;
+import java.util.*;
 
 /**
  * @author pierre.thirouin@ext.mpsa.com
@@ -68,7 +65,7 @@ class TranslationServiceImpl implements TranslationService {
     private List<String> getParentLocalesFor(ULocale locale) {
         List<String> locales = new ArrayList<>();
         ULocale current = locale;
-        while (current != null && StringUtils.isNotBlank(current.toString())) {
+        while (current != null && !Strings.isNullOrEmpty(current.toString())) {
             locales.add(current.toLanguageTag());
             current = current.getFallback();
         }
