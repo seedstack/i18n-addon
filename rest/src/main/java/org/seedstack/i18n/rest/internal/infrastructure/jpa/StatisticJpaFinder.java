@@ -7,7 +7,7 @@
  */
 package org.seedstack.i18n.rest.internal.infrastructure.jpa;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 import org.seedstack.i18n.internal.domain.model.key.Key;
 import org.seedstack.i18n.internal.domain.model.key.KeyRepository;
 import org.seedstack.i18n.internal.domain.model.key.Translation;
@@ -50,7 +50,7 @@ class StatisticJpaFinder implements StatisticFinder {
                 Translation translation = key.getTranslation(selectLocale
                         .getId());
                 if (translation != null
-                        && StringUtils.isNotBlank(translation.getValue())) {
+                        && !Strings.isNullOrEmpty(translation.getValue())) {
                     translatedCount++;
                 }
             }

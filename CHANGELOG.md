@@ -1,3 +1,7 @@
+# Version 4.0.3 (2020-08-12)
+
+* ... 
+
 # Version 4.0.2 (2020-08-12)
 
 * [chg] Updated for Seedstack 20.4.
