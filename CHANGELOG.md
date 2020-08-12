@@ -1,9 +1,9 @@
-# Version 4.2.0 (2020-04-30)
+# Version 4.0.2 (2020-08-12)
 
 * [chg] Updated for Seedstack 20.4.
 * [fix] Updated DDL scripts. 
 
-# Version 4.1.0 (2017-08-01)
+# Version 4.0.1 (2017-08-01)
 
 * [chg] Merged W20 frontend code directly into the `w20` module. 
 

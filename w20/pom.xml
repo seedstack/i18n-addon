@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.seedstack.addons.i18n</groupId>
         <artifactId>i18n</artifactId>
-        <version>4.2.0-SNAPSHOT</version>
+        <version>4.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>i18n-w20</artifactId>
