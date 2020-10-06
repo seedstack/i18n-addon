@@ -29,7 +29,8 @@
         <io.version>3.0.1</io.version>
         <w20-bridge.version>3.2.8</w20-bridge.version>
         <jpa.version>4.1.1</jpa.version>
-        <hibernate.version>5.4.20.Final</hibernate.version>
+        <hibernate.version>5.4.22.Final</hibernate.version>
+        <seedstack-maven-plugin.version>2.7.5</seedstack-maven-plugin.version>
 
         <compatibility.skip>true</compatibility.skip>
 
@@ -42,6 +43,7 @@
         <module>specs</module>
         <module>core</module>
         <module>rest</module>
+        <module>service</module>
         <module>w20</module>
     </modules>
 
@@ -56,6 +58,7 @@
                             <includedLicense>Apache 2</includedLicense>
                             <includedLicense>BSD</includedLicense>
                             <includedLicense>CDDL</includedLicense>
+                            <includedLicense>EPL 2.0</includedLicense>
                             <includedLicense>EDL 1.0</includedLicense>
                             <includedLicense>ICU License</includedLicense>
                             <includedLicense>LGPL</includedLicense>
@@ -80,6 +83,7 @@
                             <licenseMerge>CDDL|CDDL + GPLv2 with classpath exception</licenseMerge>
                             <licenseMerge>CDDL|CDDL+GPL License</licenseMerge>
                             <licenseMerge>CDDL|CDDL 1.1</licenseMerge>
+                            <licenseMerge>EPL 2.0|Eclipse Public License 2.0</licenseMerge>
                             <licenseMerge>EDL 1.0|Eclipse Distribution License - v 1.0</licenseMerge>
                             <licenseMerge>MIT|MIT License</licenseMerge>
                             <licenseMerge>MIT|The MIT License</licenseMerge>
@@ -96,6 +100,7 @@
                             <licenseMerge>IGNORED_LICENSE|CDDL/GPLv2+CE</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|Modified BSD</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|The GNU General Public License (GPL), Version 2, With Classpath Exception</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|GNU General Public License, version 2 with the GNU Classpath Exception</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|W3C license</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|jQuery license</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|EPL 2.0</licenseMerge>
