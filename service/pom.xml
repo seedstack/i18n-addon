@@ -50,19 +50,25 @@
             <artifactId>seed-web-undertow</artifactId>
             <version>${seed.version}</version>
         </dependency>
-
-        <!-- TEST -->
         <dependency>
             <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-web-security</artifactId>
             <version>${seed.version}</version>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.oauth</groupId>
+            <artifactId>oauth</artifactId>
+            <version>${oauth.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
-            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.logging</groupId>
@@ -71,28 +77,14 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

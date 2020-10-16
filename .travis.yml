@@ -29,7 +29,7 @@ script:
 
 deploy:
   provider: script
-  script: bash ./service/deploy.sh
+  script: bash ./deploy.sh
   on:
     all_branches: true
 

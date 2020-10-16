@@ -12,16 +12,16 @@ then
 	if [ "$TRAVIS_TAG" != "" ]
 	then
 		echo "It's a tag"
-		docker tag $IMAGE:$COMMIT $DOCKER_REPO/$IMAGE:$TRAVIS_TAG
+		docker tag i18n-ui:$COMMIT $DOCKER_REPO/i18n-ui:$TRAVIS_TAG
 		docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-		docker push $DOCKER_REPO/$IMAGE:$TRAVIS_TAG
+		docker push $DOCKER_REPO/i18n-ui:$TRAVIS_TAG
 
 	else
 		echo "Not a tag"
 		export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-		docker tag $IMAGE:$COMMIT $DOCKER_REPO/$IMAGE:$TAG
+		docker tag i18n-ui:$COMMIT $DOCKER_REPO/i18n-ui:$TAG
 		docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-		docker push $DOCKER_REPO/$IMAGE:$TAG
+		docker push $DOCKER_REPO/i18n-ui:$TAG
 	fi
 else 
 	echo "PR => skip push"
